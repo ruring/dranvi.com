@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* styles.css 내용 */
+        :root { --bg-color: #050505; --text-primary: #f0f0f0; --text-secondary: #a0a0a0; --accent-color: #3b82f6; --accent-glow: rgba(59, 130, 246, 0.15); --card-bg: rgba(255, 255, 255, 0.03); --border-color: rgba(255, 255, 255, 0.1); --font-main: 'Inter', system-ui, -apple-system, sans-serif; --spacing-section: 6rem; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: var(--font-main); line-height: 1.6; overflow-x: hidden; }
+        .background-glow { position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at center, rgba(20, 30, 60, 0.4) 0%, transparent 40%); z-index: -1; pointer-events: none; }
+        h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.02em; }
+        a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        a:hover { color: var(--accent-color); }
+        ul { list-style-type: none; padding-left: 0; }
+        li { margin-bottom: 0.5rem; position: relative; padding-left: 1.5rem; color: var(--text-secondary); }
+        li::before { content: "•"; position: absolute; left: 0; color: var(--accent-color); }
+        .text-accent { color: var(--accent-color); }
+        .highlight { background: linear-gradient(90deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 5%; max-width: 1200px; margin: 0 auto; }
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; }
+        .lang-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 0.5rem 1rem; border-radius: 99px; cursor: pointer; font-family: var(--font-main); font-size: 0.85rem; transition: all 0.3s ease; }
+        .lang-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
+        main { max-width: none; width: 100%; margin: 0; padding: 0 5% 4rem; }
+nav { max-width: none; }
+        .hero { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; text-align: left; margin-bottom: var(--spacing-section); }
+        .hero h1 { font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 1rem; background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero .subtitle { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 300; color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.3; }
+        .hero .description { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin-top: 1rem; }
+        .content-section { margin-bottom: var(--spacing-section); }
+        .section-title { font-size: 0.9rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 2rem; border-left: 3px solid var(--accent-color); padding-left: 1rem; letter-spacing: 0.05em; }
+        .section-intro { font-size: 1.5rem; font-weight: 400; margin-bottom: 2rem; line-height: 1.5; }
+        .grid-2-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) { .grid-2-col { grid-template-columns: 1fr 1fr; } }
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; border-radius: 12px; transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(255, 255, 255, 0.2); }
+        .card h4 { margin-bottom: 1.5rem; font-size: 1.2rem; }
+        .highlight-card { background: linear-gradient(145deg, rgba(59, 130, 246, 0.05) 0%, rgba(0,0,0,0) 100%); border-color: rgba(59, 130, 246, 0.2); }
+        .footer { border-top: 1px solid var(--border-color); padding-top: 4rem; margin-top: 2rem; text-align: center; }
+        .contact-info { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2rem; font-size: 1.1rem; }
+        .copyright { color: #444; font-size: 0.8rem; }
+        .fade-in { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s ease forwards; }
+        .delay-1 { animation-delay: 0.2s; } .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="background-glow"></div>
+    <nav>
+        <div class="logo">Dranvi</div>
+        <button id="lang-toggle" class="lang-btn">EN / KR</button>
+    </nav>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="fade-in">Dranvi</h1>
+            <h2 class="subtitle fade-in delay-1" data-lang="ko">엣지 및 클라우드 시스템을 위한<br>AI 안전성 런타임</h2>
+            <h2 class="subtitle fade-in delay-1" data-lang="en" style="display:none;">AI Safety Runtime for<br>Edge & Cloud Systems</h2>
+            <p class="description fade-in delay-2" data-lang="ko">실시간 안정성 제어, 텔레메트리 기반 안전 기술,<br>에너지 효율을 고려한 AI 실행(Runtime) 제어 기술을 개발합니다.</p>
+            <p class="description fade-in delay-2" data-lang="en" style="display:none;">We develop real-time stability control, telemetry-based safety technology,<br>and energy-efficient AI runtime control solutions.</p>
+        </section>
+        <!-- What We Build Section -->
+        <section class="content-section">
+            <h3 class="section-title fade-in-scroll">What We Build</h3>
+            <div data-lang="ko">
+                <p class="section-intro">Dranvi는 스트리밍 AI 추론 및 제어 시스템에서 발생하는 불안정성을 완화하기 위한 <span class="highlight">런타임 제어 레이어</span>를 개발합니다.</p>
+                <ul class="feature-list">
+                    <li>p99 자원 스파이크 억제</li>
+                    <li>텔레메트리 기반 런타임 안정화 제어</li>
+                    <li>효율성 지표(EI, Efficiency Index) 개선</li>
+                    <li>MRV(Measurement, Reporting, Verification) 기반 운영 로그 생성</li>
+                    <li>엣지 및 클라우드 환경에서의 안전한 AI 실행 지원</li>
+                </ul>
+            </div>
+            <div data-lang="en" style="display:none;">
+                <p class="section-intro">Dranvi develops a <span class="highlight">runtime control layer</span> to mitigate instability in streaming AI inference and control systems.</p>
+                <ul class="feature-list">
+                    <li>Suppression of p99 resource spikes</li>
+                    <li>Telemetry-based runtime stabilization control</li>
+                    <li>Improvement of Efficiency Index (EI)</li>
+                    <li>MRV (Measurement, Reporting, Verification) based operation logging</li>
+                    <li>Support for safe AI execution in Edge & Cloud environments</li>
+                </ul>
+            </div>
+        </section>
+        <!-- Why It Matters Section -->
+        <section class="content-section">
+            <h3 class="section-title fade-in-scroll">Why It Matters</h3>
+            <div class="grid-2-col">
+                <div class="card fade-in-scroll">
+                    <h4 data-lang="ko">문제점</h4><h4 data-lang="en" style="display:none;"> The Problem</h4>
+                    <ul data-lang="ko"><li>메모리 및 연산 자원 급증</li><li>시스템 다운타임 및 신뢰성 저하</li><li>전력 및 냉각 부하 증가</li><li>과잉 인프라 설계 및 운영 비용 상승</li></ul>
+                    <ul data-lang="en" style="display:none;"><li>Surges in memory and computational resources</li><li>System downtime and reduced reliability</li><li>Increased power and cooling loads</li><li>Over-provisioned infrastructure and rising operational costs</li></ul>
+                </div>
+                <div class="card highlight-card fade-in-scroll">
+                    <h4 data-lang="ko">Dranvi의 솔루션</h4><h4 data-lang="en" style="display:none;">Dranvi's Solution</h4>
+                    <p data-lang="ko">적응형 런타임 안정화 기술과 실행 모니터링 기술을 통해 이러한 문제를 근본적으로 해결합니다.</p>
+                    <p data-lang="en" style="display:none;">We solve these issues fundamentally through adaptive runtime stabilization and execution monitoring technologies.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Company Status -->
+        <section class="content-section">
+            <h3 class="section-title fade-in-scroll">Company Status</h3>
+            <p data-lang="ko">Dranvi는 AI 인프라 안전성 런타임 기술을 개발 중인 <span class="text-accent">예비창업 단계의 딥테크 프로젝트</span>입니다.<br>현재 기술 검증 및 파일럿 협력을 위한 파트너십을 준비하고 있습니다.</p>
+            <p data-lang="en" style="display:none;">Dranvi is a <span class="text-accent">deep-tech project</span> in the pre-startup phase, developing AI infrastructure safety runtime technology.<br>We are currently preparing partnerships for technology verification and pilot collaborations.</p>
+        </section>
+        <!-- Contact -->
+        <section class="footer">
+            <div class="contact-info">
+                <a href="mailto:contact@dranvi.com">contact@dranvi.com</a>
+                <a href="https://www.dranvi.com">www.dranvi.com</a>
+            </div>
+            <p class="copyright">&copy; 2026 Dranvi. All rights reserved.</p>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const langToggleBtn = document.getElementById('lang-toggle');
+            const koElements = document.querySelectorAll('[data-lang="ko"]');
+            const enElements = document.querySelectorAll('[data-lang="en"]');
+            let currentLang = 'en'; 
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('ko')) { currentLang = 'ko'; }
+            const updateLanguage = (lang) => {
+                if (lang === 'ko') {
+                    koElements.forEach(el => el.style.display = 'block');
+                    enElements.forEach(el => el.style.display = 'none');
+                } else {
+                    koElements.forEach(el => el.style.display = 'none');
+                    enElements.forEach(el => el.style.display = 'block');
+                }
+                currentLang = lang;
+                langToggleBtn.textContent = lang === 'ko' ? 'EN' : 'KR';
+            };
+            updateLanguage(currentLang);
+            langToggleBtn.addEventListener('click', () => {
+                const nextLang = currentLang === 'ko' ? 'en' : 'ko';
+                updateLanguage(nextLang);
+            });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        entry.target.classList.remove('fade-in-scroll'); 
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-scroll').forEach(el => { observer.observe(el); });
+        });
+    </script>
+</body>
+</html>
