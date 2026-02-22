@@ -96,8 +96,14 @@
     }
 
     input[type="range"] {
-      width: 130px;
+      width: 120px;
       cursor: pointer
+    }
+
+    @media(max-width:980px) {
+      input[type="range"] {
+        width: 90px;
+      }
     }
 
     button {
@@ -940,7 +946,7 @@
       max-width: 1100px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1.4fr 1fr 0.9fr;
+      grid-template-columns: 1fr 1.4fr 1fr 0.8fr 0.8fr;
       gap: 8px;
     }
 
@@ -962,6 +968,91 @@
       font-size: 14px;
     }
 
+    /* ── SETTINGS DRAWER (모바일 전용) ─────────── */
+    .settings-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(0, 0, 0, .5);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .settings-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .settings-drawer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 41;
+      background: linear-gradient(180deg, rgba(14, 15, 18, .97), rgba(5, 5, 5, .99));
+      border-top: 1px solid var(--border);
+      border-radius: 22px 22px 0 0;
+      padding: 0 16px calc(16px + env(safe-area-inset-bottom));
+      transform: translateY(110%);
+      transition: transform .3s cubic-bezier(.32, 1, .5, 1);
+    }
+
+    .settings-drawer.open {
+      transform: translateY(0);
+    }
+
+    .settings-handle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 2px 12px;
+    }
+
+    .settings-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .settings-close {
+      font-size: 20px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 10px;
+      line-height: 1;
+    }
+
+    .settings-close:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .settings-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 8px;
+    }
+
+    .settings-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .settings-row .ctl {
+      flex: 1;
+      min-width: 140px;
+    }
+
     @media(max-width:980px) {
       .bottom-nav {
         display: block
@@ -971,12 +1062,15 @@
         display: block
       }
 
-      /* 헤더 컨트롤(슬라이더·버튼) 모바일에서 숨김 */
+      .settings-backdrop {
+        display: block
+      }
+
+      /* 모바일 헤더: 컨트롤 숨기고 브랜드만 */
       .controls {
         display: none;
       }
 
-      /* 헤더 브랜드만 남기고 패딩 살짝 줄임 */
       .top {
         padding: 10px 14px;
       }
@@ -1012,6 +1106,12 @@
           <label for="lineHeight">줄간</label>
           <input id="lineHeight" type="range" min="1.35" max="2.20" step="0.05" value="1.75" />
           <span id="lineVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">1.75</span>
+        </div>
+
+        <div class="ctl">
+          <label for="speedSlider">속도</label>
+          <input id="speedSlider" type="range" min="0.1" max="2.5" step="0.05" value="0.45" />
+          <span id="speedVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">0.45</span>
         </div>
 
         <button id="voiceScrollBtn">🎙 말하면 스크롤</button>
@@ -1060,6 +1160,7 @@
       <button id="playBtn">▶ 자동스크롤</button>
       <button id="nextBtn">다음 →</button>
       <button id="tocBtn">📋 목차</button>
+      <button id="settingsBtn">⚙️ 설정</button>
     </div>
   </div>
 
@@ -1073,6 +1174,41 @@
     </div>
     <div class="toc-list" id="tocList">
       <!-- drawer links injected by JS -->
+    </div>
+  </div>
+
+  <!-- ── SETTINGS DRAWER (모바일 전용) ───────────────── -->
+  <div class="settings-backdrop" id="settingsBackdrop"></div>
+  <div class="settings-drawer" id="settingsDrawer">
+    <div class="settings-handle">
+      <span class="settings-title">⚙️ 설정</span>
+      <button class="settings-close" id="settingsClose" aria-label="닫기">✕</button>
+    </div>
+    <div class="settings-body">
+      <div class="settings-row">
+        <div class="ctl">
+          <label>속도</label>
+          <input id="speedSliderM" type="range" min="0.1" max="2.5" step="0.05" value="0.45" />
+          <span id="speedValM" style="font-family:var(--mono);font-size:12px;color:var(--muted)">0.45</span>
+        </div>
+        <div class="ctl">
+          <label>Bionic</label>
+          <input id="bionicM" type="range" min="0" max="6" step="1" value="3" />
+          <span id="bionicValM" style="font-family:var(--mono);font-size:12px;color:var(--muted)">3</span>
+        </div>
+      </div>
+      <div class="settings-row">
+        <div class="ctl">
+          <label>글자</label>
+          <input id="fontSizeM" type="range" min="16" max="34" step="1" value="22" />
+          <span id="fontValM" style="font-family:var(--mono);font-size:12px;color:var(--muted)">22</span>
+        </div>
+        <div class="ctl">
+          <label>줄간</label>
+          <input id="lineHeightM" type="range" min="1.35" max="2.20" step="0.05" value="1.75" />
+          <span id="lineValM" style="font-family:var(--mono);font-size:12px;color:var(--muted)">1.75</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1678,15 +1814,19 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
       const now = timerRunning ? timerElapsed + (Date.now() - timerStart) : timerElapsed;
       const nowSec = now / 1000;
       const { end } = slideTargetRange();
-      const remaining = end - nowSec;
+      const delta = end - nowSec;   // 양수=남은, 음수=초과
 
-      timerPill.textContent = `⏱ ${fmtTime(now)}`;
+      // ⌟ 0:37 (–0:08) 포맷
+      const absDelta = Math.abs(delta);
+      const sign = delta >= 0 ? '–' : '+';
+      const deltaStr = `(${sign}${fmtTime(absDelta * 1000)})`;
+      timerPill.textContent = `⏱ ${fmtTime(now)} ${deltaStr}`;
 
       // 상태 클래스
       timerPill.classList.remove('warn', 'over');
       if (timerRunning) {
         if (nowSec > end) timerPill.classList.add('over');
-        else if (remaining < 10) timerPill.classList.add('warn');
+        else if (delta < 10) timerPill.classList.add('warn');
       }
     }
 
@@ -1734,10 +1874,35 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
     const mascotBubble = document.getElementById('mascotBubble');
 
     const MASCOT_MSG = {
-      idle: ['준비 완료 🤖', '화이팅! 💙', '할 수 있어요 ✨', '응원중이에요 😊'],
-      running: ['화이팅!! 💪', '잘하고 있어요 ✨', '굿잡! 🎉', '최고예요! ⭐', '완벽해요 🌟', '멋져요! 👍', '이 속도 좋아! 🚀'],
-      warn: ['10초 남았어요! ⚡', '서두르세요! 💨', '빨리빨리! 🏃', '할 수 있어요! 🔥', '조금만 더! 👊'],
-      over: ['시간 초과!! 🔥🔥', '멈추지 마요!! 🚀', '파이팅!! 💥', '더 더 더!! ⚡⚡', 'GO GO GO!! 🌟', '최고예요!! 🎊🎊🎉', '열정이 넘쳐요!! 💫'],
+      idle: [
+        '호흡 한 번. 구조는 이미 잡혔어.',
+        '다음 문장만 보면 돼.',
+        '준비 완료. 침착하게 가자.',
+        '지금은 안정 구간.'
+      ],
+      running: [
+        '좋아. 이 리듬 유지.',
+        '명확하다. 그대로 가.',
+        '지금 톤 좋다.',
+        '핵심 전달 중.',
+        '설명 충분해. 과하지 않다.',
+        '논리 선명함.',
+        '이 구간 안정적.'
+      ],
+      warn: [
+        '한 문장 줄여.',
+        '지금은 핵심만.',
+        '수식어 제거.',
+        '결론 먼저.',
+        '속도 5% 올려.'
+      ],
+      over: [
+        '정리하고 넘어가.',
+        '결론만 남겨.',
+        '마침표 찍자.',
+        '다음 슬라이드.',
+        '컷. 이동.'
+      ],
     };
 
     let mascotState = 'idle';
@@ -1802,7 +1967,84 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
     });
 
     // 1.5초 뒤 인트로 메시지
-    setTimeout(() => showBubble('나를 클릭해줘! 🤖'), 1500);
+    setTimeout(() => showBubble('호흡 한 번. 구조는 이미 잡혀.'), 1500);
+
+    // ===================================================
+    // 13c) 속도 슬라이더 (데스크탑 + 모바일 동기)
+    // ===================================================
+    function syncSpeed(val) {
+      scrollSpeed = val;
+      // 데스크탑 슬라이더
+      const s = document.getElementById('speedSlider');
+      const v = document.getElementById('speedVal');
+      if (s) { s.value = val; v.textContent = val.toFixed(2); }
+      // 모바일 슬라이더
+      const sm = document.getElementById('speedSliderM');
+      const vm = document.getElementById('speedValM');
+      if (sm) { sm.value = val; vm.textContent = val.toFixed(2); }
+    }
+
+    const speedSlider = document.getElementById('speedSlider');
+    const speedSliderM = document.getElementById('speedSliderM');
+
+    if (speedSlider) speedSlider.addEventListener('input', () => {
+      syncSpeed(parseFloat(speedSlider.value));
+    });
+    if (speedSliderM) speedSliderM.addEventListener('input', () => {
+      syncSpeed(parseFloat(speedSliderM.value));
+    });
+
+    // 모바일 설정 드로어 안의 Bionic/글자/줄간 슬라이더 동기
+    const bionicM = document.getElementById('bionicM');
+    const fontSizeM = document.getElementById('fontSizeM');
+    const lineHeightM = document.getElementById('lineHeightM');
+    const bionicValM = document.getElementById('bionicValM');
+    const fontValM = document.getElementById('fontValM');
+    const lineValM = document.getElementById('lineValM');
+
+    if (bionicM) bionicM.addEventListener('input', () => {
+      bionicLevel = parseInt(bionicM.value, 10);
+      bionicValM.textContent = bionicLevel;
+      const _b = document.getElementById('bionic');
+      if (_b) { _b.value = bionicLevel; document.getElementById('bionicVal').textContent = bionicLevel; }
+      render();
+    });
+    if (fontSizeM) fontSizeM.addEventListener('input', () => {
+      const v = parseInt(fontSizeM.value, 10);
+      fontValM.textContent = v;
+      textEl.style.fontSize = v + 'px';
+      const _f = document.getElementById('fontSize');
+      if (_f) { _f.value = v; document.getElementById('fontVal').textContent = v; }
+    });
+    if (lineHeightM) lineHeightM.addEventListener('input', () => {
+      const v = parseFloat(lineHeightM.value);
+      lineValM.textContent = v.toFixed(2);
+      textEl.style.lineHeight = v;
+      const _l = document.getElementById('lineHeight');
+      if (_l) { _l.value = v; document.getElementById('lineVal').textContent = v.toFixed(2); }
+    });
+
+    // ===================================================
+    // 13d) 설정 드로어 (모바일)
+    // ===================================================
+    const settingsBackdrop = document.getElementById('settingsBackdrop');
+    const settingsDrawer = document.getElementById('settingsDrawer');
+    const settingsClose = document.getElementById('settingsClose');
+    const settingsBtn = document.getElementById('settingsBtn');
+
+    function openSettings() {
+      settingsBackdrop.classList.add('open');
+      settingsDrawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeSettings() {
+      settingsBackdrop.classList.remove('open');
+      settingsDrawer.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    if (settingsBtn) settingsBtn.addEventListener('click', openSettings);
+    if (settingsClose) settingsClose.addEventListener('click', closeSettings);
+    if (settingsBackdrop) settingsBackdrop.addEventListener('click', closeSettings);
 
     // ===================================================
     // 14) 초기화
