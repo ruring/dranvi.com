@@ -220,7 +220,7 @@
         <input id="lineHeight" type="range" min="1.35" max="2.20" step="0.05" value="1.75" />
         <span id="lineVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">1.75</span>
       </div>
-
+      <button id="voiceScrollBtn">🎙 말하면 스크롤</button>
       <button id="autoScrollBtn">▶ 자동스크롤</button>
       <button onclick="copyCurrent()">현재만 복사</button>
     </div>
@@ -568,6 +568,118 @@ EdgeGuard는 실행 중 제어라는 시장의 빈칸을 채우는 런타임 안
   // init
   buildNav();
   render();
+</script>
+<script>
+  // ====== Voice-controlled auto scroll ======
+  let voiceMode = false;
+  let audioCtx = null;
+  let analyser = null;
+  let micStream = null;
+  let voiceRaf = null;
+
+  const voiceBtn = document.getElementById('voiceScrollBtn');
+
+  function rmsFromTimeDomain(data){
+    // Root Mean Square: 소리 에너지
+    let sum = 0;
+    for(let i=0;i<data.length;i++){
+      const v = (data[i] - 128) / 128; // -1~1
+      sum += v*v;
+    }
+    return Math.sqrt(sum / data.length);
+  }
+
+  async function startVoiceScroll(){
+    if(voiceMode) return;
+    voiceMode = true;
+    voiceBtn.textContent = "🎙 음성 감지중…(끄기)";
+    voiceBtn.style.borderColor = "rgba(59,130,246,.55)";
+
+    try{
+      micStream = await navigator.mediaDevices.getUserMedia({ audio:true });
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = audioCtx.createMediaStreamSource(micStream);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 1024;
+      source.connect(analyser);
+
+      const data = new Uint8Array(analyser.fftSize);
+
+      // 환경마다 다르니까 임계값 자동 적응(초기 1초 소음 레벨 측정)
+      let baseline = 0;
+      let samples = 0;
+      const t0 = performance.now();
+      while(performance.now() - t0 < 1000){
+        analyser.getByteTimeDomainData(data);
+        baseline += rmsFromTimeDomain(data);
+        samples++;
+        await new Promise(r=>setTimeout(r, 30));
+      }
+      baseline = baseline / Math.max(1, samples);
+      // 말하는 감지 임계값: 주변 소음 + 여유
+      const threshold = baseline + 0.03;
+
+      // 말하기 시작/끝 안정화 (깜빡임 방지)
+      let speaking = false;
+      let lastVoiceAt = 0;
+
+      const loop = ()=>{
+        if(!voiceMode) return;
+
+        analyser.getByteTimeDomainData(data);
+        const rms = rmsFromTimeDomain(data);
+
+        const now = performance.now();
+        if(rms > threshold){
+          lastVoiceAt = now;
+          if(!speaking){
+            speaking = true;
+            startAutoScroll(); // 기존 자동스크롤 재사용
+          }
+        }else{
+          // 250ms 동안 소리 없으면 “말 멈춤” 처리
+          if(speaking && (now - lastVoiceAt) > 250){
+            speaking = false;
+            stopAutoScroll();
+          }
+        }
+
+        voiceRaf = requestAnimationFrame(loop);
+      };
+
+      voiceRaf = requestAnimationFrame(loop);
+
+    }catch(err){
+      voiceMode = false;
+      voiceBtn.textContent = "🎙 말하면 스크롤";
+      voiceBtn.style.borderColor = "";
+      alert("마이크 권한이 필요해! 브라우저에서 마이크 허용 후 다시 눌러줘.");
+    }
+  }
+
+  function stopVoiceScroll(){
+    voiceMode = false;
+    voiceBtn.textContent = "🎙 말하면 스크롤";
+    voiceBtn.style.borderColor = "";
+    stopAutoScroll();
+
+    if(voiceRaf) cancelAnimationFrame(voiceRaf);
+    voiceRaf = null;
+
+    if(micStream){
+      micStream.getTracks().forEach(t=>t.stop());
+      micStream = null;
+    }
+    if(audioCtx){
+      audioCtx.close();
+      audioCtx = null;
+    }
+    analyser = null;
+  }
+
+  voiceBtn.onclick = ()=>{
+    voiceMode ? stopVoiceScroll() : startVoiceScroll();
+  };
 </script>
 </body>
 </html>
