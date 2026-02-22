@@ -322,15 +322,51 @@
     }
 
     .meta {
+      position: sticky;
+      /* 데스크탑 헤더(약 60px) 바로 아래 고정 */
+      top: 60px;
+      z-index: 9;
+
+      /* stage의 18px 좌우 패딩을 상쇄해 full-width 바로 */
+      margin: -18px -18px 14px -18px;
+      padding: 10px 18px;
+      border-radius: 22px 22px 0 0;
+      /* stage 상단 모서리와 일치 */
+
       display: flex;
       gap: 10px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
-      margin-bottom: 10px;
+      overflow-x: auto;
+
+      background: rgba(8, 9, 14, .82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+
       color: var(--muted);
       font-family: var(--mono);
       font-size: 12px;
     }
+
+    /* 모바일: 헤더에 컨트롤 없어서 더 작음 */
+    @media(max-width:980px) {
+      .meta {
+        top: 48px;
+        border-radius: 22px 22px 0 0;
+      }
+    }
+
+    /* 스크롤바 숨김 (meta 가로 스크롤) */
+    .meta::-webkit-scrollbar {
+      display: none;
+    }
+
+    .meta {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
 
     .pill {
       border: 1px solid var(--border);
@@ -457,6 +493,415 @@
     .timer-reset:hover {
       color: var(--text);
       border-color: rgba(255, 255, 255, .3);
+    }
+
+    /* == MASCOT ========================================= */
+    .mascot-wrap {
+      position: fixed;
+      right: 22px;
+      bottom: 28px;
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    @media(max-width:980px) {
+      .mascot-wrap {
+        bottom: 130px;
+        right: 12px;
+      }
+    }
+
+    /* 말풍선 */
+    .m-bubble {
+      background: rgba(14, 15, 18, .93);
+      border: 1px solid var(--border);
+      border-radius: 12px 12px 12px 3px;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: var(--text);
+      white-space: nowrap;
+      text-align: center;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(6px) scale(.88);
+      transition: opacity .3s, transform .3s;
+    }
+
+    .m-bubble.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* 전체 캐릭터 */
+    .mascot {
+      position: relative;
+      width: 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 헤드 */
+    .m-head {
+      width: 52px;
+      height: 48px;
+      background: linear-gradient(150deg, #3b82f6 0%, #1d4ed8 100%);
+      border-radius: 16px;
+      position: relative;
+      box-shadow: 0 4px 18px rgba(59, 130, 246, .4);
+      transition: background .4s, box-shadow .4s;
+      z-index: 2;
+    }
+
+    .m-head::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 10px;
+      background: rgba(255, 255, 255, .45);
+      border-radius: 2px;
+    }
+
+    .m-head::after {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: #93c5fd;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(147, 197, 253, .9);
+      transition: background .4s, box-shadow .4s;
+    }
+
+    /* 눈 */
+    .m-eyes {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding-top: 13px;
+    }
+
+    .m-eye {
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      position: relative;
+      transition: height .25s, border-radius .25s;
+    }
+
+    .m-eye::after {
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: #1e293b;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: top .2s;
+    }
+
+    /* 입 */
+    .m-mouth {
+      position: absolute;
+      bottom: 9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 7px;
+      border: 2.5px solid rgba(255, 255, 255, .8);
+      border-top: none;
+      border-radius: 0 0 9px 9px;
+      transition: all .25s;
+    }
+
+    /* 몸통 */
+    .m-torso {
+      width: 38px;
+      height: 16px;
+      background: linear-gradient(150deg, #2563eb 0%, #1e40af 100%);
+      border-radius: 0 0 10px 10px;
+      margin-top: -1px;
+      transition: background .4s;
+      z-index: 1;
+    }
+
+    /* 팔 & 폼폼 */
+    .m-arms {
+      position: absolute;
+      top: 42px;
+      left: 50%;
+      width: 96px;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .m-arm {
+      font-size: 17px;
+      display: inline-block;
+      line-height: 1;
+      transform-origin: bottom center;
+    }
+
+    .m-arm.l {
+      transform: rotate(35deg);
+    }
+
+    .m-arm.r {
+      transform: rotate(-35deg);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes m-breathe {
+
+      0%,
+      100% {
+        transform: scaleY(1) translateY(0);
+      }
+
+      50% {
+        transform: scaleY(1.04) translateY(-1px);
+      }
+    }
+
+    @keyframes m-blink {
+
+      0%,
+      88%,
+      100% {
+        transform: scaleY(1);
+      }
+
+      94% {
+        transform: scaleY(.1);
+      }
+    }
+
+    @keyframes m-bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes m-bounce-fast {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-16px);
+      }
+    }
+
+    @keyframes m-wave-l {
+
+      0%,
+      100% {
+        transform: rotate(35deg);
+      }
+
+      50% {
+        transform: rotate(-25deg) translateY(-5px);
+      }
+    }
+
+    @keyframes m-wave-r {
+
+      0%,
+      100% {
+        transform: rotate(-35deg);
+      }
+
+      50% {
+        transform: rotate(25deg) translateY(-5px);
+      }
+    }
+
+    @keyframes m-shake {
+
+      0%,
+      100% {
+        transform: translateX(0) rotate(0deg);
+      }
+
+      20% {
+        transform: translateX(-4px) rotate(-6deg);
+      }
+
+      40% {
+        transform: translateX(4px) rotate(6deg);
+      }
+
+      60% {
+        transform: translateX(-3px) rotate(-4deg);
+      }
+
+      80% {
+        transform: translateX(3px) rotate(4deg);
+      }
+    }
+
+    /* 대기 */
+    .mascot.idle .mascot-inner {
+      animation: m-breathe 3.2s ease-in-out infinite;
+    }
+
+    .mascot.idle .m-eye {
+      animation: m-blink 4s ease-in-out infinite;
+    }
+
+    .mascot.idle .m-mouth {
+      width: 14px;
+      height: 1px;
+      border: none;
+      border-top: 2.5px solid rgba(255, 255, 255, .45);
+      border-radius: 0;
+      bottom: 11px;
+    }
+
+    .mascot.idle .m-arm.l {
+      transform: rotate(60deg);
+      opacity: .55;
+    }
+
+    .mascot.idle .m-arm.r {
+      transform: rotate(-60deg);
+      opacity: .55;
+    }
+
+    /* 응원 중 (green) */
+    .mascot.running .m-head {
+      background: linear-gradient(150deg, #22c55e 0%, #15803d 100%);
+      box-shadow: 0 4px 22px rgba(34, 197, 94, .55);
+    }
+
+    .mascot.running .m-head::after {
+      background: #86efac;
+      box-shadow: 0 0 10px rgba(134, 239, 172, .9);
+    }
+
+    .mascot.running .m-torso {
+      background: linear-gradient(150deg, #16a34a 0%, #166534 100%);
+    }
+
+    .mascot.running .mascot-inner {
+      animation: m-bounce .65s ease-in-out infinite;
+    }
+
+    .mascot.running .m-arm.l {
+      animation: m-wave-l .65s ease-in-out infinite;
+    }
+
+    .mascot.running .m-arm.r {
+      animation: m-wave-r .65s ease-in-out infinite;
+    }
+
+    .mascot.running .m-eye {
+      height: 6px;
+      border-radius: 50% 50% 0 0;
+      overflow: hidden;
+    }
+
+    .mascot.running .m-mouth {
+      width: 22px;
+      height: 9px;
+    }
+
+    /* 임박 (yellow) */
+    .mascot.warn .m-head {
+      background: linear-gradient(150deg, #eab308 0%, #92400e 100%);
+      box-shadow: 0 4px 22px rgba(234, 179, 8, .6);
+    }
+
+    .mascot.warn .m-head::after {
+      background: #fde047;
+      box-shadow: 0 0 10px rgba(253, 224, 71, .9);
+    }
+
+    .mascot.warn .m-torso {
+      background: linear-gradient(150deg, #ca8a04 0%, #78350f 100%);
+    }
+
+    .mascot.warn .mascot-inner {
+      animation: m-bounce-fast .38s ease-in-out infinite;
+    }
+
+    .mascot.warn .m-arm.l {
+      animation: m-wave-l .38s ease-in-out infinite;
+    }
+
+    .mascot.warn .m-arm.r {
+      animation: m-wave-r .38s ease-in-out infinite;
+    }
+
+    .mascot.warn .m-eye::after {
+      top: 1px;
+    }
+
+    .mascot.warn .m-mouth {
+      width: 14px;
+      height: 5px;
+    }
+
+    /* 시간초과 (red) */
+    .mascot.over .m-head {
+      background: linear-gradient(150deg, #ef4444 0%, #991b1b 100%);
+      box-shadow: 0 4px 28px rgba(239, 68, 68, .7);
+    }
+
+    .mascot.over .m-head::after {
+      background: #fca5a5;
+      box-shadow: 0 0 12px rgba(252, 165, 165, 1);
+    }
+
+    .mascot.over .m-torso {
+      background: linear-gradient(150deg, #dc2626 0%, #7f1d1d 100%);
+    }
+
+    .mascot.over .mascot-inner {
+      animation: m-bounce-fast .22s ease-in-out infinite, m-shake .22s ease-in-out infinite;
+    }
+
+    .mascot.over .m-arm.l {
+      animation: m-wave-l .22s ease-in-out infinite;
+    }
+
+    .mascot.over .m-arm.r {
+      animation: m-wave-r .22s ease-in-out infinite;
+    }
+
+    .mascot.over .m-eye {
+      height: 6px;
+      border-radius: 50% 50% 0 0;
+    }
+
+    .mascot.over .m-mouth {
+      width: 24px;
+      height: 10px;
+      border-radius: 50%;
+      border-top: 2.5px solid rgba(255, 255, 255, .8);
+      bottom: 7px;
     }
 
     /* ── PROGRESS BAR ─────────────────────────── */
@@ -628,6 +1073,27 @@
     </div>
     <div class="toc-list" id="tocList">
       <!-- drawer links injected by JS -->
+    </div>
+  </div>
+
+  <!-- == MASCOT (응원 캐릭터) ========================= -->
+  <div class="mascot-wrap">
+    <div class="m-bubble" id="mascotBubble">나를 클릭해줘! 🤖</div>
+    <div class="mascot idle" id="mascot">
+      <div class="mascot-inner">
+        <div class="m-head">
+          <div class="m-eyes">
+            <div class="m-eye"></div>
+            <div class="m-eye"></div>
+          </div>
+          <div class="m-mouth"></div>
+        </div>
+        <div class="m-torso"></div>
+      </div>
+      <div class="m-arms">
+        <span class="m-arm l">🎉</span>
+        <span class="m-arm r">🎊</span>
+      </div>
     </div>
   </div>
 
@@ -1254,6 +1720,83 @@ EdgeGuard는 실행 중 제어라는 시장의 빈칸을 채우는 런타임 안
       resetTimer();
     });
     timerReset.addEventListener('click', resetTimer);
+
+    // ===================================================
+    // 13b) 마스코트 컨트롤러
+    // ===================================================
+    const mascotEl = document.getElementById('mascot');
+    const mascotBubble = document.getElementById('mascotBubble');
+
+    const MASCOT_MSG = {
+      idle: ['준비 완료 🤖', '화이팅! 💙', '할 수 있어요 ✨', '응원중이에요 😊'],
+      running: ['화이팅!! 💪', '잘하고 있어요 ✨', '굿잡! 🎉', '최고예요! ⭐', '완벽해요 🌟', '멋져요! 👍', '이 속도 좋아! 🚀'],
+      warn: ['10초 남았어요! ⚡', '서두르세요! 💨', '빨리빨리! 🏃', '할 수 있어요! 🔥', '조금만 더! 👊'],
+      over: ['시간 초과!! 🔥🔥', '멈추지 마요!! 🚀', '파이팅!! 💥', '더 더 더!! ⚡⚡', 'GO GO GO!! 🌟', '최고예요!! 🎊🎊🎉', '열정이 넘쳐요!! 💫'],
+    };
+
+    let mascotState = 'idle';
+    let mascotMsgTimer = null;
+    let mascotMsgIdx = { idle: 0, running: 0, warn: 0, over: 0 };
+    let bubbleHideTimeout = null;
+
+    function showBubble(msg) {
+      mascotBubble.textContent = msg;
+      mascotBubble.classList.add('show');
+      clearTimeout(bubbleHideTimeout);
+      if (mascotState === 'idle') {
+        bubbleHideTimeout = setTimeout(() => mascotBubble.classList.remove('show'), 3200);
+      }
+    }
+
+    function cycleMascotMsg() {
+      const msgs = MASCOT_MSG[mascotState];
+      showBubble(msgs[mascotMsgIdx[mascotState] % msgs.length]);
+      mascotMsgIdx[mascotState]++;
+    }
+
+    function setMascotState(state) {
+      if (mascotState === state) return;
+      mascotState = state;
+      mascotEl.className = 'mascot ' + state;
+
+      clearInterval(mascotMsgTimer);
+      const intervals = { idle: 9000, running: 3500, warn: 2000, over: 1400 };
+      cycleMascotMsg();
+      mascotMsgTimer = setInterval(cycleMascotMsg, intervals[state]);
+
+      // 응원중/초과엔 말풍선 항상 보임
+      if (state !== 'idle') mascotBubble.classList.add('show');
+    }
+
+    // 타이머 함수에 마스코트 훅 추가
+    const _origUpdateTimerDisplay = updateTimerDisplay;
+    updateTimerDisplay = function () {
+      _origUpdateTimerDisplay();
+      if (!timerRunning) return;
+      if (timerPill.classList.contains('over')) setMascotState('over');
+      else if (timerPill.classList.contains('warn')) setMascotState('warn');
+      else setMascotState('running');
+    };
+
+    const _origStartTimer = startTimer;
+    startTimer = function () { _origStartTimer(); setMascotState('running'); };
+
+    const _origStopTimer = stopTimer;
+    stopTimer = function () { _origStopTimer(); setMascotState('idle'); };
+
+    const _origResetTimer = resetTimer;
+    resetTimer = function () { _origResetTimer(); setMascotState('idle'); };
+
+    // 마스코트 클릭 → 즉석 응원 메시지
+    mascotEl.style.pointerEvents = 'auto';
+    mascotEl.style.cursor = 'pointer';
+    mascotEl.addEventListener('click', () => {
+      const msgs = MASCOT_MSG[mascotState];
+      showBubble(msgs[Math.floor(Math.random() * msgs.length)]);
+    });
+
+    // 1.5초 뒤 인트로 메시지
+    setTimeout(() => showBubble('나를 클릭해줘! 🤖'), 1500);
 
     // ===================================================
     // 14) 초기화
