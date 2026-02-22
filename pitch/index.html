@@ -160,11 +160,15 @@
       background: rgba(0, 0, 0, .55);
       backdrop-filter: blur(4px);
       opacity: 0;
+      pointer-events: none;
+      /* 닫혀있을 때 클릭 완전 차단 해제 */
       transition: opacity .25s;
     }
 
     .toc-backdrop.open {
       opacity: 1;
+      pointer-events: auto;
+      /* 열렸을 때만 클릭 감지 */
     }
 
     .toc-drawer {
@@ -437,6 +441,16 @@
 
       .toc-backdrop {
         display: block
+      }
+
+      /* 헤더 컨트롤(슬라이더·버튼) 모바일에서 숨김 */
+      .controls {
+        display: none;
+      }
+
+      /* 헤더 브랜드만 남기고 패딩 살짝 줄임 */
+      .top {
+        padding: 10px 14px;
       }
 
       body {
