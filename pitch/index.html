@@ -376,6 +376,89 @@
       margin: 0 2px;
     }
 
+    /* ── TIMER PILL ───────────────────────────── */
+    .timer-pill {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(59, 130, 246, .5);
+      background: rgba(59, 130, 246, .10);
+      color: rgba(59, 130, 246, .95);
+      cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
+      user-select: none;
+    }
+
+    .timer-pill:hover {
+      background: rgba(59, 130, 246, .18);
+      border-color: rgba(59, 130, 246, .8);
+    }
+
+    /* 실행 중 */
+    .timer-pill.running {
+      border-color: rgba(34, 197, 94, .6);
+      background: rgba(34, 197, 94, .10);
+      color: rgba(34, 197, 94, .95);
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, .4);
+      animation: timer-pulse 1.8s ease-in-out infinite;
+    }
+
+    /* 시간 임박 (남은 시간 10초 미만) */
+    .timer-pill.warn {
+      border-color: rgba(234, 179, 8, .6);
+      background: rgba(234, 179, 8, .10);
+      color: rgba(234, 179, 8, .95);
+      animation: timer-pulse 1s ease-in-out infinite;
+    }
+
+    /* 시간 초과 */
+    .timer-pill.over {
+      border-color: rgba(239, 68, 68, .6);
+      background: rgba(239, 68, 68, .10);
+      color: rgba(239, 68, 68, .95);
+      animation: timer-pulse .7s ease-in-out infinite;
+    }
+
+    @keyframes timer-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 currentColor;
+        opacity: 1;
+      }
+
+      50% {
+        box-shadow: 0 0 0 5px transparent;
+        opacity: .85;
+      }
+    }
+
+    .timer-reset {
+      font-size: 15px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .04);
+      color: var(--muted);
+      cursor: pointer;
+      transition: .15s;
+      line-height: 1;
+      display: none;
+      /* JS가 조건적으로 보여줌 */
+    }
+
+    .timer-reset.visible {
+      display: inline-block;
+    }
+
+    .timer-reset:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, .3);
+    }
+
     /* ── PROGRESS BAR ─────────────────────────── */
     .progress {
       position: fixed;
@@ -512,6 +595,8 @@
         <span class="pill" id="idxPill">1 / 15</span>
         <span class="pill" id="timePill">0:00–0:25</span>
         <span class="pill">EdgeGuard Pitch</span>
+        <button class="timer-pill" id="timerPill" title="클릭: 시작/정지 · 더블클릭: 리셋">&#9719; 0:00</button>
+        <button class="timer-reset" id="timerReset" title="타이머 리셋">&#8635;</button>
       </div>
       <h1 id="slideTitle">1p. 표지</h1>
       <p id="text" class="text"></p>
@@ -1088,7 +1173,90 @@ EdgeGuard는 실행 중 제어라는 시장의 빈칸을 채우는 런타임 안
     });
 
     // ===================================================
-    // 13) 초기화
+    // 13) 타이머
+    // ===================================================
+    const timerPill = document.getElementById('timerPill');
+    const timerReset = document.getElementById('timerReset');
+
+    let timerRunning = false;
+    let timerElapsed = 0;       // ms
+    let timerStart = 0;       // Date.now() 스냅샵
+    let timerInterval = null;
+
+    /** M:SS 형식 */
+    function fmtTime(ms) {
+      const s = Math.floor(ms / 1000);
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      return `${m}:${String(sec).padStart(2, '0')}`;
+    }
+
+    /** 현재 슬라이드의 목표 시간 범위를 초 단위로 반환 */
+    function slideTargetRange() {
+      const t = slides[currentIdx].time; // e.g. "0:40–1:45"
+      const parts = t.split('–');
+      const toSec = str => {
+        const [m, s] = str.trim().split(':').map(Number);
+        return m * 60 + (s || 0);
+      };
+      return { start: toSec(parts[0]), end: toSec(parts[1] || parts[0]) };
+    }
+
+    function updateTimerDisplay() {
+      const now = timerRunning ? timerElapsed + (Date.now() - timerStart) : timerElapsed;
+      const nowSec = now / 1000;
+      const { end } = slideTargetRange();
+      const remaining = end - nowSec;
+
+      timerPill.textContent = `⏱ ${fmtTime(now)}`;
+
+      // 상태 클래스
+      timerPill.classList.remove('warn', 'over');
+      if (timerRunning) {
+        if (nowSec > end) timerPill.classList.add('over');
+        else if (remaining < 10) timerPill.classList.add('warn');
+      }
+    }
+
+    function startTimer() {
+      if (timerRunning) return;
+      timerRunning = true;
+      timerStart = Date.now();
+      timerPill.classList.add('running');
+      timerReset.classList.add('visible');
+      timerInterval = setInterval(updateTimerDisplay, 300);
+    }
+
+    function stopTimer() {
+      if (!timerRunning) return;
+      timerElapsed += Date.now() - timerStart;
+      timerRunning = false;
+      timerPill.classList.remove('running', 'warn', 'over');
+      clearInterval(timerInterval);
+      updateTimerDisplay();
+    }
+
+    function resetTimer() {
+      stopTimer();
+      timerElapsed = 0;
+      timerReset.classList.remove('visible');
+      timerPill.textContent = '⏱ 0:00';
+      timerPill.classList.remove('running', 'warn', 'over');
+    }
+
+    // 클릭: 시작/정지
+    timerPill.addEventListener('click', () => {
+      timerRunning ? stopTimer() : startTimer();
+    });
+    // 더블클릭: 리셋
+    timerPill.addEventListener('dblclick', (e) => {
+      e.stopPropagation();
+      resetTimer();
+    });
+    timerReset.addEventListener('click', resetTimer);
+
+    // ===================================================
+    // 14) 초기화
     // ===================================================
     buildNav();
     render();
