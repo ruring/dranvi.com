@@ -569,10 +569,7 @@ EdgeGuard는 실행 중 제어라는 시장의 빈칸을 채우는 런타임 안
   buildNav();
   render();
   // bottom nav buttons
-document.getElementById('prevBtn')?.addEventListener('click', prev);
-document.getElementById('nextBtn')?.addEventListener('click', next);
-</script>
-<script>
+
   // ====== Voice-controlled auto scroll ======
   let voiceMode = false;
   let audioCtx = null;
@@ -684,44 +681,89 @@ document.getElementById('nextBtn')?.addEventListener('click', next);
     voiceMode ? stopVoiceScroll() : startVoiceScroll();
   };
   /* Mobile bottom nav */
+  /* Mobile bottom nav */
 .bottom-nav{
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 20;
+  z-index: 30;
   padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-  background: rgba(5,5,5,.72);
-  backdrop-filter: blur(10px);
+  background: rgba(5,5,5,.78);
+  backdrop-filter: blur(12px);
   border-top: 1px solid var(--border);
-  display: none; /* 기본은 숨김, 모바일에서만 표시 */
+  display: none;
 }
+
 .bottom-nav .row{
   max-width: 1100px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.2fr 1fr;
   gap: 10px;
 }
+
 .bottom-nav button{
   width: 100%;
-  padding: 14px 14px;
-  border-radius: 16px;
+  padding: 16px 14px;
+  border-radius: 18px;
   font-size: 15px;
   font-weight: 700;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.04);
+  color: var(--text);
 }
 
-/* 모바일에서만 하단 네비 켜기 */
+.bottom-nav button:active{
+  transform: scale(.97);
+}
+
+#playBtn{
+  background: linear-gradient(90deg, rgba(59,130,246,.9), rgba(34,197,94,.8));
+  border: none;
+  font-size: 16px;
+}
+
+/* 모바일에서만 표시 */
 @media (max-width: 980px){
   .bottom-nav{ display: block; }
-  /* 하단 네비에 내용 가리지 않도록 여백 확보 */
-  body{ padding-bottom: 90px; }
+  body{ padding-bottom: 110px; }
 }
+// bottom nav buttons
+document.getElementById('prevBtn')?.addEventListener('click', prev);
+document.getElementById('nextBtn')?.addEventListener('click', next);
+
+const playBtn = document.getElementById('playBtn');
+
+playBtn?.addEventListener('click', ()=>{
+  if(scrolling){
+    stopAutoScroll();
+    playBtn.textContent = "▶ 자동스크롤";
+  }else{
+    startAutoScroll();
+    playBtn.textContent = "⏸ 멈춤";
+  }
+});
+
+// 자동스크롤 상태 바뀔 때 버튼 텍스트 동기화
+const originalStart = startAutoScroll;
+const originalStop = stopAutoScroll;
+
+startAutoScroll = function(){
+  originalStart();
+  if(playBtn) playBtn.textContent = "⏸ 멈춤";
+};
+
+stopAutoScroll = function(){
+  originalStop();
+  if(playBtn) playBtn.textContent = "▶ 자동스크롤";
+};
 </script>
 
 <div class="bottom-nav">
   <div class="row">
     <button id="prevBtn">← 이전</button>
+    <button id="playBtn">▶ 자동스크롤</button>
     <button id="nextBtn">다음 →</button>
   </div>
 </div>
