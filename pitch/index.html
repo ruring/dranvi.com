@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,322 +8,553 @@
   <meta name="description" content="Dranvi EdgeGuard 피치 덱 발표용 프롬프터. 바이오닉 리딩·자동스크롤·음성 감지 스크롤 지원." />
 
   <style>
-    :root{
-      --bg:#050505;
-      --panel:#0e0f12;
-      --text:#f2f2f2;
-      --muted:#a7a7a7;
-      --accent:#3b82f6;
-      --border:rgba(255,255,255,.10);
-      --shadow:rgba(0,0,0,.35);
+    :root {
+      --bg: #050505;
+      --panel: #0e0f12;
+      --text: #f2f2f2;
+      --muted: #a7a7a7;
+      --accent: #3b82f6;
+      --border: rgba(255, 255, 255, .10);
+      --shadow: rgba(0, 0, 0, .35);
       --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-              "Apple SD Gothic Neo", "Noto Sans KR", Arial, "Helvetica Neue", sans-serif;
+        "Apple SD Gothic Neo", "Noto Sans KR", Arial, "Helvetica Neue", sans-serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-              "Liberation Mono", "Courier New", monospace;
+        "Liberation Mono", "Courier New", monospace;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
       background:
-        radial-gradient(1200px 600px at 20% -10%, rgba(59,130,246,.18), transparent 60%),
-        radial-gradient(900px 500px at 90% 10%,  rgba(34,197,94,.12),  transparent 55%),
+        radial-gradient(1200px 600px at 20% -10%, rgba(59, 130, 246, .18), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34, 197, 94, .12), transparent 55%),
         var(--bg);
-      color:var(--text);
-      font-family:var(--sans);
-      line-height:1.6;
-      overflow-x:hidden;
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* ── HEADER ─────────────────────────────── */
-    header{
-      position:sticky;
-      top:0; z-index:10;
-      backdrop-filter:blur(10px);
-      background:rgba(5,5,5,.65);
-      border-bottom:1px solid var(--border);
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(5, 5, 5, .65);
+      border-bottom: 1px solid var(--border);
     }
-    .top{
-      max-width:1100px;
-      margin:0 auto;
-      padding:12px 14px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
+
+    .top {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 14px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
-    .brand{
-      display:flex; gap:10px; align-items:baseline;
-      font-weight:800; letter-spacing:-.02em;
+
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      font-weight: 800;
+      letter-spacing: -.02em;
     }
-    .brand small{color:var(--muted); font-weight:600}
+
+    .brand small {
+      color: var(--muted);
+      font-weight: 600
+    }
 
     /* ── CONTROLS ───────────────────────────── */
-    .controls{
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    .ctl{
-      display:flex; gap:8px; align-items:center;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      border-radius:14px;
-      padding:8px 10px;
+
+    .ctl {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .03);
+      border-radius: 14px;
+      padding: 8px 10px;
     }
-    label{font-size:12px; color:var(--muted)}
-    input[type="range"]{width:130px; cursor:pointer}
-    button{
-      cursor:pointer;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      color:var(--text);
-      padding:9px 11px;
-      border-radius:14px;
-      font-size:13px;
-      transition:.15s;
+
+    label {
+      font-size: 12px;
+      color: var(--muted)
     }
-    button:hover{border-color:rgba(59,130,246,.55)}
+
+    input[type="range"] {
+      width: 130px;
+      cursor: pointer
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .03);
+      color: var(--text);
+      padding: 9px 11px;
+      border-radius: 14px;
+      font-size: 13px;
+      transition: .15s;
+    }
+
+    button:hover {
+      border-color: rgba(59, 130, 246, .55)
+    }
 
     /* ── LAYOUT ─────────────────────────────── */
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:16px 14px 70px;
-      display:grid;
-      grid-template-columns:320px 1fr;
-      gap:16px;
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 14px 70px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
     }
-    @media(max-width:980px){.wrap{grid-template-columns:1fr}}
+
+    @media(max-width:980px) {
+      .wrap {
+        grid-template-columns: 1fr
+      }
+    }
 
     /* ── SIDEBAR NAV ─────────────────────────── */
-    .nav{
-      position:sticky;
-      top:78px;
-      align-self:start;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.02);
-      border-radius:18px;
-      padding:12px;
-      max-height:calc(100vh - 100px);
-      overflow-y:auto;
+    .nav {
+      position: sticky;
+      top: 78px;
+      align-self: start;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .02);
+      border-radius: 18px;
+      padding: 12px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
     }
-    @media(max-width:980px){.nav{position:static}}
-    .nav h3{
-      margin:6px 8px 10px;
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:.04em;
-      text-transform:uppercase;
+
+    /* 모바일: 사이드바 자체는 숨김 (드로어로 대체) */
+    @media(max-width:980px) {
+      .nav {
+        display: none;
+      }
     }
-    .nav a{
-      display:block;
-      padding:10px 10px;
-      border-radius:12px;
-      color:var(--muted);
-      border:1px solid transparent;
-      text-decoration:none;
-      transition:.15s;
-      font-size:14px;
+
+    /* ── TOC DRAWER (모바일 전용) ─────────────── */
+    .toc-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      background: rgba(0, 0, 0, .55);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transition: opacity .25s;
     }
-    .nav a:hover{
-      color:var(--text);
-      border-color:var(--border);
-      background:rgba(255,255,255,.03);
+
+    .toc-backdrop.open {
+      opacity: 1;
     }
-    .nav a.active{
-      color:var(--text);
-      border-color:rgba(59,130,246,.45);
-      background:rgba(59,130,246,.10);
+
+    .toc-drawer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 41;
+      background: linear-gradient(180deg, rgba(14, 15, 18, .97) 0%, rgba(5, 5, 5, .99) 100%);
+      border-top: 1px solid var(--border);
+      border-radius: 22px 22px 0 0;
+      padding: 0 0 calc(16px + env(safe-area-inset-bottom));
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(110%);
+      transition: transform .3s cubic-bezier(.32, 1, .5, 1);
+    }
+
+    .toc-drawer.open {
+      transform: translateY(0);
+    }
+
+    .toc-handle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px 10px;
+      flex-shrink: 0;
+    }
+
+    .toc-handle-bar {
+      width: 36px;
+      height: 4px;
+      background: rgba(255, 255, 255, .2);
+      border-radius: 999px;
+      margin: 0 auto 0;
+      flex: none;
+    }
+
+    .toc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .toc-close {
+      font-size: 20px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 10px;
+      line-height: 1;
+    }
+
+    .toc-close:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, .06);
+    }
+
+    .toc-list {
+      overflow-y: auto;
+      padding: 4px 12px 8px;
+      flex: 1;
+    }
+
+    .toc-list a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 10px;
+      border-radius: 14px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-size: 15px;
+      transition: .15s;
+    }
+
+    .toc-list a .toc-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(255, 255, 255, .25);
+      min-width: 22px;
+    }
+
+    .toc-list a .toc-time {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(255, 255, 255, .3);
+      margin-left: auto;
+    }
+
+    .toc-list a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, .04);
+    }
+
+    .toc-list a.active {
+      color: var(--text);
+      border-color: rgba(59, 130, 246, .45);
+      background: rgba(59, 130, 246, .12);
+    }
+
+    .toc-list a.active .toc-num {
+      color: rgba(59, 130, 246, .8);
+    }
+
+    .nav h3 {
+      margin: 6px 8px 10px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .nav a {
+      display: block;
+      padding: 10px 10px;
+      border-radius: 12px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: .15s;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      border-color: var(--border);
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .nav a.active {
+      color: var(--text);
+      border-color: rgba(59, 130, 246, .45);
+      background: rgba(59, 130, 246, .10);
     }
 
     /* ── STAGE ───────────────────────────────── */
-    .stage{
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.02);
-      border-radius:22px;
-      padding:18px 18px 16px;
-      box-shadow:0 20px 60px var(--shadow);
-      min-height:60vh;
+    .stage {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .02);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 20px 60px var(--shadow);
+      min-height: 60vh;
     }
-    .meta{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-      margin-bottom:10px;
-      color:var(--muted);
-      font-family:var(--mono); font-size:12px;
+
+    .meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
     }
-    .pill{
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      padding:4px 10px;
-      border-radius:999px;
+
+    .pill {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .03);
+      padding: 4px 10px;
+      border-radius: 999px;
     }
-    h1{margin:0 0 12px; font-size:22px; letter-spacing:-.02em}
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      letter-spacing: -.02em
+    }
 
     /* 본문 텍스트 */
-    .text{
-      white-space:pre-wrap;
-      font-size:22px;
-      line-height:1.75;
-      letter-spacing:-.01em;
-      margin:0;
+    .text {
+      white-space: pre-wrap;
+      font-size: 22px;
+      line-height: 1.75;
+      letter-spacing: -.01em;
+      margin: 0;
     }
-    /* Bionic bold */
-    .bionic strong{font-weight:800}
 
-    .hint{
-      margin-top:14px;
-      padding-top:14px;
-      border-top:1px dashed rgba(255,255,255,.12);
-      color:var(--muted);
-      font-size:12px;
+    /* Bionic bold */
+    .bionic strong {
+      font-weight: 800
     }
-    .kbd{
-      font-family:var(--mono);
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      padding:2px 6px;
-      border-radius:8px;
-      margin:0 2px;
+
+    .hint {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(255, 255, 255, .12);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .kbd {
+      font-family: var(--mono);
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, .03);
+      padding: 2px 6px;
+      border-radius: 8px;
+      margin: 0 2px;
     }
 
     /* ── PROGRESS BAR ─────────────────────────── */
-    .progress{
-      position:fixed; left:0; bottom:0;
-      width:100%; height:6px;
-      background:rgba(255,255,255,.07);
-      z-index:5;
+    .progress {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, .07);
+      z-index: 5;
     }
-    .bar{
-      height:100%; width:0%;
-      background:linear-gradient(90deg, rgba(59,130,246,.9), rgba(34,197,94,.7));
-      transition:.18s;
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(59, 130, 246, .9), rgba(34, 197, 94, .7));
+      transition: .18s;
     }
 
     /* ── MOBILE BOTTOM NAV ────────────────────── */
-    .bottom-nav{
-      position:fixed;
-      left:0; right:0; bottom:0; z-index:30;
-      padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-      background:rgba(5,5,5,.78);
-      backdrop-filter:blur(12px);
-      border-top:1px solid var(--border);
-      display:none;
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 30;
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(5, 5, 5, .78);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      display: none;
     }
-    .bottom-nav .row{
-      max-width:1100px;
-      margin:0 auto;
-      display:grid;
-      grid-template-columns:1fr 1.2fr 1fr;
-      gap:10px;
+
+    .bottom-nav .row {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr 0.9fr;
+      gap: 8px;
     }
-    .bottom-nav button{
-      width:100%;
-      padding:16px 14px;
-      border-radius:18px;
-      font-size:15px;
-      font-weight:700;
+
+    .bottom-nav button {
+      width: 100%;
+      padding: 15px 8px;
+      border-radius: 18px;
+      font-size: 14px;
+      font-weight: 700;
     }
-    #playBtn{
-      background:linear-gradient(90deg, rgba(59,130,246,.9), rgba(34,197,94,.8));
-      border:none;
-      font-size:16px;
+
+    #playBtn {
+      background: linear-gradient(90deg, rgba(59, 130, 246, .9), rgba(34, 197, 94, .8));
+      border: none;
+      font-size: 15px;
     }
-    @media(max-width:980px){
-      .bottom-nav{display:block}
-      body{padding-bottom:110px}
+
+    #tocBtn {
+      font-size: 14px;
+    }
+
+    @media(max-width:980px) {
+      .bottom-nav {
+        display: block
+      }
+
+      .toc-backdrop {
+        display: block
+      }
+
+      body {
+        padding-bottom: 110px
+      }
     }
   </style>
 </head>
 
 <body>
 
-<!-- ── HEADER ──────────────────────────────────────── -->
-<header>
-  <div class="top">
-    <div class="brand">Dranvi <small>EdgeGuard · Prompter</small></div>
+  <!-- ── HEADER ──────────────────────────────────────── -->
+  <header>
+    <div class="top">
+      <div class="brand">Dranvi <small>EdgeGuard · Prompter</small></div>
 
-    <div class="controls">
-      <div class="ctl">
-        <label for="bionic">Bionic</label>
-        <input id="bionic" type="range" min="0" max="6" step="1" value="3" />
-        <span id="bionicVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">3</span>
+      <div class="controls">
+        <div class="ctl">
+          <label for="bionic">Bionic</label>
+          <input id="bionic" type="range" min="0" max="6" step="1" value="3" />
+          <span id="bionicVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">3</span>
+        </div>
+
+        <div class="ctl">
+          <label for="fontSize">글자</label>
+          <input id="fontSize" type="range" min="16" max="34" step="1" value="22" />
+          <span id="fontVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">22</span>
+        </div>
+
+        <div class="ctl">
+          <label for="lineHeight">줄간</label>
+          <input id="lineHeight" type="range" min="1.35" max="2.20" step="0.05" value="1.75" />
+          <span id="lineVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">1.75</span>
+        </div>
+
+        <button id="voiceScrollBtn">🎙 말하면 스크롤</button>
+        <button id="autoScrollBtn">▶ 자동스크롤</button>
+        <button id="copyBtn">현재만 복사</button>
       </div>
+    </div>
+  </header>
 
-      <div class="ctl">
-        <label for="fontSize">글자</label>
-        <input id="fontSize" type="range" min="16" max="34" step="1" value="22" />
-        <span id="fontVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">22</span>
+  <!-- ── MAIN ──────────────────────────────────────────── -->
+  <div class="wrap">
+    <aside class="nav" id="nav">
+      <h3>슬라이드</h3>
+      <!-- nav links injected by JS -->
+      <div class="hint">
+        키보드:
+        <span class="kbd">←</span><span class="kbd">→</span> 슬라이드
+        · <span class="kbd">Space</span> 자동스크롤
+        · <span class="kbd">C</span> 복사
+        · <span class="kbd">B</span> Bionic on/off
       </div>
+    </aside>
 
-      <div class="ctl">
-        <label for="lineHeight">줄간</label>
-        <input id="lineHeight" type="range" min="1.35" max="2.20" step="0.05" value="1.75" />
-        <span id="lineVal" style="font-family:var(--mono);font-size:12px;color:var(--muted)">1.75</span>
+    <main class="stage">
+      <div class="meta">
+        <span class="pill" id="idxPill">1 / 15</span>
+        <span class="pill" id="timePill">0:00–0:25</span>
+        <span class="pill">EdgeGuard Pitch</span>
       </div>
+      <h1 id="slideTitle">1p. 표지</h1>
+      <p id="text" class="text"></p>
+    </main>
+  </div>
 
-      <button id="voiceScrollBtn">🎙 말하면 스크롤</button>
-      <button id="autoScrollBtn">▶ 자동스크롤</button>
-      <button id="copyBtn">현재만 복사</button>
+  <!-- ── PROGRESS BAR ────────────────────────────────── -->
+  <div class="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <!-- ── MOBILE BOTTOM NAV ──────────────────────────── -->
+  <div class="bottom-nav">
+    <div class="row">
+      <button id="prevBtn">← 이전</button>
+      <button id="playBtn">▶ 자동스크롤</button>
+      <button id="nextBtn">다음 →</button>
+      <button id="tocBtn">📋 목차</button>
     </div>
   </div>
-</header>
 
-<!-- ── MAIN ──────────────────────────────────────────── -->
-<div class="wrap">
-  <aside class="nav" id="nav">
-    <h3>슬라이드</h3>
-    <!-- nav links injected by JS -->
-    <div class="hint">
-      키보드:
-      <span class="kbd">←</span><span class="kbd">→</span> 슬라이드
-      · <span class="kbd">Space</span> 자동스크롤
-      · <span class="kbd">C</span> 복사
-      · <span class="kbd">B</span> Bionic on/off
+  <!-- ── TOC DRAWER (모바일 전용) ──────────────────── -->
+  <div class="toc-backdrop" id="tocBackdrop"></div>
+  <div class="toc-drawer" id="tocDrawer">
+    <div class="toc-handle">
+      <span class="toc-title">슬라이드 목차</span>
+      <div class="toc-handle-bar"></div>
+      <button class="toc-close" id="tocClose" aria-label="닫기">✕</button>
     </div>
-  </aside>
-
-  <main class="stage">
-    <div class="meta">
-      <span class="pill" id="idxPill">1 / 15</span>
-      <span class="pill" id="timePill">0:00–0:25</span>
-      <span class="pill">EdgeGuard Pitch</span>
+    <div class="toc-list" id="tocList">
+      <!-- drawer links injected by JS -->
     </div>
-    <h1 id="slideTitle">1p. 표지</h1>
-    <p id="text" class="text"></p>
-  </main>
-</div>
-
-<!-- ── PROGRESS BAR ────────────────────────────────── -->
-<div class="progress"><div class="bar" id="bar"></div></div>
-
-<!-- ── MOBILE BOTTOM NAV ──────────────────────────── -->
-<div class="bottom-nav">
-  <div class="row">
-    <button id="prevBtn">← 이전</button>
-    <button id="playBtn">▶ 자동스크롤</button>
-    <button id="nextBtn">다음 →</button>
   </div>
-</div>
 
-<!-- ====================================================
+  <!-- ====================================================
      SCRIPT  (모든 DOM이 렌더된 뒤에 실행)
      ==================================================== -->
-<script>
-'use strict';
+  <script>
+    'use strict';
 
-// ===================================================
-// 1) 슬라이드 데이터
-// ===================================================
-const slides = [
-  { id:"p1",  title:"1p. 표지",          time:"0:00–0:25",  text:`안녕하세요. AI와 인간의 공존을 설계하는 Dranvi의 박지윤입니다.
+    // ===================================================
+    // 1) 슬라이드 데이터
+    // ===================================================
+    const slides = [
+      {
+        id: "p1", title: "1p. 표지", time: "0:00–0:25", text: `안녕하세요. AI와 인간의 공존을 설계하는 Dranvi의 박지윤입니다.
 
 저희가 소개할 제품은 EdgeGuard입니다.
 EdgeGuard는 실행 중인 시스템을 멈추기 전에, 내부 상태를 감지해서 즉시 개입하는 '런타임 안전 제어 레이어'입니다.
 AI부터 시작해서 드론, 로봇, 산업장비, 데이터센터처럼 실시간 시스템 전반에 적용하는 플랫폼을 만들고 있습니다.`},
 
-  { id:"p2",  title:"2p. 목차",          time:"0:25–0:40",  text:`오늘은 문제 → 솔루션 → 시장/전략 → 경쟁우위 → 비즈니스모델 → 기술/검증 → 로드맵/팀 순서로,
+      {
+        id: "p2", title: "2p. 목차", time: "0:25–0:40", text: `오늘은 문제 → 솔루션 → 시장/전략 → 경쟁우위 → 비즈니스모델 → 기술/검증 → 로드맵/팀 순서로,
 "왜 지금 EdgeGuard가 필요한지"를 10분 안에 설명드리겠습니다.`},
 
-  { id:"p3",  title:"3p. 문제 인식",      time:"0:40–1:45",  text:`현장에서는 드론, 로봇, 산업장비 같은 실시간 시스템에서 문제가 자주 생깁니다.
+      {
+        id: "p3", title: "3p. 문제 인식", time: "0:40–1:45", text: `현장에서는 드론, 로봇, 산업장비 같은 실시간 시스템에서 문제가 자주 생깁니다.
 특히 추론/제어가 돌아가는 '실행 중'에 연산이 순간적으로 폭주하거나 지연이 발생하면,
 오작동 → 안전사고 → 운영 중단 → 법적·금전적 리스크로 커집니다.
 
@@ -334,7 +566,8 @@ AI부터 시작해서 드론, 로봇, 산업장비, 데이터센터처럼 실시
 하지만 실행 중에 소프트웨어로 즉시 개입하는 '중간 레이어'는 비어 있습니다.
 EdgeGuard는 이 빈칸을 메우려는 솔루션입니다.`},
 
-  { id:"p4",  title:"4p. 솔루션(만화)",   time:"1:45–2:30",  text:`(그림 가리키면서) 이 슬라이드가 제일 직관적입니다.
+      {
+        id: "p4", title: "4p. 솔루션(만화)", time: "1:45–2:30", text: `(그림 가리키면서) 이 슬라이드가 제일 직관적입니다.
 
 기존 AI는 출력 결과를 사후에 검사하는 방식입니다.
 EdgeGuard는 추론이 생성되는 실행 중 내부 상태를 실시간으로 감지합니다.
@@ -344,7 +577,8 @@ EdgeGuard는 추론이 생성되는 실행 중 내부 상태를 실시간으로 
 그리고 중요한 점은, 모델을 바꾸거나 하드웨어를 증설하지 않아도
 기존 시스템 위에 소프트웨어 레이어로 얹어서 적용할 수 있다는 점입니다.`},
 
-  { id:"p5",  title:"5p. 솔루션 구조",    time:"2:30–3:35",  text:`EdgeGuard는 4단계로 동작합니다.
+      {
+        id: "p5", title: "5p. 솔루션 구조", time: "2:30–3:35", text: `EdgeGuard는 4단계로 동작합니다.
 
 첫째, 모니터링: 실행 중 내부 상태·자원·출력 패턴을 스트리밍으로 봅니다.
 둘째, 감지: 이상징후, 불안정 패턴, 유해 신호를 실시간 탐지합니다.
@@ -354,12 +588,14 @@ EdgeGuard는 추론이 생성되는 실행 중 내부 상태를 실시간으로 
 여기서 저희가 강조하는 건 "사후"가 아니라 During, 실행 중 제어라는 점입니다.
 그리고 개입은 단순 차단이 아니라, 지연과 시스템 부담을 최소화하는 방식으로 설계돼 있습니다.`},
 
-  { id:"p6",  title:"6p. 데모/화면",      time:"3:35–4:15",  text:`(화면 보여주며) 현재는 PoC 형태로 실시간 모니터링과 개입 데모를 만들어 검증했습니다.
+      {
+        id: "p6", title: "6p. 데모/화면", time: "3:35–4:15", text: `(화면 보여주며) 현재는 PoC 형태로 실시간 모니터링과 개입 데모를 만들어 검증했습니다.
 정상일 때는 관찰만 하다가, 위험 신호가 뜨면 즉시 정책이 발동되어 시스템을 안전하게 되돌리는 흐름입니다.
 
 즉, "알림만 띄우는 관제"가 아니라 실행 중에 개입하는 제어 레이어라는 점이 핵심입니다.`},
 
-  { id:"p7",  title:"7p. 시장 + 그린",    time:"4:15–5:25",  text:`시장 접근은 두 갈래로 설명드리겠습니다.
+      {
+        id: "p7", title: "7p. 시장 + 그린", time: "4:15–5:25", text: `시장 접근은 두 갈래로 설명드리겠습니다.
 
 전체 실시간 시스템이 큰 시장이고, 그 안에 AI 시스템이 있고,
 저희가 당장 잡는 공략 시장은 (1) AI 데이터센터 전력 최적화, (2) 초기 드론·로봇입니다.
@@ -372,7 +608,8 @@ EdgeGuard는 실행 중 폭주를 조기에 눌러서 전력 피크(상위 1% �
 이 피크 감소를 기준으로 냉각 부담 감소까지 포함한 탄소 절감 효과를 정량화할 수 있습니다.
 또한 그 과정이 로그로 남기 때문에 "감축을 주장하는 것"이 아니라 증빙 가능한 숫자로 가져갈 수 있습니다.`},
 
-  { id:"p8",  title:"8p. 시장전략/트랙션", time:"5:25–6:25",  text:`저희는 드론·로봇부터 시작해서 전체 시스템으로 확장합니다.
+      {
+        id: "p8", title: "8p. 시장전략/트랙션", time: "5:25–6:25", text: `저희는 드론·로봇부터 시작해서 전체 시스템으로 확장합니다.
 
 드론·로봇이 먼저인 이유는 3가지입니다.
 
@@ -384,7 +621,8 @@ EdgeGuard는 실행 중 폭주를 조기에 눌러서 전력 피크(상위 1% �
 유상 PoC 계약을 진행 중이며, 협력도 MOU 형태로 추진하고 있습니다.
 이후에는 LLM API 게이트웨이 형태의 안전 레이어로 확장하고, 장기적으로 엔터프라이즈 전반으로 스케일합니다.`},
 
-  { id:"p9",  title:"9p. 경쟁우위",       time:"6:25–7:10",  text:`경쟁 대안은 보통
+      {
+        id: "p9", title: "9p. 경쟁우위", time: "6:25–7:10", text: `경쟁 대안은 보통
 AI 보안 솔루션(사후 탐지/차단 중심),
 하드웨어 안전(물리적 차단 중심)
 이렇게 나뉩니다.
@@ -395,7 +633,8 @@ EdgeGuard의 차별점은 명확합니다.
 하드웨어 증설 없이 빠르게 적용 가능합니다.
 또한 실행 로그 기반으로 규제 대응까지 한 번에 설계돼 있습니다.`},
 
-  { id:"p10", title:"10p. 비즈니스 모델", time:"7:10–7:55",  text:`수익 모델은 3단계입니다.
+      {
+        id: "p10", title: "10p. 비즈니스 모델", time: "7:10–7:55", text: `수익 모델은 3단계입니다.
 
 디바이스 라이선스: 드론·로봇·산업장비 OEM 대상으로 디바이스 단위 라이선스와 유지보수
 구독형: 클라우드/엔터프라이즈 대상으로 사용량 기반 또는 월정액
@@ -404,7 +643,8 @@ EdgeGuard의 차별점은 명확합니다.
 즉, 초기에는 현장 디바이스에서 빠르게 매출을 만들고,
 반복 매출 구조로 넘어가서, 플랫폼으로 확장하는 전략입니다.`},
 
-  { id:"p11", title:"11p. 기술역량/특허", time:"7:55–8:35",  text:`기술적으로는 미국 임시특허 4건을 기반으로 하고 있습니다.
+      {
+        id: "p11", title: "11p. 기술역량/특허", time: "7:55–8:35", text: `기술적으로는 미국 임시특허 4건을 기반으로 하고 있습니다.
 핵심은
 
 시간 패턴 기반 안정 제어,
@@ -413,359 +653,432 @@ EdgeGuard의 차별점은 명확합니다.
 
 지금은 Python 기반 PoC와 데모로 "실행 중 개입"을 검증했고, 실환경 적용 가능성을 확장하는 단계입니다.`},
 
-  { id:"p12", title:"12p. 실행계획/로드맵", time:"8:35–9:05", text:`2026년은 상반기에 기술 고도화와 PoC 확대,
+      {
+        id: "p12", title: "12p. 실행계획/로드맵", time: "8:35–9:05", text: `2026년은 상반기에 기술 고도화와 PoC 확대,
 하반기에 제품화 개발 전환, 실증 확대, 첫 상용 계약이 목표입니다.
 2027년에는 클라우드 진입, 5명 조직, ARR 2억 원 이상을 목표로 잡았습니다.`},
 
-  { id:"p13", title:"13p. 팀",            time:"9:05–9:35",  text:`팀은 실시간 시스템을 실제로 만들어 본 사람들로 구성돼 있습니다.
+      {
+        id: "p13", title: "13p. 팀", time: "9:05–9:35", text: `팀은 실시간 시스템을 실제로 만들어 본 사람들로 구성돼 있습니다.
 저는 시스템/임베디드/플랫폼 개발 경험을 기반으로 제품과 사업을 총괄하고,
 CTO는 임베디드 시스템과 대규모 실시간 제어 운영 경험으로 런타임 제어 구조와 실기기 테스트를 총괄합니다.
 이미 함께 프로젝트를 수행해온 협업 이력도 있습니다.`},
 
-  { id:"p14", title:"14p. 협력 네트워크", time:"9:35–9:50",  text:`협력은 기술 검증과 상용화를 동시에 밀기 위해
+      {
+        id: "p14", title: "14p. 협력 네트워크", time: "9:35–9:50", text: `협력은 기술 검증과 상용화를 동시에 밀기 위해
 NVIDIA 생태계, 교육/멘토링, 대학 연구실 자문, 드론/UAM 실증 환경, 테스트 프레임, OEM 협력으로 구성하고 있습니다.`},
 
-  { id:"p15", title:"15p. 제안/정리",     time:"9:50–10:00", text:`마지막으로 정리하겠습니다.
+      {
+        id: "p15", title: "15p. 제안/정리", time: "9:50–10:00", text: `마지막으로 정리하겠습니다.
 EdgeGuard는 실행 중 제어라는 시장의 빈칸을 채우는 런타임 안전 레이어입니다.
 규제 강화 타이밍에 맞춘 시장 기회, 특허 기반 기술 장벽, 소프트웨어 레이어라서 낮은 도입 장벽,
 그리고 전력 피크 억제를 통해 냉각 부담과 탄소까지 줄이는 효과로 연결됩니다.
 
 저희는 지금 실증 확대와 제품 고도화를 함께할 파트너십과 지원을 요청드립니다. 감사합니다.`},
-];
+    ];
 
-// ===================================================
-// 2) 유틸 — HTML 이스케이프
-// ===================================================
-function escapeHtml(str){
-  return str
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
-
-// ===================================================
-// 3) Bionic Reading (한글/영문 겸용)
-//    level 0 = off, 1~6 = 전방 굵기 비율 점진 증가
-// ===================================================
-function bionicify(text, level){
-  if(!level) return escapeHtml(text);
-
-  const ratios = [0, .25, .33, .4, .5, .6, .7];
-  const r = ratios[Math.min(level, 6)] || .4;
-
-  // 공백을 포함한 토큰으로 분리
-  const tokens = text.split(/(\s+)/);
-
-  return tokens.map(tok => {
-    // 공백은 그대로
-    if(/^\s+$/.test(tok)) return tok;
-
-    // 앞뒤 구두점 분리 (한글 포함 환경 대응)
-    const m = tok.match(/^(["""'''"'(\[{<]*)([\s\S]*?)(["""''')\]}>.,!?…:;]*)$/);
-    const pre  = m ? m[1] : '';
-    const core = m ? m[2] : tok;
-    const post = m ? m[3] : '';
-
-    // 구두점만인 경우
-    if(!core.length) return escapeHtml(tok);
-
-    const n = core.length;
-    if(n <= 1) return escapeHtml(pre + core + post);
-
-    // 글자 수(유니코드 기준) 앞부분 굵게
-    const k = Math.max(1, Math.min(n - 1, Math.round(n * r)));
-    const head = escapeHtml(core.slice(0, k));
-    const tail = escapeHtml(core.slice(k));
-
-    return `${escapeHtml(pre)}<strong>${head}</strong>${tail}${escapeHtml(post)}`;
-  }).join('');
-}
-
-// ===================================================
-// 4) 상태 변수
-// ===================================================
-let currentIdx   = 0;
-let bionicLevel  = 3;
-let bionicOn     = true;
-let scrolling    = false;
-let rafId        = null;
-let scrollSpeed  = 0.45;   // px/frame
-
-// ===================================================
-// 5) DOM 참조
-// ===================================================
-const titleEl   = document.getElementById('slideTitle');
-const textEl    = document.getElementById('text');
-const idxPill   = document.getElementById('idxPill');
-const timePill  = document.getElementById('timePill');
-const barEl     = document.getElementById('bar');
-const navEl     = document.getElementById('nav');
-const autoBtn   = document.getElementById('autoScrollBtn');
-const playBtn   = document.getElementById('playBtn');
-const prevBtn   = document.getElementById('prevBtn');
-const nextBtn   = document.getElementById('nextBtn');
-
-// ===================================================
-// 6) 렌더
-// ===================================================
-function render(){
-  const s = slides[currentIdx];
-
-  titleEl.textContent = s.title;
-  idxPill.textContent = `${currentIdx + 1} / ${slides.length}`;
-  timePill.textContent = s.time;
-  barEl.style.width = `${((currentIdx + 1) / slides.length) * 100}%`;
-
-  const level = bionicOn ? bionicLevel : 0;
-  textEl.classList.toggle('bionic', level > 0);
-  textEl.innerHTML = bionicify(s.text, level);
-
-  // 사이드바 active 표시
-  document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
-  const activeA = document.querySelector(`.nav a[data-idx="${currentIdx}"]`);
-  if(activeA){
-    activeA.classList.add('active');
-    // 사이드바가 스크롤 가능할 경우 활성 항목으로 스크롤
-    activeA.scrollIntoView({ block:'nearest', behavior:'smooth' });
-  }
-
-  // 페이지 상단으로
-  window.scrollTo({ top: 0, behavior: 'instant' });
-}
-
-// ===================================================
-// 7) 네비게이션
-// ===================================================
-function goTo(i){
-  if(i < 0 || i >= slides.length) return;
-  currentIdx = i;
-  render();
-}
-
-function next(){ goTo(currentIdx + 1); }
-function prev(){ goTo(currentIdx - 1); }
-
-// ===================================================
-// 8) 자동 스크롤
-//    ※ let 으로 선언해야 나중에 재할당 가능
-// ===================================================
-function startAutoScroll(){
-  if(scrolling) return;
-  scrolling = true;
-  autoBtn.textContent = '⏸ 자동스크롤';
-  if(playBtn) playBtn.textContent = '⏸ 멈춤';
-
-  const tick = () => {
-    window.scrollBy(0, scrollSpeed);
-    rafId = requestAnimationFrame(tick);
-  };
-  rafId = requestAnimationFrame(tick);
-}
-
-function stopAutoScroll(){
-  if(!scrolling) return;
-  scrolling = false;
-  autoBtn.textContent = '▶ 자동스크롤';
-  if(playBtn) playBtn.textContent = '▶ 자동스크롤';
-  if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
-}
-
-function toggleAutoScroll(){
-  scrolling ? stopAutoScroll() : startAutoScroll();
-}
-
-// ===================================================
-// 9) 사이드바 네비 빌드
-// ===================================================
-function buildNav(){
-  const hint = navEl.querySelector('.hint');
-  slides.forEach((s, i) => {
-    const a = document.createElement('a');
-    a.href = '#';
-    a.textContent = `${s.title} · ${s.time}`;
-    a.dataset.idx = i;
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      stopAutoScroll();
-      goTo(i);
-    });
-    navEl.insertBefore(a, hint);
-  });
-}
-
-// ===================================================
-// 10) 현재 슬라이드 복사
-// ===================================================
-async function copyCurrent(){
-  const s = slides[currentIdx];
-  const out = `【${s.title} ${s.time}】\n${s.text}\n`;
-  try{
-    await navigator.clipboard.writeText(out);
-    alert('현재 슬라이드를 복사했어!');
-  }catch(e){
-    // fallback
-    const ta = document.createElement('textarea');
-    ta.value = out;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    ta.remove();
-    alert('현재 슬라이드를 복사했어!');
-  }
-}
-
-// ===================================================
-// 11) UI 이벤트 바인딩
-// ===================================================
-
-// 자동스크롤 버튼 (헤더)
-autoBtn.addEventListener('click', toggleAutoScroll);
-
-// 모바일 하단 버튼
-if(prevBtn) prevBtn.addEventListener('click', () => { stopAutoScroll(); prev(); });
-if(nextBtn) nextBtn.addEventListener('click', () => { stopAutoScroll(); next(); });
-if(playBtn) playBtn.addEventListener('click', toggleAutoScroll);
-
-// 복사
-document.getElementById('copyBtn').addEventListener('click', copyCurrent);
-
-// Bionic 슬라이더
-const bionicSlider = document.getElementById('bionic');
-const bionicValEl  = document.getElementById('bionicVal');
-bionicSlider.addEventListener('input', () => {
-  bionicLevel = parseInt(bionicSlider.value, 10);
-  bionicValEl.textContent = bionicLevel;
-  render();
-});
-
-// 글자 크기 슬라이더
-const fontSlider = document.getElementById('fontSize');
-const fontValEl  = document.getElementById('fontVal');
-fontSlider.addEventListener('input', () => {
-  const v = parseInt(fontSlider.value, 10);
-  fontValEl.textContent = v;
-  textEl.style.fontSize = v + 'px';
-});
-
-// 줄간격 슬라이더
-const lineSlider = document.getElementById('lineHeight');
-const lineValEl  = document.getElementById('lineVal');
-lineSlider.addEventListener('input', () => {
-  const v = parseFloat(lineSlider.value);
-  lineValEl.textContent = v.toFixed(2);
-  textEl.style.lineHeight = v;
-});
-
-// 키보드 단축키
-window.addEventListener('keydown', (e) => {
-  if(e.key === 'ArrowRight'){ e.preventDefault(); stopAutoScroll(); next(); }
-  if(e.key === 'ArrowLeft' ){ e.preventDefault(); stopAutoScroll(); prev(); }
-  if(e.code === 'Space'    ){ e.preventDefault(); toggleAutoScroll(); }
-  if(e.key.toLowerCase() === 'c'){ copyCurrent(); }
-  if(e.key.toLowerCase() === 'b'){ bionicOn = !bionicOn; render(); }
-}, { passive: false });
-
-// ===================================================
-// 12) 음성 감지 스크롤
-// ===================================================
-let voiceMode  = false;
-let audioCtx   = null;
-let analyser   = null;
-let micStream  = null;
-let voiceRafId = null;
-
-const voiceBtn = document.getElementById('voiceScrollBtn');
-
-function rmsFromTimeDomain(data){
-  let sum = 0;
-  for(let i = 0; i < data.length; i++){
-    const v = (data[i] - 128) / 128;
-    sum += v * v;
-  }
-  return Math.sqrt(sum / data.length);
-}
-
-async function startVoiceScroll(){
-  if(voiceMode) return;
-  voiceMode = true;
-  voiceBtn.textContent = '🎙 음성 감지중…(끄기)';
-  voiceBtn.style.borderColor = 'rgba(59,130,246,.55)';
-
-  try{
-    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
-    const source = audioCtx.createMediaStreamSource(micStream);
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 1024;
-    source.connect(analyser);
-
-    const data = new Uint8Array(analyser.fftSize);
-
-    // 1초간 주변 소음 기준선 측정
-    let baseline = 0, samples = 0;
-    const t0 = performance.now();
-    while(performance.now() - t0 < 1000){
-      analyser.getByteTimeDomainData(data);
-      baseline += rmsFromTimeDomain(data);
-      samples++;
-      await new Promise(r => setTimeout(r, 30));
+    // ===================================================
+    // 2) 유틸 — HTML 이스케이프
+    // ===================================================
+    function escapeHtml(str) {
+      return str
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
     }
-    baseline /= Math.max(1, samples);
-    const threshold = baseline + 0.03;
 
-    let speaking    = false;
-    let lastVoiceAt = 0;
+    // ===================================================
+    // 3) Bionic Reading (한글/영문 겸용)
+    //    level 0 = off, 1~6 = 전방 굵기 비율 점진 증가
+    // ===================================================
+    function bionicify(text, level) {
+      if (!level) return escapeHtml(text);
 
-    const loop = () => {
-      if(!voiceMode) return;
-      analyser.getByteTimeDomainData(data);
-      const rms = rmsFromTimeDomain(data);
-      const now = performance.now();
+      const ratios = [0, .25, .33, .4, .5, .6, .7];
+      const r = ratios[Math.min(level, 6)] || .4;
 
-      if(rms > threshold){
-        lastVoiceAt = now;
-        if(!speaking){ speaking = true; startAutoScroll(); }
-      } else {
-        if(speaking && (now - lastVoiceAt) > 250){
-          speaking = false;
-          stopAutoScroll();
-        }
+      // 공백을 포함한 토큰으로 분리
+      const tokens = text.split(/(\s+)/);
+
+      return tokens.map(tok => {
+        // 공백은 그대로
+        if (/^\s+$/.test(tok)) return tok;
+
+        // 앞뒤 구두점 분리 (한글 포함 환경 대응)
+        const m = tok.match(/^(["""'''"'(\[{<]*)([\s\S]*?)(["""''')\]}>.,!?…:;]*)$/);
+        const pre = m ? m[1] : '';
+        const core = m ? m[2] : tok;
+        const post = m ? m[3] : '';
+
+        // 구두점만인 경우
+        if (!core.length) return escapeHtml(tok);
+
+        const n = core.length;
+        if (n <= 1) return escapeHtml(pre + core + post);
+
+        // 글자 수(유니코드 기준) 앞부분 굵게
+        const k = Math.max(1, Math.min(n - 1, Math.round(n * r)));
+        const head = escapeHtml(core.slice(0, k));
+        const tail = escapeHtml(core.slice(k));
+
+        return `${escapeHtml(pre)}<strong>${head}</strong>${tail}${escapeHtml(post)}`;
+      }).join('');
+    }
+
+    // ===================================================
+    // 4) 상태 변수
+    // ===================================================
+    let currentIdx = 0;
+    let bionicLevel = 3;
+    let bionicOn = true;
+    let scrolling = false;
+    let rafId = null;
+    let scrollSpeed = 0.45;   // px/frame
+
+    // ===================================================
+    // 5) DOM 참조
+    // ===================================================
+    const titleEl = document.getElementById('slideTitle');
+    const textEl = document.getElementById('text');
+    const idxPill = document.getElementById('idxPill');
+    const timePill = document.getElementById('timePill');
+    const barEl = document.getElementById('bar');
+    const navEl = document.getElementById('nav');
+    const autoBtn = document.getElementById('autoScrollBtn');
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // ===================================================
+    // 6) 렌더
+    // ===================================================
+    function render() {
+      const s = slides[currentIdx];
+
+      titleEl.textContent = s.title;
+      idxPill.textContent = `${currentIdx + 1} / ${slides.length}`;
+      timePill.textContent = s.time;
+      barEl.style.width = `${((currentIdx + 1) / slides.length) * 100}%`;
+
+      const level = bionicOn ? bionicLevel : 0;
+      textEl.classList.toggle('bionic', level > 0);
+      textEl.innerHTML = bionicify(s.text, level);
+
+      // 데스크탑 사이드바 active 표시
+      document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+      const activeA = document.querySelector(`.nav a[data-idx="${currentIdx}"]`);
+      if (activeA) {
+        activeA.classList.add('active');
+        activeA.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
-      voiceRafId = requestAnimationFrame(loop);
-    };
-    voiceRafId = requestAnimationFrame(loop);
 
-  }catch(err){
-    voiceMode = false;
-    voiceBtn.textContent = '🎙 말하면 스크롤';
-    voiceBtn.style.borderColor = '';
-    alert('마이크 권한이 필요해! 브라우저에서 마이크 허용 후 다시 눌러줘.');
-  }
-}
+      // 모바일 TOC 드로어 active 동기화 (buildNav 이후에만)
+      if (document.getElementById('tocList').children.length) syncTocActive();
 
-function stopVoiceScroll(){
-  voiceMode = false;
-  voiceBtn.textContent = '🎙 말하면 스크롤';
-  voiceBtn.style.borderColor = '';
-  stopAutoScroll();
+      // 페이지 상단으로
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
 
-  if(voiceRafId){ cancelAnimationFrame(voiceRafId); voiceRafId = null; }
-  if(micStream ){ micStream.getTracks().forEach(t => t.stop()); micStream = null; }
-  if(audioCtx  ){ audioCtx.close(); audioCtx = null; }
-  analyser = null;
-}
+    // ===================================================
+    // 7) 네비게이션
+    // ===================================================
+    function goTo(i) {
+      if (i < 0 || i >= slides.length) return;
+      currentIdx = i;
+      render();
+    }
 
-voiceBtn.addEventListener('click', () => {
-  voiceMode ? stopVoiceScroll() : startVoiceScroll();
-});
+    function next() { goTo(currentIdx + 1); }
+    function prev() { goTo(currentIdx - 1); }
 
-// ===================================================
-// 13) 초기화
-// ===================================================
-buildNav();
-render();
-</script>
+    // ===================================================
+    // 8) 자동 스크롤
+    //    ※ let 으로 선언해야 나중에 재할당 가능
+    // ===================================================
+    function startAutoScroll() {
+      if (scrolling) return;
+      scrolling = true;
+      autoBtn.textContent = '⏸ 자동스크롤';
+      if (playBtn) playBtn.textContent = '⏸ 멈춤';
+
+      const tick = () => {
+        window.scrollBy(0, scrollSpeed);
+        rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function stopAutoScroll() {
+      if (!scrolling) return;
+      scrolling = false;
+      autoBtn.textContent = '▶ 자동스크롤';
+      if (playBtn) playBtn.textContent = '▶ 자동스크롤';
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    function toggleAutoScroll() {
+      scrolling ? stopAutoScroll() : startAutoScroll();
+    }
+
+    // ===================================================
+    // 9) 사이드바 네비 빌드 + TOC 드로어 빌드
+    // ===================================================
+    function buildNav() {
+      // ── 데스크탑 사이드바 ──
+      const hint = navEl.querySelector('.hint');
+      slides.forEach((s, i) => {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = `${s.title} · ${s.time}`;
+        a.dataset.idx = i;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          stopAutoScroll();
+          goTo(i);
+        });
+        navEl.insertBefore(a, hint);
+      });
+
+      // ── 모바일 TOC 드로어 ──
+      const tocList = document.getElementById('tocList');
+      slides.forEach((s, i) => {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.dataset.tocIdx = i;
+
+        const numEl = document.createElement('span');
+        numEl.className = 'toc-num';
+        numEl.textContent = String(i + 1).padStart(2, '0');
+
+        const titleEl2 = document.createElement('span');
+        titleEl2.textContent = s.title;
+
+        const timeEl = document.createElement('span');
+        timeEl.className = 'toc-time';
+        timeEl.textContent = s.time;
+
+        a.appendChild(numEl);
+        a.appendChild(titleEl2);
+        a.appendChild(timeEl);
+
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          stopAutoScroll();
+          goTo(i);
+          closeToc();
+        });
+        tocList.appendChild(a);
+      });
+    }
+
+    // ===================================================
+    // 9b) TOC 드로어 열기 / 닫기
+    // ===================================================
+    const tocBackdrop = document.getElementById('tocBackdrop');
+    const tocDrawer = document.getElementById('tocDrawer');
+    const tocClose = document.getElementById('tocClose');
+    const tocBtn = document.getElementById('tocBtn');
+
+    function openToc() {
+      tocBackdrop.classList.add('open');
+      tocDrawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      // 현재 활성 슬라이드로 드로어 스크롤
+      const activeLink = tocDrawer.querySelector(`a[data-toc-idx="${currentIdx}"]`);
+      if (activeLink) setTimeout(() => activeLink.scrollIntoView({ block: 'center' }), 310);
+    }
+
+    function closeToc() {
+      tocBackdrop.classList.remove('open');
+      tocDrawer.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // active 표시 동기화
+    function syncTocActive() {
+      document.querySelectorAll('#tocList a').forEach(a => {
+        a.classList.toggle('active', parseInt(a.dataset.tocIdx) === currentIdx);
+      });
+    }
+
+    if (tocBtn) tocBtn.addEventListener('click', openToc);
+    if (tocClose) tocClose.addEventListener('click', closeToc);
+    if (tocBackdrop) tocBackdrop.addEventListener('click', closeToc);
+
+    // ===================================================
+    // 10) 현재 슬라이드 복사
+    // ===================================================
+    async function copyCurrent() {
+      const s = slides[currentIdx];
+      const out = `【${s.title} ${s.time}】\n${s.text}\n`;
+      try {
+        await navigator.clipboard.writeText(out);
+        alert('현재 슬라이드를 복사했어!');
+      } catch (e) {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = out;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        alert('현재 슬라이드를 복사했어!');
+      }
+    }
+
+    // ===================================================
+    // 11) UI 이벤트 바인딩
+    // ===================================================
+
+    // 자동스크롤 버튼 (헤더)
+    autoBtn.addEventListener('click', toggleAutoScroll);
+
+    // 모바일 하단 버튼
+    if (prevBtn) prevBtn.addEventListener('click', () => { stopAutoScroll(); prev(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { stopAutoScroll(); next(); });
+    if (playBtn) playBtn.addEventListener('click', toggleAutoScroll);
+
+    // 복사
+    document.getElementById('copyBtn').addEventListener('click', copyCurrent);
+
+    // Bionic 슬라이더
+    const bionicSlider = document.getElementById('bionic');
+    const bionicValEl = document.getElementById('bionicVal');
+    bionicSlider.addEventListener('input', () => {
+      bionicLevel = parseInt(bionicSlider.value, 10);
+      bionicValEl.textContent = bionicLevel;
+      render();
+    });
+
+    // 글자 크기 슬라이더
+    const fontSlider = document.getElementById('fontSize');
+    const fontValEl = document.getElementById('fontVal');
+    fontSlider.addEventListener('input', () => {
+      const v = parseInt(fontSlider.value, 10);
+      fontValEl.textContent = v;
+      textEl.style.fontSize = v + 'px';
+    });
+
+    // 줄간격 슬라이더
+    const lineSlider = document.getElementById('lineHeight');
+    const lineValEl = document.getElementById('lineVal');
+    lineSlider.addEventListener('input', () => {
+      const v = parseFloat(lineSlider.value);
+      lineValEl.textContent = v.toFixed(2);
+      textEl.style.lineHeight = v;
+    });
+
+    // 키보드 단축키
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); stopAutoScroll(); next(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); stopAutoScroll(); prev(); }
+      if (e.code === 'Space') { e.preventDefault(); toggleAutoScroll(); }
+      if (e.key.toLowerCase() === 'c') { copyCurrent(); }
+      if (e.key.toLowerCase() === 'b') { bionicOn = !bionicOn; render(); }
+    }, { passive: false });
+
+    // ===================================================
+    // 12) 음성 감지 스크롤
+    // ===================================================
+    let voiceMode = false;
+    let audioCtx = null;
+    let analyser = null;
+    let micStream = null;
+    let voiceRafId = null;
+
+    const voiceBtn = document.getElementById('voiceScrollBtn');
+
+    function rmsFromTimeDomain(data) {
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) {
+        const v = (data[i] - 128) / 128;
+        sum += v * v;
+      }
+      return Math.sqrt(sum / data.length);
+    }
+
+    async function startVoiceScroll() {
+      if (voiceMode) return;
+      voiceMode = true;
+      voiceBtn.textContent = '🎙 음성 감지중…(끄기)';
+      voiceBtn.style.borderColor = 'rgba(59,130,246,.55)';
+
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaStreamSource(micStream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 1024;
+        source.connect(analyser);
+
+        const data = new Uint8Array(analyser.fftSize);
+
+        // 1초간 주변 소음 기준선 측정
+        let baseline = 0, samples = 0;
+        const t0 = performance.now();
+        while (performance.now() - t0 < 1000) {
+          analyser.getByteTimeDomainData(data);
+          baseline += rmsFromTimeDomain(data);
+          samples++;
+          await new Promise(r => setTimeout(r, 30));
+        }
+        baseline /= Math.max(1, samples);
+        const threshold = baseline + 0.03;
+
+        let speaking = false;
+        let lastVoiceAt = 0;
+
+        const loop = () => {
+          if (!voiceMode) return;
+          analyser.getByteTimeDomainData(data);
+          const rms = rmsFromTimeDomain(data);
+          const now = performance.now();
+
+          if (rms > threshold) {
+            lastVoiceAt = now;
+            if (!speaking) { speaking = true; startAutoScroll(); }
+          } else {
+            if (speaking && (now - lastVoiceAt) > 250) {
+              speaking = false;
+              stopAutoScroll();
+            }
+          }
+          voiceRafId = requestAnimationFrame(loop);
+        };
+        voiceRafId = requestAnimationFrame(loop);
+
+      } catch (err) {
+        voiceMode = false;
+        voiceBtn.textContent = '🎙 말하면 스크롤';
+        voiceBtn.style.borderColor = '';
+        alert('마이크 권한이 필요해! 브라우저에서 마이크 허용 후 다시 눌러줘.');
+      }
+    }
+
+    function stopVoiceScroll() {
+      voiceMode = false;
+      voiceBtn.textContent = '🎙 말하면 스크롤';
+      voiceBtn.style.borderColor = '';
+      stopAutoScroll();
+
+      if (voiceRafId) { cancelAnimationFrame(voiceRafId); voiceRafId = null; }
+      if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
+      if (audioCtx) { audioCtx.close(); audioCtx = null; }
+      analyser = null;
+    }
+
+    voiceBtn.addEventListener('click', () => {
+      voiceMode ? stopVoiceScroll() : startVoiceScroll();
+    });
+
+    // ===================================================
+    // 13) 초기화
+    // ===================================================
+    buildNav();
+    render();
+  </script>
 </body>
+
 </html>
