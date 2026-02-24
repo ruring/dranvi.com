@@ -1079,6 +1079,46 @@
         padding-bottom: 110px
       }
     }
+
+    /* ── ANCHOR MODE ───────────────────────────── */
+    .anchor-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 10px 2px 0;
+    }
+
+    .anchor-line {
+      font-size: 28px;
+      line-height: 1.35;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .anchor-sub {
+      color: var(--muted);
+      font-size: 14px;
+      font-family: var(--mono);
+    }
+
+    .anchor-bullets {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 22px;
+      line-height: 1.65;
+    }
+
+    .anchor-bullets li {
+      margin: 10px 0;
+    }
+
+    .anchor-hint {
+      border-top: 1px dashed rgba(255, 255, 255, .12);
+      padding-top: 12px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
   </style>
 </head>
 
@@ -1116,6 +1156,7 @@
 
         <button id="voiceScrollBtn">🎙 말하면 스크롤</button>
         <button id="autoScrollBtn">▶ 자동스크롤</button>
+        <button id="anchorBtn" title="스크립트 ↔ 앵커(키워드) 전환">🧠 앵커모드</button>
         <button id="copyBtn">현재만 복사</button>
       </div>
     </div>
@@ -1209,6 +1250,9 @@
           <span id="lineValM" style="font-family:var(--mono);font-size:12px;color:var(--muted)">1.75</span>
         </div>
       </div>
+      <div class="settings-row" style="margin-top:8px;">
+        <button id="anchorBtnM" style="width:100%; padding:14px; font-weight:700;">🧠 앵커모드</button>
+      </div>
     </div>
   </div>
 
@@ -1276,7 +1320,7 @@ EdgeGuard는/ 이 빈칸을 메우는/ 솔루션입니다.`},
         id: "p4", title: "4p. 솔루션(만화)", time: "1:45–2:30", text: `(그림 가리키면서) 다음 슬라이드가 제일 직관적입니다.
 
 기존 AI는/ 출력 결과를/ 사후에 검사하는/ 방식입니다.
-EdgeGuard는/ 추론이 실행되어/ 생성되는 중에/ 내부 상태를/ 실시간으로 감지합니다.
+EdgeGuard는/ 추론이 샐행되어/ 생성되는 중에/ 내부 상태를/ 실시간으로 감지합니다.
 연산이 과열되거나/ 폭주 조짐이 보이면,/ 개입 가능한 경로로/ 즉시 개입해서
 시스템이 멈추거나/ 사고로 번지기 전에/ 안정화합니다.
 
@@ -1312,7 +1356,7 @@ EdgeGuard는/ 추론이 실행되어/ 생성되는 중에/ 내부 상태를/ 실
 데이터센터는/ 서버 전력뿐만 아니라/, 냉각과 운영/ 전력이 같이 사용합니다.
 그리고/ 실제 운영에서는 /"평균"보다 /전력 피크가 튀는 순간이 냉각 부담과 /운영 비용,/ 탄소발생을 키웁니다.
 
-EdgeGuard는/ 실행 중 폭주를 조기에 눌러서/ 전력 상위 1%, 피크 구간을/ 낮추는 방향으로/ 작동하고,
+EdgeGuard는/ 실행 중 폭주를 조기에 눌러서/ 전력 피크 /즉상위 1% 구간을/ 낮추는 방향으로/ 작동하고,
 이 피크 감소를 기준으로/ 냉각화 비용을 포함한/ 탄소 절감 효과를/ 정량화할 수 있습니다.
 또한/ 그 과정이 로그로 남기 때문에/ "감축을 주장하는 것"이 아니라/ 증빙 가능한 숫자로/ 환산할 수 있습니다.`},
 
@@ -1396,6 +1440,34 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
         .replaceAll("'", '&#039;');
     }
 
+    function normalizeScript(text) {
+      // 네 원고의 "/" 발음 구분용 슬래시 제거 + 공백 정리
+      return text.replaceAll('/', ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function splitSentencesKR(text) {
+      // 아주 안전한 문장 분리(완벽하진 않아도 prompter엔 충분)
+      const t = normalizeScript(text);
+      // 줄바꿈 우선 분리 후, 길면 마침표/물음표/느낌표 기준으로 한번 더
+      const chunks = t.split(/\n+/).flatMap(line => line.split(/(?<=[.!?])\s+/));
+      return chunks.map(s => s.trim()).filter(Boolean);
+    }
+
+    function autoAnchorAndBullets(text) {
+      const sents = splitSentencesKR(text);
+      const anchor = sents[0] || normalizeScript(text).slice(0, 60);
+
+      // 불릿: 다음 3~4개 문장(너무 길면 잘라서 읽기 편하게)
+      const bulletsRaw = sents.slice(1, 5);
+      const bullets = bulletsRaw.map(b => {
+        const bb = b.replace(/^[-•\s]+/, '').trim();
+        return bb.length > 90 ? bb.slice(0, 90) + '…' : bb;
+      });
+
+      // 문장 1개뿐인 슬라이드는 anchor만 크게 보여주기
+      return { anchor, bullets: bullets.length ? bullets : [] };
+    }
+
     // ===================================================
     // 3) Bionic Reading (한글/영문 겸용)
     //    level 0 = off, 1~6 = 전방 굵기 비율 점진 증가
@@ -1443,6 +1515,7 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
     let scrolling = false;
     let rafId = null;
     let scrollSpeed = 0.45;   // px/frame
+    let anchorMode = false; // ✅ 앵커 모드
 
     // ===================================================
     // 5) DOM 참조
@@ -1469,9 +1542,29 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
       timePill.textContent = s.time;
       barEl.style.width = `${((currentIdx + 1) / slides.length) * 100}%`;
 
-      const level = bionicOn ? bionicLevel : 0;
-      textEl.classList.toggle('bionic', level > 0);
-      textEl.innerHTML = bionicify(s.text, level);
+      if (anchorMode) {
+        const { anchor, bullets } = autoAnchorAndBullets(s.text);
+
+        // 앵커 모드에서는 bionic을 꺼두는 게 읽기 부담이 더 적음(원하면 유지 가능)
+        textEl.classList.remove('bionic');
+
+        const bulletsHtml = bullets.length
+          ? `<ul class="anchor-bullets">${bullets.map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>`
+          : '';
+
+        textEl.innerHTML = `
+          <div class="anchor-wrap">
+            <div class="anchor-sub">ANCHOR MODE · 외우기 0 · 키워드로 설명</div>
+            <div class="anchor-line">${escapeHtml(anchor)}</div>
+            ${bulletsHtml}
+            <div class="anchor-hint">팁: “무슨 문제 → 어떻게 → 뭘로 증명” 3박자로만 말해도 충분해.</div>
+          </div>
+        `;
+      } else {
+        const level = bionicOn ? bionicLevel : 0;
+        textEl.classList.toggle('bionic', level > 0);
+        textEl.innerHTML = bionicify(s.text, level);
+      }
 
       // 데스크탑 사이드바 active 표시
       document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
@@ -1485,7 +1578,7 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
       if (document.getElementById('tocList').children.length) syncTocActive();
 
       // 페이지 상단으로
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
     // ===================================================
@@ -1619,7 +1712,15 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
     // ===================================================
     async function copyCurrent() {
       const s = slides[currentIdx];
-      const out = `【${s.title} ${s.time}】\n${s.text}\n`;
+
+      let out = '';
+      if (anchorMode) {
+        const { anchor, bullets } = autoAnchorAndBullets(s.text);
+        out = `【${s.title} ${s.time} · ANCHOR】\n- ${anchor}\n${bullets.map(b => `- ${b}`).join('\n')}\n`;
+      } else {
+        out = `【${s.title} ${s.time}】\n${s.text}\n`;
+      }
+
       try {
         await navigator.clipboard.writeText(out);
         alert('현재 슬라이드를 복사했어!');
@@ -1649,6 +1750,34 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
 
     // 복사
     document.getElementById('copyBtn').addEventListener('click', copyCurrent);
+
+    function syncAnchorUI() {
+      const txt = anchorMode ? '🧠 앵커모드 ON' : '🧠 앵커모드';
+      const btn = document.getElementById('anchorBtn');
+      const btnM = document.getElementById('anchorBtnM');
+      if (btn) btn.textContent = txt;
+      if (btnM) btnM.textContent = txt;
+    }
+
+    const anchorBtn = document.getElementById('anchorBtn');
+    if (anchorBtn) {
+      anchorBtn.addEventListener('click', () => {
+        anchorMode = !anchorMode;
+        syncAnchorUI();
+        stopAutoScroll();
+        render();
+      });
+    }
+
+    const anchorBtnM = document.getElementById('anchorBtnM');
+    if (anchorBtnM) {
+      anchorBtnM.addEventListener('click', () => {
+        anchorMode = !anchorMode;
+        syncAnchorUI();
+        stopAutoScroll();
+        render();
+      });
+    }
 
     // Bionic 슬라이더
     const bionicSlider = document.getElementById('bionic');
@@ -1684,6 +1813,7 @@ EdgeGuard는/ 실행 중 제어라는/ 시장의 빈칸을 채우는/ 런타임 
       if (e.code === 'Space') { e.preventDefault(); toggleAutoScroll(); }
       if (e.key.toLowerCase() === 'c') { copyCurrent(); }
       if (e.key.toLowerCase() === 'b') { bionicOn = !bionicOn; render(); }
+      if (e.key.toLowerCase() === 'k') { anchorMode = !anchorMode; syncAnchorUI(); render(); }
     }, { passive: false });
 
     // ===================================================
