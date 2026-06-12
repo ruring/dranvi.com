@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdgeGuard - Q&A Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="info.css">
+</head>
+<body>
+    <div class="background-glow"></div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="logo">Dranvi<span>EdgeGuard</span></div>
+        <div class="action-buttons">
+            <a href="index.html" class="back-btn">메인 홈피</a>
+            <a href="info_en.html" class="lang-btn">EN</a>
+        </div>
+    </div>
+
+    <!-- Menu Header -->
+    <div class="menu-header">
+        <h1 class="menu-title">EdgeGuard에 대해 무엇이 궁금하신가요?</h1>
+        <p class="menu-subtitle">궁금한 질문을 터치하여 확인해 보세요.</p>
+    </div>
+
+    <!-- 2x3 Grid Menu -->
+    <div class="grid-container">
+        <!-- 1️⃣ What is it? -->
+        <a href="info_1.html" class="grid-item">
+            <span class="grid-num">1</span>
+            <span class="grid-label">EdgeGuard가 뭔가요?</span>
+        </a>
+
+        <!-- 2️⃣ Why needed? -->
+        <a href="info_2.html" class="grid-item">
+            <span class="grid-num">2</span>
+            <span class="grid-label">왜 필요한가요?</span>
+        </a>
+
+        <!-- 3️⃣ Is it effective? -->
+        <a href="info_3.html" class="grid-item">
+            <span class="grid-num">3</span>
+            <span class="grid-label">효과가 있나요?</span>
+        </a>
+
+        <!-- 4️⃣ Where to use? -->
+        <a href="info_4.html" class="grid-item">
+            <span class="grid-num">4</span>
+            <span class="grid-label">어디에 쓰나요?</span>
+        </a>
+
+        <!-- 5️⃣ What's different? -->
+        <a href="info_5.html" class="grid-item">
+            <span class="grid-num">5</span>
+            <span class="grid-label">뭐가 다른가요?</span>
+        </a>
+
+        <!-- 0️⃣ QR Code -->
+        <div class="qr-static-card">
+            <div class="qr-grid-wrapper">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&color=3b82f6&bgcolor=080808&data=https://www.dranvi.com" alt="Dranvi QR Code" class="qr-grid-image">
+            </div>
+            <span class="grid-label" style="font-size: 1rem; margin-top: 0.2rem;">dranvi.com</span>
+        </div>
+    </div>
+</body>
+</html>
