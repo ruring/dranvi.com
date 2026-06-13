@@ -248,6 +248,13 @@ main {
     font-size: 0.8rem;
 }
 
+.address {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
 /* Animations */
 .fade-in {
     opacity: 0;
