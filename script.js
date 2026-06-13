@@ -56,4 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.fade-in-scroll').forEach(el => {
         observer.observe(el);
     });
+
+    // FAQ Accordion Toggle
+    const faqCards = document.querySelectorAll('.faq-card');
+    faqCards.forEach(card => {
+        const toggleBtn = card.querySelector('.faq-toggle');
+        const answer = card.querySelector('.faq-answer');
+        const icon = card.querySelector('.faq-icon');
+
+        if (toggleBtn && answer) {
+            toggleBtn.addEventListener('click', () => {
+                const isOpen = card.classList.contains('open');
+                if (isOpen) {
+                    card.classList.remove('open');
+                    answer.style.maxHeight = null;
+                    if (icon) icon.textContent = '+';
+                } else {
+                    card.classList.add('open');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    if (icon) icon.textContent = '-';
+                }
+            });
+        }
+    });
 });
