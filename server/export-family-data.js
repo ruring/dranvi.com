@@ -4,6 +4,35 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const DB_FILE = path.join(ROOT, 'data', 'dranvi-family.json');
 const OUT_FILE = path.join(ROOT, 'family-data.js');
+const DRA_DIR = path.join(ROOT, 'dra');
+
+function routeTemplate(slug) {
+    const titleSlug = String(slug).toUpperCase();
+    return `<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRANVI FAMILY No.${titleSlug}</title>
+    <link rel="stylesheet" href="../../family-os.css">
+</head>
+
+<body class="family-os">
+    <div class="family-shell">
+        <nav class="family-nav">
+            <a class="family-brand" href="../../"><img src="../../logo.svg" alt="Dranvi"></a>
+            <div class="family-nav-links"><a href="../../family/">Family</a><a href="../../timeline/">Timeline</a><a href="../../admin/">Admin</a></div>
+        </nav>
+        <main class="plant-page" id="plant-page"></main>
+    </div>
+    <script src="../../family-data.js"></script>
+    <script src="../../family-app.js"></script>
+</body>
+
+</html>
+`;
+}
 
 function sortPlant(a, b) {
     return String(a.number).localeCompare(String(b.number), 'en', { numeric: true, sensitivity: 'base' });
@@ -50,4 +79,11 @@ fs.writeFileSync(
     'utf8'
 );
 
+for (const plant of exported.plants) {
+    const routeDir = path.join(DRA_DIR, plant.slug);
+    fs.mkdirSync(routeDir, { recursive: true });
+    fs.writeFileSync(path.join(routeDir, 'index.html'), routeTemplate(plant.slug), 'utf8');
+}
+
 console.log(`Exported ${exported.plants.length} plants to ${OUT_FILE}`);
+console.log(`Exported ${exported.plants.length} plant routes to ${DRA_DIR}`);
