@@ -7,6 +7,7 @@ const ROOT = path.resolve(__dirname, '..');
 const DATA_DIR = path.join(ROOT, 'data');
 const UPLOAD_DIR = path.join(ROOT, 'uploads', 'plants');
 const DB_FILE = path.join(DATA_DIR, 'dranvi-family.json');
+const ADMIN_PASSWORD_FILE = path.join(DATA_DIR, 'admin-password.txt');
 const PORT = Number(process.env.PORT || 3000);
 
 const MIME = {
@@ -27,6 +28,10 @@ function ensureStorage() {
     if (!fs.existsSync(DB_FILE)) {
         writeDb({ plants: [], logs: [], keys: [] });
     }
+    if (!process.env.ADMIN_PASSWORD && !fs.existsSync(ADMIN_PASSWORD_FILE)) {
+        const password = crypto.randomBytes(12).toString('base64url');
+        fs.writeFileSync(ADMIN_PASSWORD_FILE, `${password}\n`, 'utf8');
+    }
 }
 
 function readDb() {
@@ -41,6 +46,29 @@ function writeDb(db) {
 
 function keyHash(key) {
     return crypto.createHash('sha256').update(String(key || ''), 'utf8').digest('hex');
+}
+
+function adminPassword() {
+    if (process.env.ADMIN_PASSWORD) return process.env.ADMIN_PASSWORD;
+    ensureStorage();
+    return fs.readFileSync(ADMIN_PASSWORD_FILE, 'utf8').trim();
+}
+
+function requireAdmin(req, res) {
+    const cookies = Object.fromEntries(String(req.headers.cookie || '')
+        .split(';')
+        .map((item) => item.trim().split('='))
+        .filter((parts) => parts.length === 2));
+    const expected = keyHash(`admin:${adminPassword()}`);
+    const actual = cookies.dranvi_admin || '';
+
+    if (actual.length === expected.length
+        && crypto.timingSafeEqual(Buffer.from(actual), Buffer.from(expected))) {
+        return true;
+    }
+
+    sendJson(res, 401, { error: 'admin login required' });
+    return false;
 }
 
 function slugifyNumber(number) {
@@ -72,6 +100,16 @@ function publicPlant(plant, db) {
                 createdAt: log.createdAt
             }))
     };
+}
+
+function adminPlant(plant, db) {
+    const result = publicPlant(plant, db);
+    const key = db.keys.find((item) => item.plantSlug === plant.slug && !item.revokedAt);
+    result.guardianKey = key ? key.keyPlain || '' : '';
+    result.guardianUrl = result.guardianKey
+        ? `/dra/?n=${encodeURIComponent(plant.slug)}&k=${encodeURIComponent(result.guardianKey)}`
+        : `/dra/?n=${encodeURIComponent(plant.slug)}`;
+    return result;
 }
 
 function sendJson(res, status, body) {
@@ -135,6 +173,13 @@ function handleGetPlants(req, res) {
     });
 }
 
+function handleGetAdminPlants(req, res) {
+    const db = readDb();
+    sendJson(res, 200, {
+        plants: db.plants.map((plant) => adminPlant(plant, db))
+    });
+}
+
 async function handleCreatePlant(req, res) {
     const body = await readJsonBody(req);
     const db = readDb();
@@ -171,6 +216,7 @@ async function handleCreatePlant(req, res) {
     db.keys.push({
         plantSlug: slug,
         keyHash: keyHash(guardianKey),
+        keyPlain: guardianKey,
         createdAt: now,
         revokedAt: null
     });
@@ -193,6 +239,81 @@ async function handleCreatePlant(req, res) {
         plant: publicPlant(plant, db),
         guardianUrl: `/dra/?n=${encodeURIComponent(slug)}&k=${encodeURIComponent(guardianKey)}`
     });
+}
+
+async function handleAdminLogin(req, res) {
+    const body = await readJsonBody(req);
+    const user = String(body.user || '');
+    const password = String(body.password || '');
+    const expected = adminPassword();
+
+    const ok = user === 'admin'
+        && password.length === expected.length
+        && crypto.timingSafeEqual(Buffer.from(password), Buffer.from(expected));
+
+    if (!ok) {
+        sendJson(res, 401, { error: 'invalid admin password' });
+        return;
+    }
+
+    const token = keyHash(`admin:${expected}`);
+    const data = JSON.stringify({ ok: true });
+    res.writeHead(200, {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Content-Length': Buffer.byteLength(data),
+        'Set-Cookie': `dranvi_admin=${token}; Path=/; HttpOnly; SameSite=Lax`
+    });
+    res.end(data);
+}
+
+async function handleUpdatePlant(req, res, plantSlug) {
+    const body = await readJsonBody(req);
+    const db = readDb();
+    const plant = db.plants.find((item) => item.slug === plantSlug);
+
+    if (!plant) {
+        sendJson(res, 404, { error: 'plant not found' });
+        return;
+    }
+
+    const now = new Date().toISOString();
+    const number = String(body.number || plant.number).trim();
+    const nextSlug = slugifyNumber(body.slug || number);
+
+    plant.number = number;
+    plant.slug = nextSlug;
+    plant.name = String(body.name || plant.name);
+    plant.nameLines = Array.isArray(body.nameLines) && body.nameLines.length ? body.nameLines : [plant.name];
+    plant.guardian = String(body.guardian || plant.guardian || '보호자');
+    plant.location = String(body.location || plant.location || 'Guardian Space');
+    plant.adoptionDate = String(body.adoptionDate || plant.adoptionDate);
+    plant.description = Array.isArray(body.description) ? body.description : plant.description || [];
+    plant.currentPhotoLabel = String(body.currentPhotoLabel || plant.currentPhotoLabel || '현재 사진 준비 중');
+    plant.updatedAt = now;
+
+    if (nextSlug !== plantSlug) {
+        db.logs.forEach((log) => {
+            if (log.plantSlug === plantSlug) log.plantSlug = nextSlug;
+        });
+        db.keys.forEach((key) => {
+            if (key.plantSlug === plantSlug) key.plantSlug = nextSlug;
+        });
+    }
+
+    const guardianKey = String(body.guardianKey || body.key || '').trim();
+    if (guardianKey) {
+        db.keys = db.keys.filter((item) => item.plantSlug !== nextSlug);
+        db.keys.push({
+            plantSlug: nextSlug,
+            keyHash: keyHash(guardianKey),
+            keyPlain: guardianKey,
+            createdAt: now,
+            revokedAt: null
+        });
+    }
+
+    writeDb(db);
+    sendJson(res, 200, { plant: adminPlant(plant, db) });
 }
 
 async function handleCreateLog(req, res, plantSlug) {
@@ -306,13 +427,33 @@ async function handle(req, res) {
             return;
         }
 
+        if (req.method === 'POST' && url.pathname === '/api/admin/login') {
+            await handleAdminLogin(req, res);
+            return;
+        }
+
+        if (url.pathname.startsWith('/api/admin/')) {
+            if (!requireAdmin(req, res)) return;
+        }
+
         if (req.method === 'GET' && url.pathname === '/api/plants') {
             handleGetPlants(req, res);
             return;
         }
 
+        if (req.method === 'GET' && url.pathname === '/api/admin/plants') {
+            handleGetAdminPlants(req, res);
+            return;
+        }
+
         if (req.method === 'POST' && url.pathname === '/api/admin/plants') {
             await handleCreatePlant(req, res);
+            return;
+        }
+
+        const adminPlantMatch = url.pathname.match(/^\/api\/admin\/plants\/([^/]+)$/);
+        if (req.method === 'PUT' && adminPlantMatch) {
+            await handleUpdatePlant(req, res, decodeURIComponent(adminPlantMatch[1]));
             return;
         }
 
@@ -348,4 +489,6 @@ ensureStorage();
 http.createServer(handle).listen(PORT, () => {
     console.log(`DRANVI FAMILY local server: http://localhost:${PORT}`);
     console.log(`DB file: ${DB_FILE}`);
+    console.log(`Admin user: admin`);
+    console.log(`Admin password file: ${ADMIN_PASSWORD_FILE}`);
 });

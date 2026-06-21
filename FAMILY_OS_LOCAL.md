@@ -22,6 +22,15 @@ Then open:
 http://localhost:3000/admin/
 ```
 
+Admin login:
+
+```text
+user: admin
+password: data/admin-password.txt
+```
+
+The first server start creates `data/admin-password.txt` automatically. Keep this file private and back it up with the archive.
+
 ## Local Archive Files
 
 The local source of truth lives here:

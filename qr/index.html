@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DRANVI FAMILY QR</title>
-    <meta name="description" content="DRANVI FAMILY 보호자 접근 QR 생성 화면">
+    <meta name="description" content="DRANVI FAMILY QR 관리는 관리자 페이지에서 합니다.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -21,45 +21,17 @@
             <div class="family-nav-links">
                 <a href="../family/">Family</a>
                 <a href="../timeline/">Timeline</a>
-                <a href="../qr/">QR</a>
                 <a href="../admin/">Admin</a>
             </div>
         </nav>
 
-        <main>
-            <section class="qr-head">
-                <p class="eyebrow">Guardian Key</p>
-                <h1>QR Generator</h1>
-                <p class="qr-copy">식물 태그에 넣을 보호자 접근 QR을 만듭니다. 키는 저장되지 않고 이 화면에서 링크만 조합합니다.</p>
-            </section>
-
-            <section class="qr-layout">
-                <form class="family-form family-panel" id="qr-form">
-                    <label>
-                        개체
-                        <select id="qr-plant"></select>
-                    </label>
-                    <label>
-                        접근 키
-                        <input id="qr-key" type="text" placeholder="예: dra004-20260621-x9K2mP">
-                    </label>
-                    <p class="qr-note">
-                        실제 운영에서는 이 키를 DB에 hash로 저장하고, 페이지에서 검증 후 작성 권한을 열면 됩니다.
-                    </p>
-                </form>
-
-                <div class="qr-preview">
-                    <div class="qr-frame">
-                        <img id="qr-image" src="" alt="QR preview">
-                    </div>
-                    <div class="link-output" id="qr-output"></div>
-                </div>
-            </section>
+        <main class="family-panel">
+            <p class="eyebrow">QR Manager</p>
+            <h1>QR 관리는 Admin에서 합니다.</h1>
+            <p class="plant-copy">개체 생성과 보호자 QR은 같은 흐름이라 관리자 페이지 안으로 옮겼습니다.</p>
+            <p><a class="primary-button" href="../admin/">Admin 열기</a></p>
         </main>
     </div>
-
-    <script src="../family-data.js"></script>
-    <script src="../family-app.js"></script>
 </body>
 
 </html>
