@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRANVI FAMILY Admin</title>
+    <meta name="description" content="DRANVI FAMILY 관리자 페이지 생성 및 QR 관리">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../family-os.css">
+</head>
+
+<body class="family-os">
+    <div class="family-shell">
+        <nav class="family-nav">
+            <a class="family-brand" href="../">
+                <img src="../logo.svg" alt="Dranvi">
+            </a>
+            <div class="family-nav-links">
+                <a href="../family/">Family</a>
+                <a href="../timeline/">Timeline</a>
+                <a href="../qr/">QR</a>
+                <a href="../admin/">Admin</a>
+            </div>
+        </nav>
+
+        <main>
+            <section class="qr-head">
+                <p class="eyebrow">Admin</p>
+                <h1>Page + QR Manager</h1>
+                <p class="qr-copy">보호자에게 식물을 드리기 전, 첫 기록과 짧은 편지를 남기고 접근 QR을 생성합니다.</p>
+            </section>
+
+            <section class="admin-layout">
+                <form class="family-form family-panel" id="admin-form">
+                    <label>
+                        개체 번호
+                        <input id="admin-number" name="number" type="text" value="004" required>
+                    </label>
+                    <label>
+                        개체 이름
+                        <textarea name="name" required>에리온 소르미아
+라리에르 루미스
+예쁨 오르비아 ♡</textarea>
+                    </label>
+                    <label>
+                        보호자
+                        <input name="guardian" type="text" value="에리온" required>
+                    </label>
+                    <label>
+                        위치
+                        <input name="location" type="text" value="Guardian Space">
+                    </label>
+                    <label>
+                        입양일
+                        <input id="admin-date" name="adoptionDate" type="text">
+                    </label>
+                    <label>
+                        특이사항
+                        <textarea name="description">골드 에디션
+비매각
+비양도
+특별 보호자</textarea>
+                    </label>
+                    <label>
+                        첫 기록 제목
+                        <input name="firstTitle" type="text" value="입양 준비 완료!">
+                    </label>
+                    <label>
+                        짧은 편지
+                        <textarea name="letter">이 작은 식물은 오늘부터 보호자님과 함께 자라납니다. 드란비가 관계를 기억하는 방식으로, 첫 시간을 남겨둡니다.</textarea>
+                    </label>
+                    <label>
+                        접근 키
+                        <span class="key-row">
+                            <input id="admin-key-input" name="key" type="text" required>
+                            <button class="soft-button" id="make-key" type="button">새 키</button>
+                        </span>
+                    </label>
+                    <button class="primary-button" type="submit">페이지 + QR 생성</button>
+                    <p class="form-note">현재는 정적 MVP라 브라우저에 저장됩니다. 실제 공개 데이터로 고정하려면 생성된 데이터 조각을 family-data.js에 붙이면 됩니다.</p>
+                </form>
+
+                <aside class="admin-output family-panel" id="admin-output" hidden>
+                    <h2>보호자용 QR</h2>
+                    <div class="qr-frame">
+                        <img id="admin-qr" src="" alt="Generated QR">
+                    </div>
+                    <div class="link-output" id="admin-link"></div>
+                    <h2>family-data.js 데이터 조각</h2>
+                    <textarea class="code-output" id="admin-snippet" readonly></textarea>
+                </aside>
+            </section>
+
+            <section class="admin-managed">
+                <div class="managed-head">
+                    <div>
+                        <p class="section-label">Generated</p>
+                        <h2>QR 관리</h2>
+                    </div>
+                    <button class="soft-button" id="download-admin-json" type="button">JSON 다운로드</button>
+                </div>
+                <div class="managed-list" id="managed-plants"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../family-data.js"></script>
+    <script src="../admin-app.js"></script>
+</body>
+
+</html>
