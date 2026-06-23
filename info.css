@@ -129,10 +129,10 @@ body {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    padding: 0.6rem 1.5rem;
+    padding: 0.78rem 1.8rem;
     border-radius: 99px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1.15rem;
+    font-weight: 800;
     text-decoration: none;
     transition: all 0.2s ease;
     display: inline-flex;
@@ -497,6 +497,11 @@ body {
         padding: 0.62rem 1.05rem;
         font-size: clamp(0.82rem, 1.25vw, 1rem);
     }
+
+    .back-btn {
+        padding: 0.85rem 2rem;
+        font-size: 1.28rem;
+    }
 }
 
 /* Mobile Responsiveness for Grid */
@@ -528,6 +533,10 @@ body {
         font-size: 1.75rem;
         line-height: 1.45;
         white-space: normal;
+    }
+    .back-btn {
+        padding: 0.72rem 1.45rem;
+        font-size: 1.08rem;
     }
     .big-qr-image {
         width: 200px;
