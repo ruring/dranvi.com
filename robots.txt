@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /family/
+Disallow: /timeline/
+Disallow: /dra/
+Disallow: /admin/
+Disallow: /qr/
