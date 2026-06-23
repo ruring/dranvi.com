@@ -446,11 +446,11 @@ body {
 
     .explain-container {
         grid-area: 1 / 1;
-        width: min(94vw, 1120px);
+        width: min(88vw, 980px);
         height: 100dvh;
         min-height: 100dvh;
         margin: 0 auto;
-        padding: 5rem 2rem;
+        padding: 5rem 1.5rem 4rem;
         justify-content: center;
         text-align: center;
     }
@@ -462,22 +462,24 @@ body {
     }
 
     .explain-text {
-        font-size: clamp(1.55rem, 3.15vw, 2.55rem);
+        font-size: clamp(1.35rem, 2.45vw, 2.05rem);
         line-height: 1.45;
-        max-width: 1080px;
+        max-width: 920px;
+        width: 100%;
         margin: 0 auto;
         text-align: center;
         white-space: normal;
+        overflow-wrap: break-word;
     }
 
     .explain-subpoints {
-        gap: 1rem;
-        margin-top: 1.8rem;
+        gap: 0.85rem;
+        margin-top: 1.45rem;
     }
 
     .subpoint {
-        padding: 0.75rem 1.25rem;
-        font-size: clamp(0.95rem, 1.55vw, 1.15rem);
+        padding: 0.62rem 1.05rem;
+        font-size: clamp(0.82rem, 1.25vw, 1rem);
     }
 }
 
