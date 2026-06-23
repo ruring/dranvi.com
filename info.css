@@ -474,9 +474,9 @@ body {
     }
 
     .explain-text {
-        font-size: clamp(1.35rem, 2.45vw, 2.05rem);
-        line-height: 1.45;
-        max-width: 920px;
+        font-size: clamp(1.18rem, 2vw, 1.72rem);
+        line-height: 1.42;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
         text-align: center;
@@ -521,8 +521,9 @@ body {
         text-align: left;
     }
     .explain-text {
-        font-size: 1.8rem;
-        line-height: 1.5;
+        font-size: 1.35rem;
+        line-height: 1.45;
+        white-space: normal;
     }
     .big-qr-image {
         width: 200px;
