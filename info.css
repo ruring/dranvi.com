@@ -239,7 +239,7 @@ body {
 /* Explanation Page Content Area */
 .explain-container {
     max-width: 1200px;
-    width: 90%;
+    width: min(88vw, 980px);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -259,13 +259,17 @@ body {
 }
 
 .explain-text {
-    font-size: clamp(2.2rem, 5vw, 4.2rem);
+    font-size: clamp(1.25rem, 2.15vw, 2.05rem);
     font-weight: 700;
-    line-height: 1.6;
+    line-height: 1.42;
     color: #ffffff;
-    word-break: keep-all;
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    word-break: normal;
+    overflow-wrap: anywhere;
     letter-spacing: -0.02em;
-    white-space: nowrap; /* Keep each line strictly on a single line, respecting <br> */
+    white-space: normal;
 }
 
 .highlight {
