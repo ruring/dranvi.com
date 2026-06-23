@@ -116,9 +116,12 @@
         const feed = byId('timeline-feed');
         if (!feed) return;
 
+        const localPlants = readJson('dranvi-admin-plants', []);
         const authoredPlants = serverReady
             ? serverPlants
-            : readJson('dranvi-admin-plants', []);
+            : localPlants.length
+                ? localPlants
+                : family.plants;
 
         const logs = authoredPlants
             .flatMap((plant) => [...(plant.logs || []), ...getDraftLogs(plant.number)].map((log) => ({ plant, log })))
