@@ -26,6 +26,20 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+main,
+section,
+p,
+h1,
+h2,
+h3,
+h4,
+li,
+button,
+a {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
 /* Background Abstract Glow */
 .background-glow {
     position: fixed;
@@ -343,4 +357,71 @@ main {
 
 .faq-card.open .faq-answer {
     transition: max-height 0.3s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+@media (max-width: 1180px) {
+    main {
+        max-width: 720px;
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4.1rem);
+    }
+
+    .hero .subtitle {
+        font-size: clamp(1.25rem, 3vw, 2rem);
+    }
+
+    .hero .description,
+    .section-intro {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+    }
+
+    .feature-list li,
+    .card,
+    .faq-toggle {
+        font-size: clamp(0.95rem, 1.55vw, 1.05rem);
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 1.25rem 5%;
+    }
+
+    main {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .hero {
+        min-height: 72vh;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.25rem, 13vw, 3.3rem);
+    }
+
+    .hero .subtitle {
+        font-size: clamp(1.15rem, 6vw, 1.55rem);
+    }
+
+    .hero .description {
+        font-size: 0.95rem;
+    }
+
+    .section-intro {
+        font-size: 1.05rem;
+    }
+
+    .card,
+    .faq-toggle {
+        padding: 1.15rem;
+    }
+
+    .faq-question {
+        line-height: 1.45;
+    }
 }
