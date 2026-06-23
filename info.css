@@ -15,6 +15,13 @@
     padding: 0;
 }
 
+html {
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
@@ -371,13 +378,18 @@ body {
 
 /* Tablet kiosk / app-like fullscreen layout */
 @media (min-width: 769px) and (max-width: 1180px) {
+    html {
+        height: 100%;
+    }
+
     body {
-        width: 100vw;
-        height: 100vh;
-        height: 100dvh;
-        min-height: 100dvh;
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
         overflow: hidden;
-        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        padding: 0;
         justify-content: center;
         align-items: center;
     }
@@ -417,7 +429,7 @@ body {
 
     .grid-container {
         width: min(94vw, 1080px);
-        height: min(58dvh, 540px);
+        height: min(58vh, 540px);
         grid-template-rows: repeat(2, minmax(0, 1fr));
         gap: clamp(1rem, 1.8vw, 1.5rem);
         padding: 0;
@@ -447,8 +459,8 @@ body {
     .explain-container {
         grid-area: 1 / 1;
         width: min(88vw, 980px);
-        height: 100dvh;
-        min-height: 100dvh;
+        height: 100%;
+        min-height: 100%;
         margin: 0 auto;
         padding: 5rem 1.5rem 4rem;
         justify-content: center;
