@@ -24,6 +24,7 @@ body {
     position: relative;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -106,7 +107,7 @@ body {
 }
 
 .logo-img {
-    height: 1.5rem;
+    height: 3.0rem;
     display: inline-block;
     vertical-align: middle;
 }
@@ -366,6 +367,86 @@ body {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+/* Tablet kiosk / app-like fullscreen layout */
+@media (min-width: 769px) and (max-width: 1180px) {
+    body {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        min-height: 100dvh;
+        overflow: hidden;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    .top-bar {
+        position: fixed;
+        top: max(1.25rem, env(safe-area-inset-top));
+        left: max(1.5rem, env(safe-area-inset-left));
+        right: max(1.5rem, env(safe-area-inset-right));
+    }
+
+    .menu-header {
+        margin-bottom: 1.25rem;
+        padding-top: 3.5rem;
+    }
+
+    .menu-title {
+        font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+        line-height: 1.25;
+    }
+
+    .menu-subtitle {
+        font-size: clamp(1rem, 1.7vw, 1.25rem);
+    }
+
+    .grid-container {
+        width: min(94vw, 1080px);
+        height: min(68dvh, 620px);
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        gap: clamp(1rem, 1.8vw, 1.5rem);
+        padding: 0;
+    }
+
+    .grid-item,
+    .qr-static-card {
+        min-height: 0;
+        border-radius: 18px;
+        padding: clamp(1.25rem, 2.3vw, 2.25rem) 1rem;
+    }
+
+    .grid-num {
+        font-size: clamp(3.8rem, 8vw, 5.2rem);
+    }
+
+    .grid-label {
+        font-size: clamp(1.08rem, 2vw, 1.35rem);
+        line-height: 1.35;
+    }
+
+    .qr-grid-wrapper {
+        width: clamp(96px, 12vw, 124px);
+        height: clamp(96px, 12vw, 124px);
+    }
+
+    .explain-container {
+        width: min(94vw, 1120px);
+        min-height: 100dvh;
+        padding: 6rem 1.5rem 3rem;
+    }
+
+    .explain-badge {
+        font-size: clamp(1rem, 1.8vw, 1.3rem);
+        margin-bottom: 1.5rem;
+    }
+
+    .explain-text {
+        font-size: clamp(2rem, 4.2vw, 3.4rem);
+        line-height: 1.55;
+        max-width: 100%;
+        white-space: normal;
+    }
 }
 
 /* Mobile Responsiveness for Grid */

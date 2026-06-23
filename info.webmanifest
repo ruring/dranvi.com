@@ -1,0 +1,16 @@
+{
+    "name": "EdgeGuard Info",
+    "short_name": "EdgeGuard",
+    "start_url": "info.html",
+    "scope": "./",
+    "display": "standalone",
+    "background_color": "#050505",
+    "theme_color": "#050505",
+    "icons": [
+        {
+            "src": "logo.png",
+            "sizes": "any",
+            "type": "image/png"
+        }
+    ]
+}
