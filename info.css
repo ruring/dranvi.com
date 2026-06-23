@@ -385,8 +385,10 @@ body {
     .top-bar {
         position: fixed;
         top: max(1.25rem, env(safe-area-inset-top));
-        left: max(1.5rem, env(safe-area-inset-left));
-        right: max(1.5rem, env(safe-area-inset-right));
+        left: 50%;
+        right: auto;
+        width: min(calc(100vw - 3rem), 1120px);
+        transform: translateX(-50%);
     }
 
     body:has(.grid-container) {
