@@ -378,6 +378,8 @@ body {
         min-height: 100dvh;
         overflow: hidden;
         padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        justify-content: center;
+        align-items: center;
     }
 
     .top-bar {
@@ -387,9 +389,19 @@ body {
         right: max(1.5rem, env(safe-area-inset-right));
     }
 
+    body:has(.grid-container) {
+        gap: 1.15rem;
+    }
+
+    body:has(.explain-container) {
+        display: grid;
+        place-items: center;
+    }
+
     .menu-header {
-        margin-bottom: 1.25rem;
-        padding-top: 3.5rem;
+        width: min(94vw, 1080px);
+        margin: 0;
+        padding: 0;
     }
 
     .menu-title {
@@ -403,7 +415,7 @@ body {
 
     .grid-container {
         width: min(94vw, 1080px);
-        height: min(68dvh, 620px);
+        height: min(58dvh, 540px);
         grid-template-rows: repeat(2, minmax(0, 1fr));
         gap: clamp(1rem, 1.8vw, 1.5rem);
         padding: 0;
@@ -431,21 +443,39 @@ body {
     }
 
     .explain-container {
+        grid-area: 1 / 1;
         width: min(94vw, 1120px);
+        height: 100dvh;
         min-height: 100dvh;
-        padding: 6rem 1.5rem 3rem;
+        margin: 0 auto;
+        padding: 5rem 2rem;
+        justify-content: center;
+        text-align: center;
     }
 
     .explain-badge {
-        font-size: clamp(1rem, 1.8vw, 1.3rem);
-        margin-bottom: 1.5rem;
+        font-size: clamp(0.95rem, 1.45vw, 1.12rem);
+        line-height: 1.35;
+        margin-bottom: 1.1rem;
     }
 
     .explain-text {
-        font-size: clamp(2rem, 4.2vw, 3.4rem);
-        line-height: 1.55;
-        max-width: 100%;
+        font-size: clamp(1.55rem, 3.15vw, 2.55rem);
+        line-height: 1.45;
+        max-width: 1080px;
+        margin: 0 auto;
+        text-align: center;
         white-space: normal;
+    }
+
+    .explain-subpoints {
+        gap: 1rem;
+        margin-top: 1.8rem;
+    }
+
+    .subpoint {
+        padding: 0.75rem 1.25rem;
+        font-size: clamp(0.95rem, 1.55vw, 1.15rem);
     }
 }
 
