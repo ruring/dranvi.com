@@ -1,0 +1,221 @@
+.notice-main {
+    padding-bottom: 3rem;
+}
+
+.home-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notice-hero {
+    padding: 7rem 0 4rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.eyebrow {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.notice-hero h1 {
+    margin-bottom: 1.25rem;
+    font-size: clamp(2.75rem, 8vw, 4.5rem);
+    line-height: 1.05;
+    background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.notice-intro {
+    max-width: 580px;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.notice-section {
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.notice-section h2 {
+    font-size: 1.2rem;
+}
+
+.policy-card {
+    margin-top: 1.5rem;
+    padding: 1.75rem;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.policy-card p {
+    color: #c8c8c8;
+    line-height: 1.85;
+}
+
+.policy-card strong {
+    color: var(--text-primary);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.status-badge {
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+.empty-notice {
+    display: flex;
+    min-height: 170px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.empty-mark {
+    width: 2.5rem;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--accent-color);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.45);
+}
+
+.company-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.company-info > div {
+    display: grid;
+    grid-template-columns: 6.25rem 1fr;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.company-info > div:nth-child(odd):not(.company-address) {
+    padding-right: 1.5rem;
+}
+
+.company-info > div:nth-child(even) {
+    padding-left: 1.5rem;
+}
+
+.company-info .company-address {
+    grid-column: 1 / -1;
+}
+
+.company-info dt {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.company-info dd {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.notice-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 2rem 0 0;
+    color: #666;
+    font-size: 0.78rem;
+}
+
+.notice-footer a {
+    color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+    nav {
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .logo-img {
+        height: 2.75rem;
+    }
+
+    .notice-hero {
+        padding: 4.5rem 0 3rem;
+    }
+
+    .notice-section {
+        padding: 2.75rem 0;
+    }
+
+    .company-info {
+        grid-template-columns: 1fr;
+    }
+
+    .company-info > div,
+    .company-info > div:nth-child(odd):not(.company-address),
+    .company-info > div:nth-child(even) {
+        grid-template-columns: 5.5rem 1fr;
+        grid-column: auto;
+        padding: 1rem 0;
+    }
+
+    .notice-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media print {
+    .background-glow,
+    nav,
+    .notice-footer {
+        display: none;
+    }
+
+    body {
+        background: #ffffff;
+        color: #111111;
+    }
+
+    .notice-main {
+        max-width: none;
+        padding: 0;
+    }
+
+    .notice-hero h1,
+    .policy-card strong,
+    .company-info dd {
+        color: #111111;
+        -webkit-text-fill-color: #111111;
+    }
+
+    .notice-intro,
+    .policy-card p,
+    .company-info dt,
+    .empty-notice {
+        color: #444444;
+    }
+}
