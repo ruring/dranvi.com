@@ -149,6 +149,16 @@ main {
     -webkit-text-fill-color: transparent;
 }
 
+.hero .product-name {
+    font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.75rem;
+}
+
 .hero .subtitle {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     font-weight: 300;
