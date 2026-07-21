@@ -272,6 +272,57 @@ main {
     }
 }
 
+/* Milestones Timeline */
+.timeline {
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.timeline-year {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 2.5rem 0 1.25rem;
+}
+
+.timeline-year:first-child {
+    margin-top: 0;
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    gap: 1.25rem;
+    padding: 0 0 1.5rem 1.5rem;
+    border-left: 1px solid var(--border-color);
+    margin-left: 0.35rem;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -0.32rem;
+    top: 0.45rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.timeline-date {
+    flex: 0 0 3.8rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+}
+
+.timeline-content p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
 /* FAQ Accordion Styles */
 .faq-section {
     max-width: 800px;
