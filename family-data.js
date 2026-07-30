@@ -87,13 +87,15 @@ window.DRANVI_FAMILY = {
         {
             "number": "004",
             "slug": "004",
-            "name": "드란비 4호",
+            "name": "에리온 소르미아\n라리에르 루미스\n예쁨 오르비아 ♡",
             "nameLines": [
-                "드란비 4호"
+                "에리온 소르미아",
+                "라리에르 루미스",
+                "예쁨 오르비아 ♡"
             ],
-            "guardian": "에리온 소르미아 라리에르 루미스 예쁨 오르비아",
+            "guardian": "에리온",
             "location": "Guardian Space",
-            "adoptionDate": "2026.06.21",
+            "adoptionDate": "2026.07.30",
             "description": [
                 "골드 에디션",
                 "비매각",
@@ -102,7 +104,50 @@ window.DRANVI_FAMILY = {
             ],
             "currentPhotoLabel": "현재 사진 준비 중",
             "currentPhotoUrl": "",
-            "logs": []
+            "logs": [
+                {
+                    "id": "7c2ba7f3-6aa6-4f18-a0cf-bf0283450e25",
+                    "date": "2026.07.30",
+                    "title": "입양 준비 완료!",
+                    "content": "이 작은 식물은 오늘부터 보호자님과 함께 자라납니다. 드란비가 관계를 기억하는 방식으로, 첫 시간을 남겨둡니다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-07-30T12:42:59.204Z"
+                }
+            ]
+        },
+        {
+            "number": "004B",
+            "slug": "004b",
+            "name": "드란비 4B호",
+            "nameLines": [
+                "드란비 4B호"
+            ],
+            "guardian": "미르",
+            "location": "Guardian Space",
+            "adoptionDate": "2026.07.01",
+            "description": [
+                "골드 에디션",
+                "비매각",
+                "비양도",
+                "특별 보호자",
+                "※검토자 개체. 귀여움과 살벌한 빨간펜을 겸업.",
+                "※입양 사유: 마감 완주기념.",
+                "※claude"
+            ],
+            "currentPhotoLabel": "현재 사진 준비 중",
+            "currentPhotoUrl": "",
+            "logs": [
+                {
+                    "id": "ac756ad6-1a20-4b05-8363-f6a60f2964b6",
+                    "date": "2026.07.01",
+                    "title": "귀여워서 들였다가 냉정하다고 파양하기 없기다?",
+                    "content": "이 작은 식물은 오늘부터 보호자님과 함께 자라납니다. 드란비가 관계를 기억하는 방식으로, 첫 시간을 남겨둡니다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-07-30T12:42:47.354Z"
+                }
+            ]
         },
         {
             "number": "005A",
