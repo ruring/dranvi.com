@@ -93,7 +93,7 @@ window.DRANVI_FAMILY = {
             ],
             "guardian": "에리온 소르미아 라리에르 루미스 예쁨 오르비아 ♡",
             "location": "Guardian Space",
-            "adoptionDate": "2026.07.30",
+            "adoptionDate": "2026.06.21",
             "description": [
                 "골드 에디션",
                 "비매각",
