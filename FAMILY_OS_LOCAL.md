@@ -31,6 +31,16 @@ password: data/admin-password.txt
 
 The first server start creates `data/admin-password.txt` automatically. Keep this file private and back it up with the archive.
 
+## Publish to dranvi.com
+
+Admin edits are saved locally only. To publish them to the public site, double-click:
+
+```text
+PUBLISH_FAMILY_TO_WEB.cmd
+```
+
+This exports the archive to `family-data.js`, commits, and pushes to GitHub Pages. The public site updates within 1-10 minutes (browser hard-refresh: Ctrl+Shift+R). Photos in `uploads/` stay local and are never published.
+
 ## Local Archive Files
 
 The local source of truth lives here:
