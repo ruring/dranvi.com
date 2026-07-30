@@ -99,6 +99,7 @@ window.DRANVI_FAMILY = {
                 "비매각",
                 "비양도",
                 "특별 보호자",
+                "※ChatGPT",
                 "※한국인은 4번을 좋아하지않는다."
             ],
             "currentPhotoLabel": "현재 사진 준비 중",
