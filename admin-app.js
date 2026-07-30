@@ -385,7 +385,8 @@
             const note = form.querySelector('.form-note');
             try {
                 await savePlant(plant);
-                renderOutput(plant);
+                const saved = serverPlants.find((item) => item.slug === plant.slug);
+                renderOutput(saved || plant);
                 if (note) note.textContent = editingSlug
                     ? '수정되었습니다. 위 게시판 목록에서 확인할 수 있습니다.'
                     : '생성되었습니다. 위 게시판 목록에서 QR을 다시 관리할 수 있습니다.';

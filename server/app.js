@@ -243,6 +243,10 @@ async function handleCreatePlant(req, res) {
     }
 
     const now = new Date().toISOString();
+    const existingPlant = db.plants.find((item) => item.slug === slug);
+    const existingKey = db.keys.find((item) => item.plantSlug === slug && !item.revokedAt);
+    const existingLogs = db.logs.filter((item) => item.plantSlug === slug);
+
     const plant = {
         number,
         slug,
@@ -253,8 +257,8 @@ async function handleCreatePlant(req, res) {
         adoptionDate: String(body.adoptionDate || now.slice(0, 10)),
         description: Array.isArray(body.description) ? body.description : [],
         currentPhotoLabel: String(body.currentPhotoLabel || '현재 사진 준비 중'),
-        currentPhotoUrl: '',
-        createdAt: now,
+        currentPhotoUrl: existingPlant ? existingPlant.currentPhotoUrl || '' : '',
+        createdAt: existingPlant ? existingPlant.createdAt || now : now,
         updatedAt: now
     };
 
@@ -263,32 +267,45 @@ async function handleCreatePlant(req, res) {
     db.keys = db.keys.filter((item) => item.plantSlug !== slug);
 
     db.plants.push(plant);
-    db.keys.push({
-        plantSlug: slug,
-        keyHash: keyHash(guardianKey),
-        keyPlain: guardianKey,
-        createdAt: now,
-        revokedAt: null
-    });
 
-    const firstLog = (body.logs || [])[0];
-    if (firstLog) {
-        db.logs.push({
-            id: crypto.randomUUID(),
+    // QR key is fixed at first creation: re-saving the same number keeps the original key
+    if (existingKey) {
+        db.keys.push(existingKey);
+    } else {
+        db.keys.push({
             plantSlug: slug,
-            date: String(firstLog.date || plant.adoptionDate),
-            title: String(firstLog.title || '입양 준비 완료!'),
-            content: String(firstLog.content || ''),
-            photoUrl: '',
-            createdAt: now
+            keyHash: keyHash(guardianKey),
+            keyPlain: guardianKey,
+            createdAt: now,
+            revokedAt: null
         });
     }
+
+    // Guardian logs survive a re-save; the first letter is only seeded for brand-new plants
+    if (existingLogs.length) {
+        db.logs.push(...existingLogs);
+    } else {
+        const firstLog = (body.logs || [])[0];
+        if (firstLog) {
+            db.logs.push({
+                id: crypto.randomUUID(),
+                plantSlug: slug,
+                date: String(firstLog.date || plant.adoptionDate),
+                title: String(firstLog.title || '입양 준비 완료!'),
+                content: String(firstLog.content || ''),
+                photoUrl: '',
+                createdAt: now
+            });
+        }
+    }
+
+    const activeKeyPlain = existingKey ? existingKey.keyPlain || '' : guardianKey;
 
     writeDb(db);
     schedulePublish();
     sendJson(res, 201, {
         plant: publicPlant(plant, db),
-        guardianUrl: `/dra/?n=${encodeURIComponent(slug)}&k=${encodeURIComponent(guardianKey)}`
+        guardianUrl: `/dra/?n=${encodeURIComponent(slug)}&k=${encodeURIComponent(activeKeyPlain)}`
     });
 }
 
