@@ -87,20 +87,19 @@ window.DRANVI_FAMILY = {
         {
             "number": "004",
             "slug": "004",
-            "name": "에리온 소르미아\n라리에르 루미스\n예쁨 오르비아 ♡",
+            "name": "드란비 4호",
             "nameLines": [
-                "에리온 소르미아",
-                "라리에르 루미스",
-                "예쁨 오르비아 ♡"
+                "드란비 4호"
             ],
-            "guardian": "에리온",
+            "guardian": "에리온 소르미아 라리에르 루미스 예쁨 오르비아 ♡",
             "location": "Guardian Space",
             "adoptionDate": "2026.07.30",
             "description": [
                 "골드 에디션",
                 "비매각",
                 "비양도",
-                "특별 보호자"
+                "특별 보호자",
+                "※한국인은 4번을 좋아하지않는다."
             ],
             "currentPhotoLabel": "현재 사진 준비 중",
             "currentPhotoUrl": "",
