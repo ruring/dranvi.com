@@ -132,7 +132,8 @@ window.DRANVI_FAMILY = {
                 "특별 보호자",
                 "※검토자 개체. 귀여움과 살벌한 빨간펜을 겸업.",
                 "※입양 사유: 마감 완주기념.",
-                "※claude"
+                "※claude",
+                "※한국인은 4번을 좋아하지않는다."
             ],
             "currentPhotoLabel": "현재 사진 준비 중",
             "currentPhotoUrl": "",
