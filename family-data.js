@@ -260,6 +260,33 @@ window.DRANVI_FAMILY = {
             ]
         },
         {
+            "number": "007",
+            "slug": "007",
+            "name": "드란비 7호",
+            "nameLines": [
+                "드란비 7호"
+            ],
+            "guardian": "송형규·드워프족장",
+            "location": "Guardian Space",
+            "adoptionDate": "2026.05.18",
+            "description": [
+                "※ 학생창업유망팀 U300+ 팀원"
+            ],
+            "currentPhotoLabel": "현재 사진 준비 중",
+            "currentPhotoUrl": "",
+            "logs": [
+                {
+                    "id": "075fae53-5b14-4303-bc74-b2b58af67e83",
+                    "date": "2026.05.18",
+                    "title": "언제주지..? ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
+                    "content": "이 작은 식물은 오늘부터 보호자님과 함께 자라납니다. 드란비가 관계를 기억하는 방식으로, 첫 시간을 남겨둡니다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-07-30T13:06:27.090Z"
+                }
+            ]
+        },
+        {
             "number": "011",
             "slug": "011",
             "name": "드란비 11호",
