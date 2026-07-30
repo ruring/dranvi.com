@@ -33,13 +33,15 @@ The first server start creates `data/admin-password.txt` automatically. Keep thi
 
 ## Publish to dranvi.com
 
-Admin edits are saved locally only. To publish them to the public site, double-click:
+**Auto-publish (default):** while the local server is running, every admin save (plant create/update, log create/update/delete) automatically exports, commits, and pushes to GitHub Pages about 15 seconds after the last change. Watch the server console for `[auto-publish]` lines. Set env `DRANVI_NO_AUTOPUBLISH=1` to disable.
+
+**Manual fallback:** double-click
 
 ```text
 PUBLISH_FAMILY_TO_WEB.cmd
 ```
 
-This exports the archive to `family-data.js`, commits, and pushes to GitHub Pages. The public site updates within 1-10 minutes (browser hard-refresh: Ctrl+Shift+R). Photos in `uploads/` stay local and are never published.
+Either way the public site updates within 1-10 minutes (browser hard-refresh: Ctrl+Shift+R). Photos in `uploads/` stay local and are never published.
 
 ## Local Archive Files
 

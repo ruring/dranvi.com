@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { execFile } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const DATA_DIR = path.join(ROOT, 'data');
@@ -21,6 +22,55 @@ const MIME = {
     '.svg': 'image/svg+xml; charset=utf-8',
     '.ico': 'image/x-icon'
 };
+
+// --- Auto-publish: export + commit + push after admin saves (debounced) ---
+const PUBLISH_DELAY_MS = 15000;
+let publishTimer = null;
+let publishing = false;
+let publishQueued = false;
+
+function runCommand(cmd, args) {
+    return new Promise((resolve, reject) => {
+        execFile(cmd, args, { cwd: ROOT }, (error, stdout, stderr) => {
+            if (error) reject(new Error((stderr || stdout || error.message).trim()));
+            else resolve(String(stdout));
+        });
+    });
+}
+
+function schedulePublish() {
+    if (process.env.DRANVI_NO_AUTOPUBLISH) return;
+    clearTimeout(publishTimer);
+    publishTimer = setTimeout(runPublish, PUBLISH_DELAY_MS);
+    console.log(`[auto-publish] scheduled in ${PUBLISH_DELAY_MS / 1000}s`);
+}
+
+async function runPublish() {
+    if (publishing) {
+        publishQueued = true;
+        return;
+    }
+    publishing = true;
+    try {
+        await runCommand(process.execPath, [path.join(__dirname, 'export-family-data.js')]);
+        await runCommand('git', ['add', 'family-data.js', 'dra']);
+        const staged = await runCommand('git', ['status', '--porcelain', 'family-data.js', 'dra']);
+        if (staged.trim()) {
+            await runCommand('git', ['commit', '-m', 'Update family archive (auto-publish)']);
+        }
+        await runCommand('git', ['push', 'origin', 'main']);
+        console.log(`[auto-publish] dranvi.com updated (${new Date().toLocaleTimeString()})`);
+    } catch (error) {
+        console.error('[auto-publish] FAILED:', error.message);
+        console.error('[auto-publish] run PUBLISH_FAMILY_TO_WEB.cmd manually if this keeps failing');
+    } finally {
+        publishing = false;
+        if (publishQueued) {
+            publishQueued = false;
+            schedulePublish();
+        }
+    }
+}
 
 function ensureStorage() {
     fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -235,6 +285,7 @@ async function handleCreatePlant(req, res) {
     }
 
     writeDb(db);
+    schedulePublish();
     sendJson(res, 201, {
         plant: publicPlant(plant, db),
         guardianUrl: `/dra/?n=${encodeURIComponent(slug)}&k=${encodeURIComponent(guardianKey)}`
@@ -313,6 +364,7 @@ async function handleUpdatePlant(req, res, plantSlug) {
     }
 
     writeDb(db);
+    schedulePublish();
     sendJson(res, 200, { plant: adminPlant(plant, db) });
 }
 
@@ -345,6 +397,7 @@ async function handleCreateLog(req, res, plantSlug) {
 
     db.logs.push(log);
     writeDb(db);
+    schedulePublish();
     sendJson(res, 201, { log });
 }
 
@@ -369,6 +422,7 @@ async function handleUpdateLog(req, res, plantSlug, logId) {
     log.updatedAt = new Date().toISOString();
 
     writeDb(db);
+    schedulePublish();
     sendJson(res, 200, { log });
 }
 
@@ -389,6 +443,7 @@ async function handleDeleteLog(req, res, plantSlug, logId) {
 
     db.logs = db.logs.filter((item) => !(item.plantSlug === plantSlug && item.id === logId));
     writeDb(db);
+    schedulePublish();
     sendJson(res, 200, { ok: true });
 }
 
