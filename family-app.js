@@ -1,5 +1,8 @@
 (function () {
     const family = window.DRANVI_FAMILY || { plants: [] };
+    // localStorage drafts are a local-server convenience only; on the public
+    // site they can shadow freshly published data, so ignore them there.
+    const isLocalRun = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
     let serverPlants = [];
     let serverReady = false;
 
@@ -48,7 +51,7 @@
     }
 
     function getPlants() {
-        const adminPlants = readJson('dranvi-admin-plants', []);
+        const adminPlants = isLocalRun ? readJson('dranvi-admin-plants', []) : [];
         const bySlug = new Map();
         [...family.plants, ...adminPlants, ...serverPlants].forEach((plant) => {
             if (plant && plant.slug) bySlug.set(plant.slug, plant);
@@ -70,6 +73,7 @@
     }
 
     function getDraftLogs(plantNumber) {
+        if (!isLocalRun) return [];
         return readJson('dranvi-log-drafts', [])
             .filter((log) => log.plant === plantNumber)
             .map((log) => ({
@@ -116,7 +120,7 @@
         const feed = byId('timeline-feed');
         if (!feed) return;
 
-        const localPlants = readJson('dranvi-admin-plants', []);
+        const localPlants = isLocalRun ? readJson('dranvi-admin-plants', []) : [];
         const authoredPlants = serverReady
             ? serverPlants
             : localPlants.length

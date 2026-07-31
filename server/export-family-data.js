@@ -38,7 +38,7 @@ function routeTemplate(slug) {
     <div class="family-shell">
         <nav class="family-nav">
             <a class="family-brand" href="../../"><img src="../../logo.svg" alt="Dranvi"></a>
-            <div class="family-nav-links"><a href="../../family/">Family</a><a href="../../timeline/">Timeline</a><a href="../../admin/">Admin</a></div>
+            <div class="family-nav-links"><a href="../../family/">Family</a><a href="../../plants/">Plants</a><a href="../../admin/">Admin</a></div>
         </nav>
         <main class="plant-page" id="plant-page"></main>
     </div>
