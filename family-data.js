@@ -261,11 +261,11 @@ window.DRANVI_FAMILY = {
             ]
         },
         {
-            "number": "007",
-            "slug": "007",
-            "name": "드란비 7호",
+            "number": "008",
+            "slug": "008",
+            "name": "드란비 8호",
             "nameLines": [
-                "드란비 7호"
+                "드란비 8호"
             ],
             "guardian": "송형규·드워프족장",
             "location": "Guardian Space",
