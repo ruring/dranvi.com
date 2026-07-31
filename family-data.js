@@ -5,9 +5,7 @@ window.DRANVI_FAMILY = {
             "slug": "000",
             "name": "드란비 0호\n본사\n원본 개체",
             "nameLines": [
-                "드란비 0호",
-                "본사",
-                "원본 개체"
+                "드란비 0호\n본사\n원본 개체"
             ],
             "guardian": "본사",
             "location": "Pangyo Startup Campus",
@@ -17,7 +15,7 @@ window.DRANVI_FAMILY = {
                 "DRANVI FAMILY의 시작점"
             ],
             "currentPhotoLabel": "현재 사진 준비 중",
-            "currentPhotoUrl": "",
+            "currentPhotoUrl": "/family-photos/000/2026-07-31T08-41-12-483Z-pipeline-test.png",
             "logs": [
                 {
                     "id": "6bd7df35-8923-45b1-8d54-f0e9cb3d928d",
