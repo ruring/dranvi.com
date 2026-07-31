@@ -44,6 +44,7 @@ function routeTemplate(slug) {
     </div>
     <script src="../../family-data.js"></script>
     <script src="../../family-app.js"></script>
+    <script src="../../admin-link.js"></script>
 </body>
 
 </html>
