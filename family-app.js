@@ -3,6 +3,8 @@
     // localStorage drafts are a local-server convenience only; on the public
     // site they can shadow freshly published data, so ignore them there.
     const isLocalRun = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+    // On the public site, write through the tunnel endpoint when configured.
+    const API_BASE = isLocalRun ? '' : (window.DRANVI_FAMILY_API || '');
     let serverPlants = [];
     let serverReady = false;
 
@@ -39,7 +41,8 @@
 
     async function loadServerPlants() {
         try {
-            const response = await fetch('/api/plants', { cache: 'no-store' });
+            if (!isLocalRun && !API_BASE) throw new Error('no public API');
+            const response = await fetch(`${API_BASE}/api/plants`, { cache: 'no-store' });
             if (!response.ok) throw new Error('API unavailable');
             const data = await response.json();
             serverPlants = data.plants || [];
@@ -264,7 +267,7 @@
 
                 if (serverReady) {
                     try {
-                        const response = await fetch(`/api/plants/${encodeURIComponent(plant.slug)}/logs`, {
+                        const response = await fetch(`${API_BASE}/api/plants/${encodeURIComponent(plant.slug)}/logs`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -313,7 +316,7 @@
                 if (content === null) return;
 
                 if (serverReady && serverPlant) {
-                    const response = await fetch(`/api/plants/${encodeURIComponent(plant.slug)}/logs/${encodeURIComponent(logId)}`, {
+                    const response = await fetch(`${API_BASE}/api/plants/${encodeURIComponent(plant.slug)}/logs/${encodeURIComponent(logId)}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ key: getKeyFromUrl(), title, content })
@@ -340,7 +343,7 @@
                 if (!confirm('이 기록을 삭제할까요?')) return;
 
                 if (serverReady && serverPlant) {
-                    const response = await fetch(`/api/plants/${encodeURIComponent(plant.slug)}/logs/${encodeURIComponent(logId)}`, {
+                    const response = await fetch(`${API_BASE}/api/plants/${encodeURIComponent(plant.slug)}/logs/${encodeURIComponent(logId)}`, {
                         method: 'DELETE',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ key: getKeyFromUrl() })

@@ -496,9 +496,29 @@ function serveStatic(req, res) {
     });
 }
 
+const CORS_ORIGINS = new Set([
+    'https://dranvi.com',
+    'https://www.dranvi.com',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+]);
+
 async function handle(req, res) {
     try {
         const url = new URL(req.url, `http://${req.headers.host}`);
+
+        const origin = String(req.headers.origin || '');
+        if (CORS_ORIGINS.has(origin)) {
+            res.setHeader('Access-Control-Allow-Origin', origin);
+            res.setHeader('Vary', 'Origin');
+            res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        }
+        if (req.method === 'OPTIONS' && url.pathname.startsWith('/api/')) {
+            res.writeHead(204);
+            res.end();
+            return;
+        }
 
         if (req.method === 'GET' && url.pathname === '/api/health') {
             sendJson(res, 200, { ok: true });
