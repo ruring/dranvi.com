@@ -261,6 +261,33 @@ window.DRANVI_FAMILY = {
             ]
         },
         {
+            "number": "007",
+            "slug": "007",
+            "name": "드란비 7호",
+            "nameLines": [
+                "드란비 7호"
+            ],
+            "guardian": "김향자",
+            "location": "Guardian Space",
+            "adoptionDate": "2026.07.31",
+            "description": [
+                "감사님"
+            ],
+            "currentPhotoLabel": "현재 사진 준비 중",
+            "currentPhotoUrl": "",
+            "logs": [
+                {
+                    "id": "bbbf8e88-9ebb-4e02-9256-75a140cdeaf6",
+                    "date": "2026.07.31",
+                    "title": "입양 준비 완료!",
+                    "content": "이 작은 식물은 오늘부터 보호자님과 함께 자라납니다. 드란비가 관계를 기억하는 방식으로, 첫 시간을 남겨둡니다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-07-31T07:37:57.348Z"
+                }
+            ]
+        },
+        {
             "number": "008",
             "slug": "008",
             "name": "드란비 8호",
