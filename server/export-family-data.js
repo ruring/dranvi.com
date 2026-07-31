@@ -5,6 +5,21 @@ const ROOT = path.resolve(__dirname, '..');
 const DB_FILE = path.join(ROOT, 'data', 'dranvi-family.json');
 const OUT_FILE = path.join(ROOT, 'family-data.js');
 const DRA_DIR = path.join(ROOT, 'dra');
+const PHOTO_DIR = path.join(ROOT, 'family-photos');
+
+// Copy a referenced photo from the private uploads/ dir into the published
+// family-photos/ dir and return its public URL. Anything unreferenced stays local.
+function publishPhoto(localUrl) {
+    if (!localUrl) return '';
+    if (!String(localUrl).startsWith('/uploads/')) return String(localUrl);
+    const rel = decodeURIComponent(String(localUrl).replace(/^\/uploads\//, '')).replace(/^plants[\\/]/, '');
+    const src = path.join(ROOT, 'uploads', 'plants', rel);
+    if (!fs.existsSync(src)) return '';
+    const dest = path.join(PHOTO_DIR, rel);
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    fs.copyFileSync(src, dest);
+    return '/family-photos/' + rel.split(/[\\/]/).map(encodeURIComponent).join('/');
+}
 
 function routeTemplate(slug) {
     const titleSlug = String(slug).toUpperCase();
@@ -50,21 +65,27 @@ function exportPlant(plant, logs) {
         adoptionDate: plant.adoptionDate,
         description: plant.description || [],
         currentPhotoLabel: plant.currentPhotoLabel || '현재 사진 준비 중',
-        currentPhotoUrl: plant.currentPhotoUrl || '',
+        currentPhotoUrl: publishPhoto(plant.currentPhotoUrl || ''),
         logs: logs
             .filter((log) => log.plantSlug === plant.slug)
             .sort((a, b) => String(b.createdAt || b.date).localeCompare(String(a.createdAt || a.date)))
-            .map((log) => ({
-                id: log.id,
-                date: log.date,
-                title: log.title,
-                content: log.content,
-                photoUrl: log.photoUrl || '',
-                hasPhoto: Boolean(log.photoUrl),
-                createdAt: log.createdAt
-            }))
+            .map((log) => {
+                const publicPhotoUrl = publishPhoto(log.photoUrl || '');
+                return {
+                    id: log.id,
+                    date: log.date,
+                    title: log.title,
+                    content: log.content,
+                    photoUrl: publicPhotoUrl,
+                    hasPhoto: Boolean(publicPhotoUrl),
+                    createdAt: log.createdAt
+                };
+            })
     };
 }
+
+fs.mkdirSync(PHOTO_DIR, { recursive: true });
+fs.writeFileSync(path.join(PHOTO_DIR, '.gitkeep'), '', 'utf8');
 
 const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
 const exported = {

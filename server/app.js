@@ -20,6 +20,7 @@ const MIME = {
     '.jpg': 'image/jpeg',
     '.jpeg': 'image/jpeg',
     '.svg': 'image/svg+xml; charset=utf-8',
+    '.webp': 'image/webp',
     '.ico': 'image/x-icon'
 };
 
@@ -53,8 +54,8 @@ async function runPublish() {
     publishing = true;
     try {
         await runCommand(process.execPath, [path.join(__dirname, 'export-family-data.js')]);
-        await runCommand('git', ['add', 'family-data.js', 'dra']);
-        const staged = await runCommand('git', ['status', '--porcelain', 'family-data.js', 'dra']);
+        await runCommand('git', ['add', 'family-data.js', 'dra', 'family-photos']);
+        const staged = await runCommand('git', ['status', '--porcelain', 'family-data.js', 'dra', 'family-photos']);
         if (staged.trim()) {
             await runCommand('git', ['commit', '-m', 'Update family archive (auto-publish)']);
         }
@@ -266,6 +267,9 @@ async function handleCreatePlant(req, res) {
     db.logs = db.logs.filter((item) => item.plantSlug !== slug);
     db.keys = db.keys.filter((item) => item.plantSlug !== slug);
 
+    const uploadedPhotoUrl = saveDataUrlPhoto(slug, body.photoDataUrl, body.photoName);
+    if (uploadedPhotoUrl) plant.currentPhotoUrl = uploadedPhotoUrl;
+
     db.plants.push(plant);
 
     // QR key is fixed at first creation: re-saving the same number keeps the original key
@@ -357,6 +361,8 @@ async function handleUpdatePlant(req, res, plantSlug) {
     plant.adoptionDate = String(body.adoptionDate || plant.adoptionDate);
     plant.description = Array.isArray(body.description) ? body.description : plant.description || [];
     plant.currentPhotoLabel = String(body.currentPhotoLabel || plant.currentPhotoLabel || '현재 사진 준비 중');
+    const uploadedPhotoUrl = saveDataUrlPhoto(nextSlug, body.photoDataUrl, body.photoName);
+    if (uploadedPhotoUrl) plant.currentPhotoUrl = uploadedPhotoUrl;
     plant.updatedAt = now;
 
     if (nextSlug !== plantSlug) {

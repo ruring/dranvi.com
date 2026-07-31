@@ -10,7 +10,7 @@ node server\export-family-data.js
 if errorlevel 1 goto :error
 echo.
 echo [2/3] Committing changes...
-git add family-data.js dra
+git add family-data.js dra family-photos
 git commit -m "Update family archive"
 echo.
 echo [3/3] Pushing to dranvi.com...

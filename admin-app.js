@@ -42,6 +42,32 @@
         return new Date().toISOString().slice(0, 10).replaceAll('-', '.');
     }
 
+    function fileToDataUrl(file) {
+        return new Promise((resolve) => {
+            if (!file || !file.name) {
+                resolve('');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => {
+                const img = new Image();
+                img.onload = () => {
+                    const maxSide = 1600;
+                    const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(img.width * scale);
+                    canvas.height = Math.round(img.height * scale);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.85));
+                };
+                img.onerror = () => resolve('');
+                img.src = reader.result;
+            };
+            reader.onerror = () => resolve('');
+            reader.readAsDataURL(file);
+        });
+    }
+
     function makeKey(number) {
         const bytes = new Uint8Array(9);
         crypto.getRandomValues(bytes);
@@ -383,6 +409,12 @@
             event.preventDefault();
             const plant = buildPlant(new FormData(form));
             const note = form.querySelector('.form-note');
+            const photoFile = (byId('admin-photo-input').files || [])[0];
+            if (photoFile) {
+                if (note) note.textContent = '사진 처리 중...';
+                plant.photoDataUrl = await fileToDataUrl(photoFile);
+                plant.photoName = photoFile.name;
+            }
             try {
                 await savePlant(plant);
                 const saved = serverPlants.find((item) => item.slug === plant.slug);
