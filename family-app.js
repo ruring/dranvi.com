@@ -39,6 +39,13 @@
         return 'https://dranvi.com';
     }
 
+    // Photos saved by the live server are addressed relative to it (/uploads/...).
+    // When the page runs on the public site, point those at the API host instead.
+    function photoSrc(url) {
+        if (!url) return '';
+        return String(url).startsWith('/uploads/') ? `${API_BASE}${url}` : String(url);
+    }
+
     async function loadServerPlants() {
         try {
             if (!isLocalRun && !API_BASE) throw new Error('no public API');
@@ -151,7 +158,7 @@
                 <div>
                     <h2>${escapeHtml(log.title)}</h2>
                     <p>${escapeHtml(plant.name)} · ${escapeHtml(log.content)}</p>
-                    ${log.photoUrl ? `<img class="log-photo" src="${escapeHtml(log.photoUrl)}" alt="">` : ''}
+                    ${log.photoUrl ? `<img class="log-photo" src="${escapeHtml(photoSrc(log.photoUrl))}" alt="">` : ''}
                     ${log.hasPhoto && !log.photoUrl ? '<span class="photo-chip">사진 기록</span>' : ''}
                 </div>
             </article>
@@ -185,7 +192,7 @@
                 <time>${escapeHtml(log.date)}</time>
                 <h3>${escapeHtml(log.title)}</h3>
                 <p>${escapeHtml(log.content)}</p>
-                ${log.photoUrl ? `<img class="log-photo" src="${escapeHtml(log.photoUrl)}" alt="">` : ''}
+                ${log.photoUrl ? `<img class="log-photo" src="${escapeHtml(photoSrc(log.photoUrl))}" alt="">` : ''}
                 ${log.hasPhoto && !log.photoUrl ? '<span class="photo-chip">사진 기록</span>' : ''}
                 ${editable && log.id ? `
                     <div class="log-actions">
@@ -197,7 +204,7 @@
         `).join('');
 
         const currentPhoto = plant.currentPhotoUrl
-            ? `<img class="current-photo" src="${escapeHtml(plant.currentPhotoUrl)}" alt="현재 사진">`
+            ? `<img class="current-photo" src="${escapeHtml(photoSrc(plant.currentPhotoUrl))}" alt="현재 사진">`
             : `<div><strong>현재 사진</strong><span>${escapeHtml(plant.currentPhotoLabel || '현재 사진 준비 중')}</span></div>`;
 
         mount.innerHTML = `
