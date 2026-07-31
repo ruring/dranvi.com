@@ -132,7 +132,10 @@
             return;
         }
 
-        feed.innerHTML = logs.map(({ plant, log }) => `
+        const limit = Number(feed.dataset.limit || 0);
+        const shown = limit > 0 ? logs.slice(0, limit) : logs;
+
+        feed.innerHTML = shown.map(({ plant, log }) => `
             <article class="timeline-item">
                 <div>
                     <div class="timeline-number">No.${escapeHtml(plant.number)}</div>

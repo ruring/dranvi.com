@@ -683,3 +683,9 @@ body.family-os {
         grid-template-columns: 1fr;
     }
 }
+
+.timeline-more {
+    margin: 16px 0 8px;
+    text-align: center;
+}
+
