@@ -18,6 +18,15 @@ window.DRANVI_FAMILY = {
             "currentPhotoUrl": "/family-photos/000/2026-07-31T08-41-12-483Z-pipeline-test.png",
             "logs": [
                 {
+                    "id": "fdb90a37-e7a7-4b1a-97f5-37f6f2c0802d",
+                    "date": "2026.07.31",
+                    "title": "무럭무럭",
+                    "content": "물먹는 중",
+                    "photoUrl": "/family-photos/000/2026-07-31T14-55-01-182Z------2026-07-31-174458.png",
+                    "hasPhoto": true,
+                    "createdAt": "2026-07-31T14:55:01.180Z"
+                },
+                {
                     "id": "6bd7df35-8923-45b1-8d54-f0e9cb3d928d",
                     "date": "2026.06.21",
                     "title": "입양 준비 완료!",
