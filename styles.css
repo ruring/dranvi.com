@@ -428,3 +428,26 @@ main {
     max-width: 520px;
     margin: 0.6rem auto 0;
 }
+
+/* Multi-item milestone entries */
+.timeline-list {
+    margin: 0;
+}
+
+.timeline-list li {
+    padding-left: 0.85rem;
+    margin-bottom: 0.35rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.timeline-list li:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-list li::before {
+    content: "·";
+    color: var(--text-secondary);
+    left: 0.15rem;
+    top: -0.05rem;
+}
