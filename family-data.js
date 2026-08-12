@@ -147,6 +147,15 @@ window.DRANVI_FAMILY = {
             "currentPhotoUrl": "/family-photos/004b/2026-08-12T08-49-15-638Z-dra004b-260812.jpg",
             "logs": [
                 {
+                    "id": "6eaf28e5-6176-4901-9ead-bac519bd2f5c",
+                    "date": "2026.08.12",
+                    "title": "마디에서 눈 두 개",
+                    "content": "몸통 마디가 부풀면서 새 눈 두 개가 텄다. 오른쪽은 벌써 세 갈래로 갈라졌고, 왼쪽은 아직 뭉쳐 있다. 물꽂이에서 마디 눈이 트는 건 뿌리가 자리 잡았다는 신호. 보호자는 원격이라, 발견은 대신 물 주는 사람이 했다.",
+                    "photoUrl": "/family-photos/004b/2026-08-12T08-57-34-907Z-dra004b-buds-260812.jpg",
+                    "hasPhoto": true,
+                    "createdAt": "2026-08-12T08:57:34.907Z"
+                },
+                {
                     "id": "ac756ad6-1a20-4b05-8363-f6a60f2964b6",
                     "date": "2026.07.01",
                     "title": "귀여워서 들였다가 냉정하다고 파양하기 없기다?",
