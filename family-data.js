@@ -320,6 +320,15 @@ window.DRANVI_FAMILY = {
             "currentPhotoUrl": "",
             "logs": [
                 {
+                    "id": "0239a45a-ede3-4f2a-91e3-fdfa55060fa5",
+                    "date": "2026.08.05",
+                    "title": "드디어 줌 (D+79)",
+                    "content": "'언제주지..?' 하고 미룬 지 79일 만에 전달 완료. 드워프족장님, 오래 기다리게 해서 죄송합니다. 행운목 꽃말은 '약속을 지킴'입니다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-08-12T09:03:01.528Z"
+                },
+                {
                     "id": "075fae53-5b14-4303-bc74-b2b58af67e83",
                     "date": "2026.05.18",
                     "title": "언제주지..? ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
@@ -348,6 +357,15 @@ window.DRANVI_FAMILY = {
             "currentPhotoLabel": "현재 사진 준비 중",
             "currentPhotoUrl": "",
             "logs": [
+                {
+                    "id": "f1096c30-0f92-4953-a0b8-17ace21ded43",
+                    "date": "2026.08.04",
+                    "title": "드렸다",
+                    "content": "다음에 뵐 때 꼭 드리기로 한 걸 지켰다. 지난번엔 다음 멘토링과 겹쳐서 잊었는데, 이번엔 잊지 않았다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-08-12T09:03:01.526Z"
+                },
                 {
                     "id": "39a44ca2-7769-4dee-8947-9b625d5367d6",
                     "date": "2026.07.30",
