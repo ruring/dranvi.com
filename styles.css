@@ -406,28 +406,19 @@ main {
     transition: max-height 0.3s cubic-bezier(0.8, 0, 0.2, 1);
 }
 
-/* Official membership / certification marks (footer) */
-.member-badges {
+/* NVIDIA Inception member badge (footer) */
+.member-badge {
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.9rem;
     margin: 0 0 1.5rem;
 }
 
-.member-badges span {
-    display: inline-flex;
-    align-items: center;
+.member-badge img {
+    width: 150px;
+    height: auto;
     background: #ffffff;
     padding: 10px 14px;
     border-radius: 8px;
-}
-
-.member-badges img {
-    height: 42px;
-    width: auto;
-    display: block;
 }
 
 .legal-line {
