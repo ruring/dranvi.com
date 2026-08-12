@@ -143,8 +143,8 @@ window.DRANVI_FAMILY = {
                 "※claude",
                 "※한국인은 4번을 좋아하지않는다."
             ],
-            "currentPhotoLabel": "현재 사진 준비 중",
-            "currentPhotoUrl": "",
+            "currentPhotoLabel": "2026.08.12 — 새 잎 두 장이 함께 올라오는 중",
+            "currentPhotoUrl": "/family-photos/004b/2026-08-12T08-49-15-638Z-dra004b-260812.jpg",
             "logs": [
                 {
                     "id": "ac756ad6-1a20-4b05-8363-f6a60f2964b6",
