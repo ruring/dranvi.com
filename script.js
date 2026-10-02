@@ -16,14 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update UI
     const updateLanguage = (lang) => {
         if (lang === 'ko') {
-            koElements.forEach(el => el.style.display = 'block');
+            koElements.forEach(el => el.style.display = '');
             enElements.forEach(el => el.style.display = 'none');
             // Special handling for inline-block/flex if needed, but block is generally safe for this layout
             // For list items or specific layout bits, we might need adjustments, 
             // but given the structure <div data-lang="ko"> or <h2 data-lang="ko">, block is fine.
         } else {
             koElements.forEach(el => el.style.display = 'none');
-            enElements.forEach(el => el.style.display = 'block');
+            enElements.forEach(el => el.style.display = '');
         }
         currentLang = lang;
         langToggleBtn.textContent = lang === 'ko' ? 'EN' : 'KR'; 
