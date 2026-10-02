@@ -1,6 +1,33 @@
+# Dranvi — AI crawlers are welcome. Machine-readable summary: https://dranvi.com/llms.txt
 User-agent: *
+Allow: /
 Disallow: /family/
 Disallow: /timeline/
 Disallow: /dra/
 Disallow: /admin/
 Disallow: /qr/
+
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Googlebot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://dranvi.com/sitemap.xml

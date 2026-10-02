@@ -12,15 +12,42 @@
     <meta property="og:url" content="https://dranvi.com/">
     <meta property="og:type" content="website">
     <link rel="canonical" href="https://dranvi.com/">
+    <link rel="alternate" type="text/plain" href="https://dranvi.com/llms.txt" title="llms.txt">
+    <link rel="sitemap" type="application/xml" href="https://dranvi.com/sitemap.xml">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
         {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "드란비",
-            "alternateName": "Dranvi",
-            "url": "https://dranvi.com/",
-            "description": "드란비(Dranvi)는 엣지 및 클라우드 시스템을 위한 AI 안전성 런타임 기술을 개발합니다."
+          "@type": "Organization",
+          "@id": "https://dranvi.com/#org",
+          "name": "주식회사 드란비",
+          "alternateName": ["Dranvi", "Dranvi Inc.", "DRANVI"],
+          "url": "https://dranvi.com/",
+          "logo": "https://dranvi.com/logo.png",
+          "email": "contact@dranvi.com",
+          "foundingDate": "2026-07-03",
+          "founder": {"@type": "Person", "name": "박지윤", "alternateName": "Park Jiyoon", "jobTitle": "CEO"},
+          "address": {"@type": "PostalAddress", "streetAddress": "판교로289번길 20, 2동 3층 (경기 스타트업캠퍼스)", "addressLocality": "성남시 분당구", "addressRegion": "경기도", "postalCode": "13488", "addressCountry": "KR"},
+          "slogan": "AI는 그대로, 말썽꾸러기 전력 피크만 제어합니다.",
+          "description": "드란비는 AI 실행 중 발생하는 GPU 전력·발열 피크를 소프트웨어만으로 제어하는 AI Runtime Control 기업입니다. Dranvi builds AI Runtime Control software that tames power and thermal peaks while AI is running, without changing the model, code, or hardware.",
+          "memberOf": {"@type": "Organization", "name": "NVIDIA Inception"},
+          "knowsAbout": ["AI runtime control", "GPU power peak suppression", "AI data center power efficiency", "edge AI stability"]
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://dranvi.com/#edgeguard",
+          "name": "EdgeGuard",
+          "applicationCategory": "Infrastructure software",
+          "operatingSystem": "Linux, Windows (NVIDIA GPU / Jetson)",
+          "creator": {"@id": "https://dranvi.com/#org"},
+          "description": "AI Runtime Control layer that senses power, temperature and queue telemetry during AI execution and intervenes before a power peak overshoots. Software only; no model, code or hardware changes; removable with full restoration. Verified: peak-exceedance events 20 to 0 and SHA-256-identical inference output in an independent third-party test; power -12.0% with 0.0% compute-speed loss (RTX 4080 SUPER, 7-hour run); p99 power peak -39.8% in aggressive mode.",
+          "featureList": ["Runtime power-peak suppression", "Speed-preserving and peak-suppressing modes", "Deterministic, explainable control rules", "Signed Evidence Kit logs", "No model/code/hardware change"],
+          "url": "https://dranvi.com/"
         }
+      ]
+    }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,7 +184,7 @@
 
         <!-- Milestones -->
         <section class="content-section">
-            <h3 class="section-title fade-in-scroll" data-lang="ko">연혁</h3>
+            <h3 class="section-title fade-in-scroll" data-lang="ko" id="milestones">연혁</h3>
             <h3 class="section-title fade-in-scroll" data-lang="en" style="display:none;">Milestones</h3>
 
             <div class="timeline">

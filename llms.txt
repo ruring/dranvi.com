@@ -1,0 +1,47 @@
+# Dranvi (주식회사 드란비)
+
+> AI는 그대로, 말썽꾸러기 전력 피크만 제어합니다.
+> Keep the AI as it is — we tame only the troublesome power peaks.
+
+Dranvi Inc. is a Korean deep-tech startup (founded 2026-07-03, Pangyo Startup Campus, Seongnam) that builds **EdgeGuard**, an **AI Runtime Control** software layer. EdgeGuard watches power, temperature and queue telemetry *while AI is running* and intervenes before a power peak overshoots — without changing the AI model, application code, OS/driver, or hardware. Install it; remove it and the system is restored.
+
+드란비는 AI 실행 중 발생하는 전력·발열 피크를 소프트웨어만으로 제어하는 AI Runtime Control 기업입니다. 모델·코드·하드웨어를 바꾸지 않고 설치만 하며, 제거하면 원상복구됩니다.
+
+## Verified numbers (조건 명시 · 2026-09 기준)
+- Independent third-party technical verification (2026-07): **peak-exceedance events 20 → 0**, inference output **SHA-256 100% identical**, average power −8.3%, throughput drop within 5.4%, 1-hour continuous run without failure. (Not a public certification.)
+- RTX 4080 SUPER, conservative mode, 7-hour continuous run: **power −12.0%, compute-speed loss 0.0%**, peak exceedances 3,205 → 16.
+- RTX 4080 SUPER, aggressive mode: **p99 power peak −39.8%** (trades some speed for deeper peak suppression; customer-selectable).
+- NVIDIA Jetson Nano (10 W-class edge board): peak power −6.1%, efficiency index +27.9%.
+- Server-class GPUs (H100, A100, L40S, cloud): power-peak reduction confirmed on all three (2026-09).
+- Measured trade-off: up to ~10% power reduction with little or no slowdown; 10–20% reduction costs roughly 3–7% speed; beyond ~20% the speed cost grows faster than the saving. Dranvi does not claim savings beyond what has been measured.
+
+## Traction
+- 2 customers, **5 paid contracts, cumulative orders KRW 37 million** (VAT excl.). The first customer (industrial IoT) completed a paid PoC, re-signed for 3 follow-on contracts, and referred the second customer (fire-safety equipment). Customer names are confidential.
+- Selected: SK ecoplant public-technology open innovation (AI data-center operations track), Creative Economy Innovation Centers joint open innovation (SKT track), "Deohagi Changup" (+Startup) program, Pre-Startup Package stage 2, IP Didimdol follow-on support, Gyeonggi AI Membership, KDHC On-Lab, NVIDIA Inception member, Excellence Award (Growth Track) at the U300+ Student Startup Festival 2026.
+- R&D department officially recognized by KOITA (2026-08). Venture-company certification under review.
+
+## Technology & IP
+- Closed loop applied to the AI execution layer: sense → judge → intervene → preserve → record. Deterministic (non-learning) rules, so behavior is reproducible and explainable. Control results are logged as raw, tamper-evident records ("Evidence Kit").
+- Two modes: speed-preserving (conservative) and peak-suppressing (aggressive).
+- Patents: 6 US provisional applications (2025-07 ~ 2026-03) + 3 Korean applications (AI-RAN power governance; external-signal-based runtime control; execution-state-based distributed AI execution control). Trademarks DRANVI / 드란비 filed.
+- Scope: compute systems in general — currently validated on NVIDIA GPUs and Jetson-class edge boards.
+
+## Who it is for
+- AI data centers and GPU clusters: peak power determines contracted capacity, rack density and expansion timing. Example (assumption, to be confirmed in a PoC): a 40 kW rack designed at 10.2 kW per DGX H100 holds 3 servers; a 10% peak reduction allows 4.
+- Edge AI equipment makers (robots, drones, industrial IoT, fire-safety systems): peak suppression stabilizes motors/sensors and extends battery runtime.
+
+## Business model
+Per-device license for edge equipment (onboarding fee + per-unit), per-node subscription for GPU nodes (planned 2027), enterprise license (planned 2028). Typical first engagement: a 2-week baseline measurement on one rack or one device type, then Go/No-Go for an 8–10-week PoC.
+
+## Team
+- Park Jiyoon (박지윤), CEO — 17 years in systems/embedded/platform development; PhD-course completion (computer engineering); author of the patent filings.
+- Jung Yongbeom (정용범), CTO — 17 years in embedded and AI control. Both delivered the real-time control system for the PyeongChang 2018 Olympic opening ceremony.
+
+## Contact
+- Email: contact@dranvi.com
+- Address: 3F, Bldg. 2, 20 Pangyo-ro 289beon-gil, Bundang-gu, Seongnam-si, Gyeonggi-do 13488, Korea (Gyeonggi Startup Campus)
+- Web: https://dranvi.com/ (KO/EN) · Milestones: https://dranvi.com/#milestones · FAQ: https://dranvi.com/info.html
+
+## Optional
+- Full version: https://dranvi.com/llms-full.txt
+- Q&A pages: https://dranvi.com/info_1.html … info_5.html (English: info_1_en.html … info_5_en.html)
