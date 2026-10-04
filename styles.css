@@ -488,3 +488,4 @@ main {
 }
 .hero .description strong { color: var(--text-primary); font-weight: 600; }
 .delay-3 { animation-delay: 0.6s; }
+.timeline-list strong { color: var(--text-primary); font-weight: 600; }
