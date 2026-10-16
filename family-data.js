@@ -376,6 +376,34 @@ window.DRANVI_FAMILY = {
                     "createdAt": "2026-07-30T12:58:05.890Z"
                 }
             ]
+        },
+        {
+            "number": "012",
+            "slug": "012",
+            "name": "드란비 12호",
+            "nameLines": [
+                "드란비 12호"
+            ],
+            "guardian": "김영필",
+            "location": "Guardian Space",
+            "adoptionDate": "2026.10.16",
+            "description": [
+                "경기도경제과학진흥원 경기 스타트업 지원센터 전문위원",
+                "※ 2027 지원사업 자료를 챙겨주심"
+            ],
+            "currentPhotoLabel": "현재 사진 준비 중",
+            "currentPhotoUrl": "",
+            "logs": [
+                {
+                    "id": "a9d6a83e-b29d-44b3-a1cc-ded49f8c0af7",
+                    "date": "2026.10.16",
+                    "title": "입양 준비 완료!",
+                    "content": "이 작은 식물은 오늘부터 보호자님과 함께 자라납니다. 드란비가 관계를 기억하는 방식으로, 첫 시간을 남겨둡니다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-10-16T07:26:09.531Z"
+                }
+            ]
         }
     ]
 };
