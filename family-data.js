@@ -422,6 +422,15 @@ window.DRANVI_FAMILY = {
             "currentPhotoUrl": "",
             "logs": [
                 {
+                    "id": "ee2e2957-3ded-4119-9c11-347f2674f289",
+                    "date": "2026.10.16",
+                    "title": "드렸다",
+                    "content": "등록한 날 바로 직접 전달했다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-10-16T07:57:05.864Z"
+                },
+                {
                     "id": "a9d6a83e-b29d-44b3-a1cc-ded49f8c0af7",
                     "date": "2026.10.16",
                     "title": "입양 준비 완료!",
