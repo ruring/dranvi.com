@@ -340,6 +340,33 @@ window.DRANVI_FAMILY = {
             ]
         },
         {
+            "number": "009",
+            "slug": "009",
+            "name": "드란비 9호",
+            "nameLines": [
+                "드란비 9호"
+            ],
+            "guardian": "황민희",
+            "location": "Guardian Space",
+            "adoptionDate": "2026.10.16",
+            "description": [
+                "파트너사 대표"
+            ],
+            "currentPhotoLabel": "현재 사진 준비 중",
+            "currentPhotoUrl": "",
+            "logs": [
+                {
+                    "id": "7dadc777-0f9e-4be7-8ae1-f8a34373d2ec",
+                    "date": "2026.10.16",
+                    "title": "다음에 뵐 때 꼭 드려야지!",
+                    "content": "이 작은 식물은 오늘부터 보호자님과 함께 자라납니다. 드란비가 관계를 기억하는 방식으로, 첫 시간을 남겨둡니다.",
+                    "photoUrl": "",
+                    "hasPhoto": false,
+                    "createdAt": "2026-10-16T07:53:18.551Z"
+                }
+            ]
+        },
+        {
             "number": "011",
             "slug": "011",
             "name": "드란비 11호",
