@@ -42,7 +42,7 @@
           "applicationCategory": "Infrastructure software",
           "operatingSystem": "Linux, Windows (NVIDIA GPU / Jetson)",
           "creator": {"@id": "https://dranvi.com/#org"},
-          "description": "AI Runtime Control layer that senses power, temperature and queue telemetry during AI execution and intervenes before a power peak overshoots. Software only; no model, code or hardware changes; removable with full restoration. Verified: peak-exceedance events 20 to 0 and SHA-256-identical inference output in an independent third-party test; power -12.0% with 0.0% compute-speed loss (RTX 4080 SUPER, 7-hour run); p99 power peak -39.8% in aggressive mode.",
+          "description": "AI Runtime Control layer that senses power, temperature and queue telemetry during AI execution and intervenes before a power peak overshoots. Software only; no model, code or hardware changes; removable with full restoration. Verified: peak-exceedance events 20 to 0 and SHA-256-identical inference output in an independent third-party test; power -12.0% with 0.0% compute-speed loss (RTX 4080 SUPER, conservative mode); p99 power peak -39.8% in aggressive mode.",
           "featureList": ["Runtime power-peak suppression", "Speed-preserving and peak-suppressing modes", "Deterministic, explainable control rules", "Signed Evidence Kit logs", "No model/code/hardware change"],
           "url": "https://dranvi.com/"
         }
@@ -84,13 +84,13 @@
             <ul class="proof fade-in delay-3" data-lang="ko">
                 <li><strong>20건 → 0건</strong><span>피크 초과 이벤트 · 독립 제3자 기술검증</span></li>
                 <li><strong>100% 일치</strong><span>추론 결과 SHA-256 · 전력을 줄여도 결과는 동일</span></li>
-                <li><strong>12.0%↓ · 손실 0.0%</strong><span>전력 절감 · 연산 속도 손실 (RTX 4080 SUPER, 7시간 연속)</span></li>
+                <li><strong>12.0%↓ · 손실 0.0%</strong><span>전력 절감 · 연산 속도 손실 (RTX 4080 SUPER, 보수 모드)</span></li>
                 <li><strong>유상 계약 5건</strong><span>고객사 2곳 · 첫 고객이 재계약하고 다음 고객을 소개</span></li>
             </ul>
             <ul class="proof fade-in delay-3" data-lang="en" style="display:none;">
                 <li><strong>20 → 0</strong><span>peak-exceedance events · independent third-party verification</span></li>
                 <li><strong>100% identical</strong><span>inference output (SHA-256) · less power, same results</span></li>
-                <li><strong>−12.0% power · 0.0% slowdown</strong><span>RTX 4080 SUPER, 7-hour continuous run</span></li>
+                <li><strong>−12.0% power · 0.0% slowdown</strong><span>RTX 4080 SUPER, conservative mode</span></li>
                 <li><strong>5 paid contracts</strong><span>2 customers · the first customer re-signed and referred the second</span></li>
             </ul>
         </section>
