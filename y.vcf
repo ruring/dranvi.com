@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+N:정;용범;;;
+FN:정용범
+ORG:주식회사 드란비
+TITLE:CTO
+TEL;TYPE=CELL:+82-10-2978-8747
+EMAIL;TYPE=WORK:yongbeom.jeong@dranvi.com
+EMAIL:contact@dranvi.com
+URL:https://dranvi.com
+ADR;TYPE=WORK:;2동 3층;판교로289번길 20;성남시 분당구;경기도;13488;대한민국
+END:VCARD
