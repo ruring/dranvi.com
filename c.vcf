@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:박;지윤;;;
+FN:박지윤
+ORG:주식회사 드란비
+TITLE:대표이사
+TEL;TYPE=CELL:+82-10-2810-8747
+EMAIL;TYPE=WORK:contact@dranvi.com
+URL:https://dranvi.com
+ADR;TYPE=WORK:;2동 3층;판교로289번길 20;성남시 분당구;경기도;13488;대한민국
+END:VCARD
