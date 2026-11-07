@@ -493,6 +493,7 @@ main {
 /* Hero: 3 proof cards + key achievements (261107) */
 .hero .proof { grid-template-columns: repeat(3, 1fr); max-width: 800px; }
 .hero .proof strong { font-size: 1.1rem; }
+.hero .proof span { word-break: keep-all; }
 .ach { margin: 1.75rem 0 0; max-width: 800px; width: 100%; }
 .ach-label { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--accent-color); font-weight: 600; margin: 0 0 0.6rem; }
 .ach-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
