@@ -57,6 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
+    // Timeline: show/hide older months
+    const tlMore = document.getElementById('timeline-more');
+    const tlOlder = document.getElementById('timeline-older');
+    if (tlMore && tlOlder) {
+        tlMore.addEventListener('click', () => {
+            const open = tlOlder.hidden;
+            tlOlder.hidden = !open;
+            tlMore.classList.toggle('open', open);
+            tlMore.setAttribute('aria-expanded', String(open));
+        });
+    }
+
     // FAQ Accordion Toggle
     const faqCards = document.querySelectorAll('.faq-card');
     faqCards.forEach(card => {

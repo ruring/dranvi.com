@@ -52,7 +52,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261004b">
+    <link rel="stylesheet" href="styles.css?v=20261107">
 </head>
 
 <body>
@@ -85,14 +85,32 @@
                 <li><strong>20건 → 0건</strong><span>피크 초과 이벤트 · 독립 제3자 기술검증</span></li>
                 <li><strong>100% 일치</strong><span>추론 결과 SHA-256 · 전력을 줄여도 결과는 동일</span></li>
                 <li><strong>12.0%↓ · 손실 0.0%</strong><span>전력 절감 · 연산 속도 손실 (RTX 4080 SUPER, 보수 모드)</span></li>
-                <li><strong>유상 계약 5건</strong><span>고객사 2곳 · 첫 고객이 재계약하고 다음 고객을 소개</span></li>
             </ul>
+            <div class="ach fade-in delay-3" data-lang="ko">
+                <p class="ach-label">핵심 성과</p>
+                <ul class="ach-grid">
+                    <li><em>수상</em><strong>부총리 겸 과기정통부 장관상</strong><span>2026 ICT 스마트 디바이스 공모전 대상 · 그 외 수상 5건</span></li>
+                    <li><em>특허</em><strong>14건 출원</strong><span>미국 가출원 5 · 국내 8 · PCT 1</span></li>
+                    <li><em>고객</em><strong>유상 계약 5건</strong><span>고객사 2곳 · 재계약·소개</span></li>
+                    <li><em>실증</em><strong>AI 데이터센터 테스트베드</strong><span>포항테크노파크 실증 선정</span></li>
+                    <li><em>인증·선정</em><strong>벤처기업 · NVIDIA Inception</strong><span>정부 지원사업 3건 선정</span></li>
+                </ul>
+            </div>
             <ul class="proof fade-in delay-3" data-lang="en" style="display:none;">
                 <li><strong>20 → 0</strong><span>peak-exceedance events · independent third-party verification</span></li>
                 <li><strong>100% identical</strong><span>inference output (SHA-256) · less power, same results</span></li>
                 <li><strong>−12.0% power · 0.0% slowdown</strong><span>RTX 4080 SUPER, conservative mode</span></li>
-                <li><strong>5 paid contracts</strong><span>2 customers · the first customer re-signed and referred the second</span></li>
             </ul>
+            <div class="ach fade-in delay-3" data-lang="en" style="display:none;">
+                <p class="ach-label">Key achievements</p>
+                <ul class="ach-grid">
+                    <li><em>Awards</em><strong>Deputy Prime Minister and Minister of Science and ICT Award</strong><span>Grand Prize, 2026 ICT Smart Device National Competition · plus 5 other awards</span></li>
+                    <li><em>Patents</em><strong>14 filed</strong><span>5 US provisional · 8 Korea · 1 PCT</span></li>
+                    <li><em>Customers</em><strong>5 paid contracts</strong><span>2 customers · re-signed and referred</span></li>
+                    <li><em>Validation</em><strong>AI data center testbed</strong><span>Selected by Pohang Techno Park</span></li>
+                    <li><em>Recognition</em><strong>Venture Business · NVIDIA Inception</strong><span>Selected for 3 government programs</span></li>
+                </ul>
+            </div>
         </section>
 
         <!-- What We Build Section -->
@@ -190,6 +208,12 @@
             <div class="timeline">
                 <div class="timeline-year fade-in-scroll">2026</div>
 
+                <button type="button" class="timeline-more" id="timeline-more" aria-expanded="false" aria-controls="timeline-older">
+                    <span data-lang="ko"><span class="when-closed">1~9월 전체 연혁 보기</span><span class="when-open">1~9월 접기</span></span>
+                    <span data-lang="en" style="display:none;"><span class="when-closed">Show January–September</span><span class="when-open">Hide January–September</span></span>
+                    <span class="timeline-more-arrow" aria-hidden="true">▾</span>
+                </button>
+                <div class="timeline-older" id="timeline-older" hidden>
                 <div class="timeline-item fade-in-scroll">
                     <span class="timeline-date">01</span>
                     <div class="timeline-content">
@@ -383,6 +407,8 @@
                     </div>
                 </div>
 
+                </div>
+
                 <div class="timeline-item fade-in-scroll">
                     <span class="timeline-date">10</span>
                     <div class="timeline-content">
@@ -553,7 +579,7 @@
         </section>
     </main>
 
-    <script src="script.js?v=20261003"></script>
+    <script src="script.js?v=20261107"></script>
 </body>
 
 </html>
