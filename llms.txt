@@ -24,7 +24,7 @@ Dranvi Inc. is a Korean deep-tech startup (founded 2026-07-03, Pangyo Startup Ca
 ## Technology & IP
 - Closed loop applied to the AI execution layer: sense → judge → intervene → preserve → record. Deterministic (non-learning) rules, so behavior is reproducible and explainable. Control results are logged as raw, tamper-evident records ("Evidence Kit").
 - Two modes: speed-preserving (conservative) and peak-suppressing (aggressive).
-- Patents: 5 pending US provisional applications + 8 Korean applications + 1 PCT international application (2026-11). Fields: AI runtime execution control, power governance, power-peak prediction, power–performance efficiency control, distributed AI execution control. Trademarks DRANVI / 드란비 filed.
+- Patents: 15 applications filed — 6 US provisional applications + 8 Korean applications + 1 PCT international application (2026-11). Fields: AI runtime execution control, power governance, power-peak prediction, power–performance efficiency control, distributed AI execution control. Trademarks DRANVI / 드란비 filed.
 - Scope: compute systems in general — currently validated on NVIDIA GPUs and Jetson-class edge boards.
 
 ## Who it is for
